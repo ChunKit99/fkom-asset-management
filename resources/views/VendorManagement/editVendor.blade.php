@@ -3,7 +3,7 @@
 <div class="card">
     <div class="card-header">Vendor Information Edit</div>
     <div class="card-body">
-        <form action="{{ url('Vendor/'.$vendors->id) }}" method="post">
+        <form action="{{ url('VendorManagement/'.$vendors->id) }}" method="post">
             {!! csrf_field() !!}
             @method("PATCH")
             
