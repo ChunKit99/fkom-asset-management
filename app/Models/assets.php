@@ -13,4 +13,14 @@ class assets extends Model
     protected $fillable = [
         'serial_number', 'location', 'category', 'budget', 'vendor_id', 'user_id'
     ];
+
+    public function vendor()
+    {
+        return $this->belongsTo('App\Models\Vendor');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
 }

@@ -4,13 +4,15 @@
 namespace App\Http\Controllers\assetController;
 namespace App\Http\Controllers;
 use App\Models\assets;
+use App\Models\User;
+use App\Models\vendor;
 use Illuminate\Http\Request;
 
 class assetController extends Controller
 {
     public function index()
     {
-        $assets = assets::all();
+        $assets = assets::with('vendor', 'user')->get();
         return view('AssetManagement.index')->with('assets', $assets);
     }
 
@@ -53,3 +55,11 @@ class assetController extends Controller
         return redirect('Asset')->with('success', 'Asset Deleted!');
     }
 }
+
+
+//public function index()
+//{
+    // $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
+    // ->join('users', 'users.id', '=', 'assets.user_id')
+    // ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name')
+    // ->get();
