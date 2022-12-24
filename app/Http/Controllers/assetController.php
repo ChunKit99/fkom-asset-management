@@ -18,8 +18,12 @@ class assetController extends Controller
 
     public function create()
     {
-        return view('AssetManagement.addAsset');
+        $vendors = vendor::all();
+        $users = User::all();
+
+        return view('AssetManagement.addAsset')->with(['vendors' => $vendors, 'users' => $users]);
     }
+
 
     public function store(Request $request)
     {
@@ -30,22 +34,43 @@ class assetController extends Controller
 
     public function show($id)
     {
-        $assets = assets::find($id);
-        return view('AssetManagement.showAssetInfo')->with('assets', $assets);
+        $asset = assets::find($id);
+        $vendor = vendor::find($asset->vendor_id);
+        $user = User::find($asset->user_id);
+
+        return view('AssetManagement.showAssetInfo')->with(['asset' => $asset, 'vendor' => $vendor, 'user' => $user]);
     }
+
 
     public function edit($id)
     {
-        $assets = assets::find($id);
-        return view('AssetManagement.editAsset')->with('assets', $assets);
+        $asset = assets::find($id);
+        $vendors = vendor::all();
+        $users = User::all();
+        return view('AssetManagement.editAsset')->with('asset', $asset)->with('users', $users)->with('asset', $asset);
     }
 
-    //update
     public function update(Request $request, $id)
     {
-        $assets = assets::find($id);
+        // Retrieve the asset and the input values
+        $asset = assets::find($id);
         $input = $request->all();
-        $assets->update($input);
+
+        // Find the vendor_id corresponding to the input vendor name
+        $vendorName = $input['vendor_name'];
+        $vendor = vendor::where('name', $vendorName)->first();
+        $vendorId = $vendor->id;
+
+        // Find the user_id corresponding to the input user name
+        $userName = $input['user_name'];
+        $user = User::where('name', $userName)->first();
+        $userId = $user->id;
+
+        // Update the vendor_id and user_id in the input values and save the asset
+        $input['vendor_id'] = $vendorId;
+        $input['user_id'] = $userId;
+        $asset->update($input);
+
         return redirect('Asset')->with('success', 'Asset Info Updated!');
     }
 
