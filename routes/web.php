@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\assetController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,3 +28,5 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+Route::resource('/Asset', assetController::class);
