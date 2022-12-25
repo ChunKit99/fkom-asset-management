@@ -18,6 +18,7 @@
                                             <th>#</th>
                                             <th>Vendor Name</th>
                                             <th>Contact</th>
+                                            <th>Email</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -26,6 +27,7 @@
                                             <td>{{ $loop->iteration}}</td>
                                             <td>{{ $item->name}}</td>
                                             <td>{{ $item->contact}}</td>
+                                            <td>{{ $item->email}}</td>
                                             <td>
                                                 <a href="{{ url('/VendorManagement/' .$item->id) }}" title="View Vendor"> <button class="btn btn-info btn-sm"> <i class="fa fa-eye" aria hidden="true"></i>View</button></a>
                                                 <a href="{{ url('/VendorManagement/' .$item->id . '/edit') }}" title="Edit Vendor"> <button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Edit</button> </a>

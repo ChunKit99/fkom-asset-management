@@ -8,11 +8,14 @@
             @method("PATCH")
             
             <input type="text" name="id" id="id" value="{{$vendors->id}}" id="id" class="form-control" readonly> <br>
-            <label>Title</label>
+            <label>Name</label>
             <input type="text" name="name" id="name" value="{{$vendors->name}}" class="form-control" readonly></br>
-            <label>Author</label></br>
+            <label>Contact</label></br>
             <input type="text" name="contact" id="contact" value="{{$vendors->contact}}" class="form-control" readonly></br>
+            <label>Email</label></br>
+            <input type="text" name="email" id="email" value="{{$vendors->email}}" class="form-control" readonly></br>
             <input type="submit" value="Update" class="btn btn-success"></br>
+
         </form>
     </div>
 </div>
