@@ -1,7 +1,10 @@
 @extends('AssetManagement.layout')
+@section('title')
+Asset Management
+@endsection
 @section('content')
 <div class="row">
-  <div class="col-md-9 mx-auto">
+  <div class="col-md-11 mx-auto">
     <div class="card">
       <h4 class="card-header d-flex justify-content-between align-items-center">
         <div>
@@ -19,7 +22,7 @@
         <section>
           <div class="table-responsive text-nowrap">
             <!--Table-->
-            <table class="table table-striped">
+            <table class="table table-striped text-center">
               <!--Table head-->
               <thead>
                 <tr>
@@ -29,7 +32,8 @@
                   <th>Category</th>
                   <th>Budget</th>
                   <th>Vendor</th>
-                  <th>Responsible Faculty Members</th>
+                  <th>Responsible</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <!--Table head-->
@@ -42,10 +46,27 @@
                   <td scope="row">{{ $loop->iteration }}</td>
                   <td>{{ $asset->serial_number }}</td>
                   <td>{{ $asset->location }}</td>
-                  <td>{{ $asset->category }}</td>
+                  <td>
+                  @if($asset->category == 'computer')
+                    Computer
+                  @elseif($asset->category == 'equipment')
+                    Equipment
+                  @elseif($asset->category == 'laboratory')
+                    Laboratory
+                  @elseif($asset->category == 'printers')
+                    Printers
+                  @elseif($asset->category == 'networking_equipment')
+                    Networking Equipment  
+                  @elseif($asset->category == 'furniture')
+                    Furniture
+                  @elseif($asset->category == 'tools')
+                    Tools
+                  @else 
+                  @endif
+                  </td>
                   <td>{{ $asset->budget }}</td>
-                  <td>{{ $asset->vendor->name }}</td>
-                  <td>{{ $asset->user->name }}</td>
+                  <td>{{ $asset->vendor_name }}</td>
+                  <td>{{ $asset->user_name }}</td>
                   <td>
                     <form action="{{ url('/Asset' . '/' . $asset->id)}}" method="POST" style="width:fit-content">
                       <a href="{{ url('/Asset/' . $asset->id) }}" title="View Asset" class="btn btn-info btn-sm">View</a>
