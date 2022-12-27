@@ -5,20 +5,24 @@ namespace App\Http\Controllers\assetController;
 namespace App\Http\Controllers;
 use App\Models\assets;
 use App\Models\User;
-use App\Models\vendor;
+use App\Models\vendors;
 use Illuminate\Http\Request;
 
 class assetController extends Controller
 {
     public function index()
     {
-        $assets = assets::with('vendor', 'user')->get();
+        // $assets = assets::with('vendors', 'user')->get();
+        $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
+        ->join('users', 'users.id', '=', 'assets.user_id')
+        ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name')
+        ->get();
         return view('AssetManagement.index')->with('assets', $assets);
     }
 
     public function create()
     {
-        $vendors = vendor::all();
+        $vendors = vendors::all();
         $users = User::all();
 
         return view('AssetManagement.addAsset')->with(['vendors' => $vendors, 'users' => $users]);
@@ -35,7 +39,7 @@ class assetController extends Controller
     public function show($id)
     {
         $asset = assets::find($id);
-        $vendor = vendor::find($asset->vendor_id);
+        $vendor = vendors::find($asset->vendor_id);
         $user = User::find($asset->user_id);
 
         return view('AssetManagement.showAssetInfo')->with(['asset' => $asset, 'vendor' => $vendor, 'user' => $user]);
@@ -45,9 +49,9 @@ class assetController extends Controller
     public function edit($id)
     {
         $asset = assets::find($id);
-        $vendors = vendor::all();
+        $vendors = vendors::all();
         $users = User::all();
-        return view('AssetManagement.editAsset')->with('asset', $asset)->with('users', $users)->with('asset', $asset);
+        return view('AssetManagement.editAsset')->with('asset', $asset)->with('users', $users)->with('vendors', $vendors);
     }
 
     public function update(Request $request, $id)
@@ -57,14 +61,16 @@ class assetController extends Controller
         $input = $request->all();
 
         // Find the vendor_id corresponding to the input vendor name
-        $vendorName = $input['vendor_name'];
-        $vendor = vendor::where('name', $vendorName)->first();
-        $vendorId = $vendor->id;
+        // $vendorName = $input['vendor_name'];
+        // $vendor = vendors::where('name', $vendorName)->first();
+        // $vendorId = $vendor->id;
+        $vendorId = $input['vendor_id'];
 
         // Find the user_id corresponding to the input user name
-        $userName = $input['user_name'];
-        $user = User::where('name', $userName)->first();
-        $userId = $user->id;
+        // $userName = $input['user_name'];
+        // $user = User::where('name', $userName)->first();
+        // $userId = $user->id;
+        $userId = $input['user_id'];
 
         // Update the vendor_id and user_id in the input values and save the asset
         $input['vendor_id'] = $vendorId;

@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\User;
+use App\Models\vendors;
 class assets extends Model
 {
     use HasFactory;
@@ -16,11 +17,11 @@ class assets extends Model
 
     public function vendor()
     {
-        return $this->belongsTo('App\Models\Vendor');
+        return $this->belongsTo(vendors::class, 'foreign_key');
     }
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo(User::class, 'foreign_key');
     }
 }
