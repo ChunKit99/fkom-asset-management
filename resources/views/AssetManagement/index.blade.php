@@ -10,6 +10,11 @@ Asset Management
       <p>{{ $message }}</p>
     </div>
     @endif
+    @if ($message = Session::get('warning'))
+    <div class="alert alert-warning">
+      <p>{{ $message }}</p>
+    </div>
+    @endif
     <div class="card">
       <h4 class="card-header d-flex justify-content-between align-items-center">
         <div>
@@ -17,9 +22,19 @@ Asset Management
         </div>
         <a class="btn btn-sm btn btn-success " href="{{ url('/Asset/create') }}"><i class="bi bi-plus-circle"></i> Create New Asset</a>
       </h4>
-
       <div class="card-body">
-
+        <form action="/assetSearch" method="GET">
+          <div class="input-group">
+            <div class="form-outline">
+            <input type="search" class="form-control" placeholder="Find serial number here" name="serial_number">
+            </div>
+            <button type="submit" class="btn btn-primary">
+              <i class="bi bi-search"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="card-body">
         <section>
           <div class="table-responsive text-nowrap">
             <!--Table-->

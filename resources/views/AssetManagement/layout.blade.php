@@ -12,12 +12,11 @@
     <div class="container-fluid">
         <div class="row flex-nowrap">
         <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-light">
-            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 min-vh-100">
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 min-vh-100"  style="position: fixed">
             <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
                 <!-- <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg> -->
                 <span class="fs-4">Menu</span>
             </a>
-            <hr>
                 <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                     <!-- Home -->
                     <!-- Report part, show the summary graph and provide some function -->

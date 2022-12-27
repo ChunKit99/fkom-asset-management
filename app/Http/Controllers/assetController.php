@@ -10,6 +10,19 @@ use Illuminate\Http\Request;
 
 class assetController extends Controller
 {
+    public function search(Request $request)
+    {
+        $serial_number = $request->input('serial_number');
+        $asset = assets::where('serial_number', $serial_number)->first();
+        // return the item or redirect to a index with warning if the item is not found
+        if ($asset) {
+            $vendor = vendors::find($asset->vendor_id);
+            $user = User::find($asset->user_id);
+            return view('AssetManagement.showAssetInfo')->with(['asset' => $asset, 'vendor' => $vendor, 'user' => $user]);
+        } else {
+            return redirect('Asset')->with('warning', 'No record found!');
+        }
+    }
     public function index()
     {
         // $assets = assets::with('vendors', 'user')->get();

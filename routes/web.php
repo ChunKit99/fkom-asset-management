@@ -29,4 +29,5 @@ Route::middleware([
     })->name('dashboard');
 });
 
+Route::get('/assetSearch', 'App\Http\Controllers\assetController@search');
 Route::resource('/Asset', assetController::class);
