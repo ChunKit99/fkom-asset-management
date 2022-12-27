@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\vendorController;
+use App\Http\Controllers\locationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,3 +30,5 @@ Route::middleware([
 });
 
 Route::resource('/VendorManagement', vendorController::class);
+
+Route::resource('/LocationManagement', locationController::class);
