@@ -16,6 +16,7 @@ class assetController extends Controller
         $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
         ->join('users', 'users.id', '=', 'assets.user_id')
         ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name')
+        ->orderBy('assets.id', 'ASC')
         ->get();
         return view('AssetManagement.index')->with('assets', $assets);
     }

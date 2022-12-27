@@ -5,20 +5,21 @@ Asset Management
 @section('content')
 <div class="row">
   <div class="col-md-11 mx-auto">
+    @if ($message = Session::get('success'))
+    <div class="alert alert-success">
+      <p>{{ $message }}</p>
+    </div>
+    @endif
     <div class="card">
       <h4 class="card-header d-flex justify-content-between align-items-center">
         <div>
           <i class="fal fa-coins"></i> Asset
         </div>
-        <a class="btn btn-sm btn btn-success " href="{{ url('/Asset/create') }}"> Create New Asset</a>
+        <a class="btn btn-sm btn btn-success " href="{{ url('/Asset/create') }}"><i class="bi bi-plus-circle"></i> Create New Asset</a>
       </h4>
 
       <div class="card-body">
-        @if ($message = Session::get('success'))
-        <div class="alert alert-success">
-          <p>{{ $message }}</p>
-        </div>
-        @endif
+
         <section>
           <div class="table-responsive text-nowrap">
             <!--Table-->
@@ -47,22 +48,22 @@ Asset Management
                   <td>{{ $asset->serial_number }}</td>
                   <td>{{ $asset->location }}</td>
                   <td>
-                  @if($asset->category == 'computer')
+                    @if($asset->category == 'computer')
                     Computer
-                  @elseif($asset->category == 'equipment')
+                    @elseif($asset->category == 'equipment')
                     Equipment
-                  @elseif($asset->category == 'laboratory')
+                    @elseif($asset->category == 'laboratory')
                     Laboratory
-                  @elseif($asset->category == 'printers')
+                    @elseif($asset->category == 'printers')
                     Printers
-                  @elseif($asset->category == 'networking_equipment')
-                    Networking Equipment  
-                  @elseif($asset->category == 'furniture')
+                    @elseif($asset->category == 'networking_equipment')
+                    Networking Equipment
+                    @elseif($asset->category == 'furniture')
                     Furniture
-                  @elseif($asset->category == 'tools')
+                    @elseif($asset->category == 'tools')
                     Tools
-                  @else 
-                  @endif
+                    @else
+                    @endif
                   </td>
                   <td>{{ $asset->budget }}</td>
                   <td>{{ $asset->vendor_name }}</td>

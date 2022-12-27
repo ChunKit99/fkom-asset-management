@@ -5,7 +5,7 @@
         <div class="card">
             <h4 class="card-header d-flex justify-content-between align-items-center">
                 <div>
-                    <i class="fal fa-coins"></i> Asset Information Add
+                <i class="bi bi-file-earmark-plus"></i> Asset Information Add
                 </div>
             </h4>
             <div class="card-body">
@@ -58,9 +58,9 @@
                             <div class="form-group">
                                 <strong>Vendor:</strong>
                                 <select name="vendor_id" id="vendor_id" class="form-control">
-                                @foreach($vendors as $vendor)
+                                    @foreach($vendors as $vendor)
                                     <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
-                                @endforeach
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -69,7 +69,7 @@
                                 <strong>Responsible Faculty Members:</strong>
                                 <select name="user_id" id="user_id" class="form-control">
                                     @foreach ($users as $user)
-                                        <option value="{{ $user->id }}" >{{ $user->name }}</option>
+                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
                                     @endforeach
                                 </select>
                             </div>

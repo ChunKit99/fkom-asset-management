@@ -5,40 +5,43 @@
         <div class="card">
             <h4 class="card-header d-flex justify-content-between align-items-center">
                 <div>
-                    <i class="fal fa-coins"></i> Asset Information Edit
+                    <i class="fs-4 bi bi-pen"></i> Asset Information Edit
                 </div>
             </h4>
-            <div class="card-body">
-                @if ($errors->any())
-                <div class="alert alert-danger">
-                    There were some problems with your input.<br><br>
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-                @endif
-                <!-- go to asset controller -->
-                <form action="{{ url('Asset/' . $asset->id) }}" method="POST">
-                    {{csrf_field()}}
-                    @method("PATCH")
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12">
-                            <input type="hidden" name="id" id="id" class="form-control" value="{{$asset->id}}">
-                            <div class="form-group">
-                                <strong>Serial Number:</strong>
-                                <input type="text" name="serial_number" id="serial_number" class="form-control" value="{{$asset->serial_number}}">
-                            </div>
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                There were some problems with your input.<br><br>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
+            <form action="{{ url('Asset/' . $asset->id) }}" method="POST">
+                {{csrf_field()}}
+                @method("PATCH")
+                <div class="card-body">
+                    <h4><strong>Asset</strong></h4>
+                    <input type="hidden" name="id" id="id" class="form-control" value="{{$asset->id}}">
+                    <!-- Serial Number -->
+                    <div class="form-group row">
+                        <label for="serial_number" class="col-sm-2 col-form-label"><strong>Serial Number:</strong></label>
+                        <div class="col-sm-10">
+                            <input type="text" name="serial_number" id="serial_number" class="form-control-plaintext" value="{{$asset->serial_number}}">
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12">
-                            <div class="form-group">
-                                <strong>Location:</strong>
-                                <input type="text" name="location" id="location" class="form-control" value="{{$asset->location}}">
-                            </div>
+                    </div>
+                    <!-- Location -->
+                    <div class="form-group row">
+                        <label for="location" class="col-sm-2 col-form-label"><strong>Location:</strong></label>
+                        <div class="col-sm-10">
+                            <input type="text" name="location" id="location" class="form-control-plaintext" value="{{$asset->location}}">
                         </div>
-                        <div class="form-group">
-                            <strong>Category:</strong>
+                    </div>
+                    <!-- category -->
+                    <div class="form-group row">
+                        <label for="category" class="col-sm-2 col-form-label"><strong>Category:</strong></label>
+                        <div class="col-sm-10">
                             <select name="category" id="category" class="form-control">
                                 <option value="computer" {{ $asset->category == 'computer' ? 'selected' : '' }}>Computer</option>
                                 <option value="equipment" {{ $asset->category == 'equipment' ? 'selected' : '' }}>Equipment</option>
@@ -49,42 +52,52 @@
                                 <option value="tools" {{ $asset->category == 'tools' ? 'selected' : '' }}>Tools</option>
                             </select>
                         </div>
-
-                        <div class="col-xs-12 col-sm-12 col-md-12">
-                            <div class="form-group">
-                                <strong>Budget:</strong>
-                                <input type="text" name="year" id="year" class="form-control" value="{{$asset->budget}}">
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12">
-                            <div class="form-group">
-                                <strong>Vendor:</strong>
-                                <select name="vendor_id" id="vendor_id" class="form-control">
-                                @foreach($vendors as $vendor)
-                                    <option value="{{ $vendor->id }}" {{ $vendor->id == $asset->vendor_id ? 'selected' : '' }}>{{ $vendor->name }}</option>
-                                @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12">
-                            <div class="form-group">
-                                <strong>Responsible Faculty Members:</strong>
-                                <select name="user_id" id="user_id" class="form-control">
-                                    @foreach ($users as $user)
-                                        <option value="{{ $user->id }}" {{ $user->id == $asset->user_id ? 'selected' : '' }}>{{ $user->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                            <a class="btn btn-info" href="{{ url('Asset') }}"> Cancel</a>
+                    </div>
+                    <!-- Budget -->
+                    <div class="form-group row">
+                        <label for="category" class="col-sm-2 col-form-label"><strong>Budget:</strong></label>
+                        <div class="col-sm-10">
+                            <input type="text" name="budget" id="budget" class="form-control-plaintext" value="{{$asset->budget}}">
                         </div>
                     </div>
-                </form>
-            </div>
+                </div>
+                <!-- Vendor -->
+                <div class="card-body">
+                    <h4><strong>Vendor</strong></h4>
+                    <!-- name -->
+                    <div class="form-group row">
+                        <label for="vendor_id" class="col-sm-2 col-form-label"><strong>Name:</strong></label>
+                        <div class="col-sm-10">
+                            <select name="vendor_id" id="vendor_id" class="form-control">
+                                @foreach($vendors as $vendor)
+                                <option value="{{ $vendor->id }}" {{ $vendor->id == $asset->vendor_id ? 'selected' : '' }}>{{ $vendor->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- Responsible Faculty Member -->
+                <div class="card-body">
+                    <h4><strong>Responsible Faculty Member</strong></h4>
+                    <div class="form-group row">
+                        <label for="user_name" class="col-sm-2 col-form-label"><strong>Username:</strong></label>
+                        <div class="col-sm-10">
+                            <select name="user_id" id="user_id" class="form-control">
+                                @foreach ($users as $user)
+                                <option value="{{ $user->id }}" {{ $user->id == $asset->user_id ? 'selected' : '' }}>{{ $user->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">    
+                    <!-- button -->
+                    <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <a class="btn btn-info" href="{{ url('Asset') }}"> Cancel</a>
+                    </div>
+            </form>
         </div>
     </div>
-</div>
 </div>
 @endsection

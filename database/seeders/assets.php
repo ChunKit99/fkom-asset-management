@@ -26,7 +26,7 @@ class assets extends Seeder
                 'location' => $faker -> bothify('FSK##'),
                 //FSK12
                 'category' => $faker -> randomElement(['computer', 'equipment', 'laboratory', 'printers', 'networking_equipment', 'furniture', 'tools']),
-                'budget' => $faker -> randomFloat('2', 0, 2),
+                'budget' => $faker -> randomFloat('2', 100, 500),
                 'vendor_id' => User::all()->random()->id,
                 'user_id' => User::all()->random()->id,
             ]);
