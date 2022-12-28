@@ -11,6 +11,18 @@ use Illuminate\Http\Request;
 use PDF;
 class assetController extends Controller
 {
+    public function sort(Request $request)
+    {
+        $category = $request->input('sort_category');
+        $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
+                        ->join('users', 'users.id', '=', 'assets.user_id')
+                        ->join('location', 'location.id', '=', 'assets.location_id')
+                        ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
+                        ->orderBy($category, 'ASC')
+                        ->get();
+        return view('AssetManagement.index')->with('assets', $assets);
+    }
+
     // Generate PDF
     public function createPDF() {
         // retreive all records from db

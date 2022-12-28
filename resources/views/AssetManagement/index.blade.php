@@ -22,31 +22,58 @@ Asset Management
         <div>
           <i class="fal fa-coins"></i> Asset
         </div>
-        <a class="btn btn-sm btn btn-success" title="New Asset" href="{{ url('/Asset/create') }}"><i class="bi bi-plus-circle"></i> Create New Asset</a>
       </h4>
       <div class="card-body">
         <div class="row">
-          <div class="col">
-          <!-- Search Bar -->
-          <form action="/Asset/search" method="GET">
-            <div class="input-group">
-              <div class="form-outline">
-              <input type="search" class="form-control" placeholder="Find serial number here" name="serial_number">
+          <div class="col col-md-auto">
+            <!-- Search Bar -->
+            <form action="/Asset/search" method="GET">
+              <div class="input-group">
+                <div class="form-outline">
+                  <input type="search" class="form-control" placeholder="Find serial number here" name="serial_number">
+                </div>
+                <!-- Search Bar -->
+                <!-- Search Bar Button-->
+                <button type="submit" class="btn btn-primary" title="Search Asset">
+                  <i class="bi bi-search"></i>
+                </button>
+                <!-- Search Bar Button-->
               </div>
-          <!-- Search Bar -->    
-              <!-- Search Bar Button-->
-              <button type="submit" class="btn btn-primary" title="Search Asset">
-                <i class="bi bi-search"></i>
-              </button>
-              <!-- Search Bar Button-->
-            </div>
-          </form>
+            </form>
+          </div>
+          <!-- sort -->
+          <div class="col col-md-auto">
+            <form action="/Asset/sort" method="POST">
+              <div class="input-group">
+                @csrf
+                <!-- <label for="sort_category" class="form-control">Sort by:</label> -->
+                <select name="sort_category" id="sort_category" class="form-control">
+                  <option value="location_id">Location</option>
+                  <option value="category">Category</option>
+                  <option value="budget">Budget</option>
+                  <option value="vendor_id">Vendor</option>
+                  <option value="user_id">Responsible</option>
+                </select>
+                <button type="submit" class="btn btn-primary" title="Sort Asset">
+                  <i class="bi bi-sort-up"></i> Sort by
+                </button>
+              </div>
+            </form>
+
           </div>
           <!-- PDF Button -->
-          <div class="col col-lg-2">
-            <a class="btn btn-secondary float-end" title="Download as PDF" href="{{ URL::to('/Asset/pdf') }}">Export to PDF</a>
+          <div class="col col-md-auto">
+            <a class="btn btn-secondary" title="Download as PDF" href="{{ URL::to('/Asset/pdf') }}">
+              <i class="bi bi-save"></i> Export to PDF
+            </a>
           </div>
           <!-- PDF Button -->
+          <!-- Add Asset -->
+          <div class="col col-md-auto">
+            <a class="btn btn-success" title="New Asset" href="{{ url('/Asset/create') }}">
+              <i class="bi bi-plus-circle"></i> Create New Asset</a>
+          </div>
+          <!-- Add Asset -->
         </div>
       </div>
       <div class="card-body">
@@ -106,32 +133,32 @@ Asset Management
                   <td>
                     <!-- View Edit Delete Button -->
                     <div class="d-flex justify-content-center">
-                        <a href="{{ url('/Asset/' . $asset->id) }}" title="View Asset" class="btn btn-primary">View</a>
-                        <a href="{{ url('/Asset/' . $asset->id . '/edit') }}" title="Edit Asset" class="btn btn-warning">Edit</a>
+                      <a href="{{ url('/Asset/' . $asset->id) }}" title="View Asset" class="btn btn-primary">View</a>
+                      <a href="{{ url('/Asset/' . $asset->id . '/edit') }}" title="Edit Asset" class="btn btn-warning">Edit</a>
                       <button type="button" class="btn btn-danger" data-bs-toggle="modal" title="Delete Asset" data-bs-target="#confirmDelete{{$loop->iteration}}">
-                      Delete
+                        Delete
                       </button>
-                    <!-- View Edit Delete Button -->
+                      <!-- View Edit Delete Button -->
                       <!-- Modal -->
                       <div class="modal fade" id="confirmDelete{{$loop->iteration}}" tabindex="-1" aria-labelledby="confirmDelete{{$loop->iteration}}" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                           <div class="modal-content">
                             <!-- Modal Header -->
                             <div class="modal-header">
-                                <h4 class="modal-title">Delete Asset</h4>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              <h4 class="modal-title">Delete Asset</h4>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                               <p>Are you sure to delete?</p>
                               <strong>Serial Number: </strong>{{$asset->serial_number}}
                             </div>
                             <div class="modal-footer">
-                            <form action="{{ url('/Asset' . '/' . $asset->id)}}" method="POST" style="width:fit-content">
-                              {{csrf_field()}}
-                              {{method_field('DELETE')}}
-                              <button type="submit" class="btn btn-danger btn-sm" title="Delete Asset">Delete</button>
-                              <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
-                            </form>
+                              <form action="{{ url('/Asset' . '/' . $asset->id)}}" method="POST" style="width:fit-content">
+                                {{csrf_field()}}
+                                {{method_field('DELETE')}}
+                                <button type="submit" class="btn btn-danger btn-sm" title="Delete Asset">Delete</button>
+                                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                              </form>
                             </div>
                           </div>
                         </div>
