@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\vendorController;
+use App\Http\Controllers\locationController;
 
 use App\Http\Controllers\assetController;
 
@@ -32,3 +34,6 @@ Route::middleware([
 Route::get('/asset/search', [assetController::class, 'search']);
 Route::resource('/Asset', assetController::class);
 Route::get('/asset/pdf', [assetController::class, 'createPDF']);
+
+Route::resource('/VendorManagement', vendorController::class);
+Route::resource('/LocationManagement', locationController::class);
