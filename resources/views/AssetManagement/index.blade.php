@@ -23,16 +23,23 @@ Asset Management
         <a class="btn btn-sm btn btn-success " href="{{ url('/Asset/create') }}"><i class="bi bi-plus-circle"></i> Create New Asset</a>
       </h4>
       <div class="card-body">
-        <form action="/assetSearch" method="GET">
-          <div class="input-group">
-            <div class="form-outline">
-            <input type="search" class="form-control" placeholder="Find serial number here" name="serial_number">
+        <div class="row">
+          <div class="col">
+          <form action="/assetSearch" method="GET">
+            <div class="input-group">
+              <div class="form-outline">
+              <input type="search" class="form-control" placeholder="Find serial number here" name="serial_number">
+              </div>
+              <button type="submit" class="btn btn-primary">
+                <i class="bi bi-search"></i>
+              </button>
             </div>
-            <button type="submit" class="btn btn-primary">
-              <i class="bi bi-search"></i>
-            </button>
+          </form>
           </div>
-        </form>
+          <div class="col col-lg-2">
+            <button type="button" class="btn btn-secondary float-end">Generate Report</button>
+          </div>
+        </div>
       </div>
       <div class="card-body">
         <section>
@@ -84,13 +91,15 @@ Asset Management
                   <td>{{ $asset->vendor_name }}</td>
                   <td>{{ $asset->user_name }}</td>
                   <td>
-                    <form action="{{ url('/Asset' . '/' . $asset->id)}}" method="POST" style="width:fit-content">
-                      <a href="{{ url('/Asset/' . $asset->id) }}" title="View Asset" class="btn btn-info btn-sm">View</a>
-                      <a href="{{ url('/Asset/' . $asset->id . '/edit') }}" title="Edit Asset" class="btn btn-primary btn-sm">Edit</a>
-                      {{csrf_field()}}
-                      {{method_field('DELETE')}}
-                      <button type="submit" class="btn btn-danger btn-sm" title="Delete Asset" onclick="return confirm(&quot;Confirm delete?&quot;)">Delete</button>
-                    </form>
+                    <div class="d-flex justify-content-center">
+                      <form action="{{ url('/Asset' . '/' . $asset->id)}}" method="POST" style="width:fit-content">
+                        <a href="{{ url('/Asset/' . $asset->id) }}" title="View Asset" class="btn btn-info btn-sm">View</a>
+                        <a href="{{ url('/Asset/' . $asset->id . '/edit') }}" title="Edit Asset" class="btn btn-primary btn-sm">Edit</a>
+                        {{csrf_field()}}
+                        {{method_field('DELETE')}}
+                        <button type="submit" class="btn btn-danger btn-sm" title="Delete Asset" onclick="return confirm(&quot;Confirm delete?&quot;)">Delete</button>
+                      </form>
+                    </div>
                   </td>
                 </tr>
                 @endforeach

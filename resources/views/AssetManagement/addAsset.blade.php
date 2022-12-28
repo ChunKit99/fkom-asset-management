@@ -1,4 +1,7 @@
 @extends('AssetManagement.layout')
+@section('title')
+Add Asset
+@endsection
 @section('content')
 <div class="row">
     <div class="col-md-11 mx-auto">
