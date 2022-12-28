@@ -31,14 +31,18 @@ Edit Asset
                     <div class="form-group row">
                         <label for="serial_number" class="col-sm-2 col-form-label"><strong>Serial Number:</strong></label>
                         <div class="col-sm-10">
-                            <input type="text" name="serial_number" id="serial_number" class="form-control-plaintext" value="{{$asset->serial_number}}">
+                            <input type="text" name="serial_number" id="serial_number" class="form-control" value="{{$asset->serial_number}}">
                         </div>
                     </div>
                     <!-- Location -->
                     <div class="form-group row">
-                        <label for="location" class="col-sm-2 col-form-label"><strong>Location:</strong></label>
+                        <label for="location_id" class="col-sm-2 col-form-label"><strong>Location:</strong></label>
                         <div class="col-sm-10">
-                            <input type="text" name="location" id="location" class="form-control-plaintext" value="{{$asset->location}}">
+                            <select name="location_id" id="location_id" class="form-control">
+                                @foreach($locations as $location)
+                                <option value="{{ $location->id }}" {{ $location->id == $asset->location_id ? 'selected' : '' }}>{{ $location->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <!-- category -->
@@ -60,7 +64,7 @@ Edit Asset
                     <div class="form-group row">
                         <label for="category" class="col-sm-2 col-form-label"><strong>Budget:</strong></label>
                         <div class="col-sm-10">
-                            <input type="text" name="budget" id="budget" class="form-control-plaintext" value="{{$asset->budget}}">
+                            <input type="text" name="budget" id="budget" class="form-control" value="{{$asset->budget}}">
                         </div>
                     </div>
                 </div>

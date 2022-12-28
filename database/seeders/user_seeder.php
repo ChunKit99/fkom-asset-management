@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Str;
 use Faker\Factory as Faker;
 
-class VendorSeeder extends Seeder
+class user_seeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -19,13 +19,11 @@ class VendorSeeder extends Seeder
     {
         $faker = Faker::create();
         foreach(range(1,10) as $value){
-            DB::table('vendors') -> insert([
-                'name' => $faker->name,
-                'contact' => $faker->phoneNumber,
-                'email' => $faker->email
+            DB::table('users') -> insert([
+                'name' => $faker -> firstName(),
+                'email' => $faker -> email(),
+                'password' => $faker -> password(),
             ]);
         }
-
-        
     }
 }

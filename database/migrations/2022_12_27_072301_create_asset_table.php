@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-
+use Illuminate\Support\Facades\DB;
 return new class extends Migration
 {
     /**
@@ -16,11 +16,12 @@ return new class extends Migration
         Schema::create('assets', function (Blueprint $table) {
             $table->id();
             $table->String('serial_number');
-            $table->String('location');
             $table->String('category');
             $table->double('budget', 8, 2);
+            $table->unsignedBigInteger('location_id');
             $table->unsignedBigInteger('vendor_id');
             $table->unsignedBigInteger('user_id');
+            $table->foreign('location_id')->references('id')->on('location')->onDelete('cascade');
             $table->foreign('vendor_id')->references('id')->on('vendors')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
@@ -34,6 +35,8 @@ return new class extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('assets');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 };

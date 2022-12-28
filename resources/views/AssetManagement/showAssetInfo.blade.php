@@ -29,7 +29,7 @@ Asset Information
             <div class="form-group row">
               <label for="location" class="col-sm-2 col-form-label"><strong>Location:</strong></label>
               <div class="col-sm-10">
-                <input type="text" name="location" id="location" class="form-control-plaintext" value="{{$asset->location}}" readonly>
+                <input type="text" name="location" id="location" class="form-control-plaintext" value="{{$locations->name}}" readonly>
               </div>
             </div>
             <!-- category -->
@@ -69,14 +69,14 @@ Asset Information
             <div class="form-group row">
               <label for="vendor_contact" class="col-sm-2 col-form-label"><strong>Contact:</strong></label>
               <div class="col-sm-10">
-                <input type="text" name="vendor_contact" id="vendor_contact" class="form-control-plaintext" value="{{$vendor->name}}" readonly>
+                <input type="text" name="vendor_contact" id="vendor_contact" class="form-control-plaintext" value="{{$vendor->contact}}" readonly>
               </div>
             </div>
             <!-- email -->
             <div class="form-group row">
               <label for="vendor_email" class="col-sm-2 col-form-label"><strong>Email:</strong></label>
               <div class="col-sm-10">
-                <input type="text" name="vendor_email" id="vendor_email" class="form-control-plaintext" value="{{$vendor->name}}" readonly>
+                <input type="text" name="vendor_email" id="vendor_email" class="form-control-plaintext" value="{{$vendor->email}}" readonly>
               </div>
             </div>
           </div>

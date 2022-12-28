@@ -31,9 +31,9 @@ Route::middleware([
     })->name('dashboard');
 });
 
-Route::get('/asset/search', [assetController::class, 'search']);
 Route::resource('/Asset', assetController::class);
-Route::get('/asset/pdf', [assetController::class, 'createPDF']);
+Route::get('/Asset/search', [assetController::class, 'search']);
+Route::get('/Asset/pdf', [assetController::class, 'createPDF']);
 
 Route::resource('/VendorManagement', vendorController::class);
 Route::resource('/LocationManagement', locationController::class);

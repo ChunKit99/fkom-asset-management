@@ -35,7 +35,11 @@ Add Asset
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
                                 <strong>Location:</strong>
-                                <input type="text" name="location" id="location" class="form-control" value="">
+                                <select name="location_id" id="location_id" class="form-control">
+                                    @foreach($locations as $location)
+                                    <option value="{{ $location->id }}">{{ $location->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">

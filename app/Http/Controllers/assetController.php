@@ -5,7 +5,8 @@ namespace App\Http\Controllers\assetController;
 namespace App\Http\Controllers;
 use App\Models\assets;
 use App\Models\User;
-use App\Models\vendors;
+use App\Models\Vendor;
+use App\Models\Location;
 use Illuminate\Http\Request;
 use PDF;
 class assetController extends Controller
@@ -15,7 +16,8 @@ class assetController extends Controller
         // retreive all records from db
         $data = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
         ->join('users', 'users.id', '=', 'assets.user_id')
-        ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name')
+        ->join('location', 'location.id', '=', 'assets.location_id')
+        ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
         ->orderBy('assets.id', 'ASC')
         ->get();
         // share data to view
@@ -31,9 +33,10 @@ class assetController extends Controller
         $asset = assets::where('serial_number', $serial_number)->first();
         // return the item or redirect to a index with warning if the item is not found
         if ($asset) {
-            $vendor = vendors::find($asset->vendor_id);
+            $vendor = Vendor::find($asset->vendor_id);
             $user = User::find($asset->user_id);
-            return view('AssetManagement.showAssetInfo')->with(['asset' => $asset, 'vendor' => $vendor, 'user' => $user]);
+            $location = Location::find($asset->location_id);
+            return view('AssetManagement.showAssetInfo')->with(['asset' => $asset, 'vendor' => $vendor, 'user' => $user, 'locations' => $location]);
         } else {
             return redirect('Asset')->with('warning', 'No record found!');
         }
@@ -43,7 +46,8 @@ class assetController extends Controller
         // $assets = assets::with('vendors', 'user')->get();
         $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
         ->join('users', 'users.id', '=', 'assets.user_id')
-        ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name')
+        ->join('location', 'location.id', '=', 'assets.location_id')
+        ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
         ->orderBy('assets.id', 'ASC')
         ->get();
         return view('AssetManagement.index')->with('assets', $assets);
@@ -51,10 +55,10 @@ class assetController extends Controller
 
     public function create()
     {
-        $vendors = vendors::all();
+        $vendors = Vendor::all();
         $users = User::all();
-        
-        return view('AssetManagement.addAsset')->with(['vendors' => $vendors, 'users' => $users]);
+        $locations = Location::all();
+        return view('AssetManagement.addAsset')->with(['vendors' => $vendors, 'users' => $users, 'locations' => $locations]);
     }
 
 
@@ -68,18 +72,20 @@ class assetController extends Controller
     public function show($id)
     {
         $asset = assets::find($id);
-        $vendor = vendors::find($asset->vendor_id);
+        $vendor = Vendor::find($asset->vendor_id);
         $user = User::find($asset->user_id);
-        return view('AssetManagement.showAssetInfo')->with(['asset' => $asset, 'vendor' => $vendor, 'user' => $user]);
+        $locations = Location::find($asset->location_id);
+        return view('AssetManagement.showAssetInfo')->with(['asset' => $asset, 'vendor' => $vendor, 'user' => $user, 'locations' => $locations]);
     }
 
 
     public function edit($id)
     {
         $asset = assets::find($id);
-        $vendors = vendors::all();
+        $vendors = Vendor::all();
         $users = User::all();
-        return view('AssetManagement.editAsset')->with('asset', $asset)->with('users', $users)->with('vendors', $vendors);
+        $locations = Location::all();
+        return view('AssetManagement.editAsset')->with('asset', $asset)->with('users', $users)->with('vendors', $vendors)->with('locations', $locations);
     }
 
     public function update(Request $request, $id)
@@ -99,10 +105,12 @@ class assetController extends Controller
         // $user = User::where('name', $userName)->first();
         // $userId = $user->id;
         $userId = $input['user_id'];
+        $locationId = $input['location_id'];
 
         // Update the vendor_id and user_id in the input values and save the asset
         $input['vendor_id'] = $vendorId;
         $input['user_id'] = $userId;
+        $input['location_id'] = $locationId;
         $asset->update($input);
 
         return redirect('Asset')->with('success', 'Asset Info Updated!');

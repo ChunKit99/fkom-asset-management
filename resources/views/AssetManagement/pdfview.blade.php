@@ -37,7 +37,7 @@
                   <!--  {{ $asset->vendor_name }} | {{ $asset->user_name }} if using join -->
                   <td scope="row">{{ $loop->iteration }}</td>
                   <td>{{ $asset->serial_number }}</td>
-                  <td>{{ $asset->location }}</td>
+                  <td>{{ $asset->location_name }}</td>
                   <td>
                     @if($asset->category == 'computer')
                     Computer

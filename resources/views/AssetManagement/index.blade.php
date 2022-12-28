@@ -22,25 +22,31 @@ Asset Management
         <div>
           <i class="fal fa-coins"></i> Asset
         </div>
-        <a class="btn btn-sm btn btn-success " href="{{ url('/Asset/create') }}"><i class="bi bi-plus-circle"></i> Create New Asset</a>
+        <a class="btn btn-sm btn btn-success" title="New Asset" href="{{ url('/Asset/create') }}"><i class="bi bi-plus-circle"></i> Create New Asset</a>
       </h4>
       <div class="card-body">
         <div class="row">
           <div class="col">
-          <form action="/asset/search" method="GET">
+          <!-- Search Bar -->
+          <form action="/Asset/search" method="GET">
             <div class="input-group">
               <div class="form-outline">
               <input type="search" class="form-control" placeholder="Find serial number here" name="serial_number">
               </div>
-              <button type="submit" class="btn btn-primary">
+          <!-- Search Bar -->    
+              <!-- Search Bar Button-->
+              <button type="submit" class="btn btn-primary" title="Search Asset">
                 <i class="bi bi-search"></i>
               </button>
+              <!-- Search Bar Button-->
             </div>
           </form>
           </div>
+          <!-- PDF Button -->
           <div class="col col-lg-2">
-            <a class="btn btn-secondary float-end" href="{{ URL::to('/asset/pdf') }}">Export to PDF</a>
+            <a class="btn btn-secondary float-end" title="Download as PDF" href="{{ URL::to('/Asset/pdf') }}">Export to PDF</a>
           </div>
+          <!-- PDF Button -->
         </div>
       </div>
       <div class="card-body">
@@ -62,16 +68,18 @@ Asset Management
                 </tr>
               </thead>
               <!--Table head-->
-
               <!--Table body-->
               <tbody>
                 @foreach ($assets as $asset)
                 <tr>
                   <!--  {{ $asset->vendor_name }} | {{ $asset->user_name }} if using join -->
                   <td scope="row">{{ $loop->iteration }}</td>
+                  <!--Serial Number-->
                   <td>{{ $asset->serial_number }}</td>
-                  <td>{{ $asset->location }}</td>
+                  <!--Location Name-->
+                  <td>{{ $asset->location_name }}</td>
                   <td>
+                    <!--Category-->
                     @if($asset->category == 'computer')
                     Computer
                     @elseif($asset->category == 'equipment')
@@ -89,16 +97,21 @@ Asset Management
                     @else
                     @endif
                   </td>
+                  <!--Budget-->
                   <td>{{ $asset->budget }}</td>
+                  <!--Vendor-->
                   <td>{{ $asset->vendor_name }}</td>
+                  <!--User-->
                   <td>{{ $asset->user_name }}</td>
                   <td>
+                    <!-- View Edit Delete Button -->
                     <div class="d-flex justify-content-center">
                         <a href="{{ url('/Asset/' . $asset->id) }}" title="View Asset" class="btn btn-primary">View</a>
                         <a href="{{ url('/Asset/' . $asset->id . '/edit') }}" title="Edit Asset" class="btn btn-warning">Edit</a>
                       <button type="button" class="btn btn-danger" data-bs-toggle="modal" title="Delete Asset" data-bs-target="#confirmDelete{{$loop->iteration}}">
                       Delete
                       </button>
+                    <!-- View Edit Delete Button -->
                       <!-- Modal -->
                       <div class="modal fade" id="confirmDelete{{$loop->iteration}}" tabindex="-1" aria-labelledby="confirmDelete{{$loop->iteration}}" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">

@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Str;
 use Faker\Factory as Faker;
 use App\Models\User;
-use App\Models\vendors;
+use App\Models\Vendor;
+use App\Models\Location;
 class assets extends Seeder
 {
     /**
@@ -19,16 +20,15 @@ class assets extends Seeder
     public function run()
     {
         $faker = Faker::create();
-        foreach(range(1,100) as $value){
+        foreach(range(1,50) as $value){
             DB::table('assets') -> insert([
                 'serial_number' => $faker -> bothify('?#???###J#'),
                 //J2nsz429L8
-                'location' => $faker -> bothify('FSK##'),
-                //FSK12
                 'category' => $faker -> randomElement(['computer', 'equipment', 'laboratory', 'printers', 'networking_equipment', 'furniture', 'tools']),
                 'budget' => $faker -> randomFloat('2', 100, 500),
-                'vendor_id' => User::all()->random()->id,
+                'vendor_id' => Vendor::all()->random()->id,
                 'user_id' => User::all()->random()->id,
+                'location_id' => Location::all()->random()->id,
             ]);
         }
     }
