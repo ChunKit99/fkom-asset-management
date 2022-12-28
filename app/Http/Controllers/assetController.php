@@ -20,7 +20,7 @@ class assetController extends Controller
         ->get();
         // share data to view
         // view()->share('pdfview',$data);
-        $pdf = PDF::loadView('pdfview', array('assets' =>  $data))
+        $pdf = PDF::loadView(('AssetManagement.pdfview'), array('assets' =>  $data))
         ->setPaper('a4', 'portrait');
         // download PDF file with download method
         return $pdf->download('pdf_file.pdf');
