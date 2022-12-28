@@ -1,4 +1,4 @@
-@extends('AssetManagement.layout')
+@extends('layout')
 @section('title')
 Asset Management
 @endsection
