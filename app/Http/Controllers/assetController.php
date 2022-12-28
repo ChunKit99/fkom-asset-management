@@ -7,9 +7,24 @@ use App\Models\assets;
 use App\Models\User;
 use App\Models\vendors;
 use Illuminate\Http\Request;
-
+use PDF;
 class assetController extends Controller
 {
+    // Generate PDF
+    public function createPDF() {
+        // retreive all records from db
+        $data = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
+        ->join('users', 'users.id', '=', 'assets.user_id')
+        ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name')
+        ->orderBy('assets.id', 'ASC')
+        ->get();
+        // share data to view
+        // view()->share('pdfview',$data);
+        $pdf = PDF::loadView(('AssetManagement.pdfview'), array('assets' =>  $data))
+        ->setPaper('a4', 'portrait');
+        // download PDF file with download method
+        return $pdf->download('pdf_file.pdf');
+    }
     public function search(Request $request)
     {
         $serial_number = $request->input('serial_number');
@@ -38,7 +53,7 @@ class assetController extends Controller
     {
         $vendors = vendors::all();
         $users = User::all();
-
+        
         return view('AssetManagement.addAsset')->with(['vendors' => $vendors, 'users' => $users]);
     }
 
@@ -55,7 +70,6 @@ class assetController extends Controller
         $asset = assets::find($id);
         $vendor = vendors::find($asset->vendor_id);
         $user = User::find($asset->user_id);
-
         return view('AssetManagement.showAssetInfo')->with(['asset' => $asset, 'vendor' => $vendor, 'user' => $user]);
     }
 

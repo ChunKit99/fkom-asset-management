@@ -1,4 +1,7 @@
 @extends('AssetManagement.layout')
+@section('title')
+Asset Information
+@endsection
 @section('content')
 <div class="container">
   <div class="row">

@@ -6,13 +6,15 @@ Asset Management
 <div class="row">
   <div class="col-md-11 mx-auto">
     @if ($message = Session::get('success'))
-    <div class="alert alert-success">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
       <p>{{ $message }}</p>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
     @if ($message = Session::get('warning'))
-    <div class="alert alert-warning">
+    <div class="alert alert-warning  alert-dismissible fade show" role="alert">
       <p>{{ $message }}</p>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
     <div class="card">
@@ -23,16 +25,23 @@ Asset Management
         <a class="btn btn-sm btn btn-success " href="{{ url('/Asset/create') }}"><i class="bi bi-plus-circle"></i> Create New Asset</a>
       </h4>
       <div class="card-body">
-        <form action="/assetSearch" method="GET">
-          <div class="input-group">
-            <div class="form-outline">
-            <input type="search" class="form-control" placeholder="Find serial number here" name="serial_number">
+        <div class="row">
+          <div class="col">
+          <form action="/asset/search" method="GET">
+            <div class="input-group">
+              <div class="form-outline">
+              <input type="search" class="form-control" placeholder="Find serial number here" name="serial_number">
+              </div>
+              <button type="submit" class="btn btn-primary">
+                <i class="bi bi-search"></i>
+              </button>
             </div>
-            <button type="submit" class="btn btn-primary">
-              <i class="bi bi-search"></i>
-            </button>
+          </form>
           </div>
-        </form>
+          <div class="col col-lg-2">
+            <a class="btn btn-secondary float-end" href="{{ URL::to('/asset/pdf') }}">Export to PDF</a>
+          </div>
+        </div>
       </div>
       <div class="card-body">
         <section>
@@ -84,13 +93,38 @@ Asset Management
                   <td>{{ $asset->vendor_name }}</td>
                   <td>{{ $asset->user_name }}</td>
                   <td>
-                    <form action="{{ url('/Asset' . '/' . $asset->id)}}" method="POST" style="width:fit-content">
-                      <a href="{{ url('/Asset/' . $asset->id) }}" title="View Asset" class="btn btn-info btn-sm">View</a>
-                      <a href="{{ url('/Asset/' . $asset->id . '/edit') }}" title="Edit Asset" class="btn btn-primary btn-sm">Edit</a>
-                      {{csrf_field()}}
-                      {{method_field('DELETE')}}
-                      <button type="submit" class="btn btn-danger btn-sm" title="Delete Asset" onclick="return confirm(&quot;Confirm delete?&quot;)">Delete</button>
-                    </form>
+                    <div class="d-flex justify-content-center">
+                        <a href="{{ url('/Asset/' . $asset->id) }}" title="View Asset" class="btn btn-primary">View</a>
+                        <a href="{{ url('/Asset/' . $asset->id . '/edit') }}" title="Edit Asset" class="btn btn-warning">Edit</a>
+                      <button type="button" class="btn btn-danger" data-bs-toggle="modal" title="Delete Asset" data-bs-target="#confirmDelete{{$loop->iteration}}">
+                      Delete
+                      </button>
+                      <!-- Modal -->
+                      <div class="modal fade" id="confirmDelete{{$loop->iteration}}" tabindex="-1" aria-labelledby="confirmDelete{{$loop->iteration}}" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                          <div class="modal-content">
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Delete Asset</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <p>Are you sure to delete?</p>
+                              <strong>Serial Number: </strong>{{$asset->serial_number}}
+                            </div>
+                            <div class="modal-footer">
+                            <form action="{{ url('/Asset' . '/' . $asset->id)}}" method="POST" style="width:fit-content">
+                              {{csrf_field()}}
+                              {{method_field('DELETE')}}
+                              <button type="submit" class="btn btn-danger btn-sm" title="Delete Asset">Delete</button>
+                              <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                            </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- end Modal  -->
+                    </div>
                   </td>
                 </tr>
                 @endforeach
@@ -100,7 +134,6 @@ Asset Management
             <!--Table-->
           </div>
         </section>
-
       </div>
     </div>
   </div>
