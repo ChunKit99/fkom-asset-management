@@ -25,7 +25,7 @@ Asset Management
       <div class="card-body">
         <div class="row">
           <div class="col">
-          <form action="/assetSearch" method="GET">
+          <form action="/asset/search" method="GET">
             <div class="input-group">
               <div class="form-outline">
               <input type="search" class="form-control" placeholder="Find serial number here" name="serial_number">
@@ -37,7 +37,7 @@ Asset Management
           </form>
           </div>
           <div class="col col-lg-2">
-            <button type="button" class="btn btn-secondary float-end">Generate Report</button>
+            <a class="btn btn-secondary float-end" href="{{ URL::to('/asset/pdf') }}">Export to PDF</a>
           </div>
         </div>
       </div>
