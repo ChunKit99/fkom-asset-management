@@ -53,7 +53,7 @@ class assetController extends Controller
     {
         $vendors = vendors::all();
         $users = User::all();
-
+        
         return view('AssetManagement.addAsset')->with(['vendors' => $vendors, 'users' => $users]);
     }
 
@@ -70,7 +70,6 @@ class assetController extends Controller
         $asset = assets::find($id);
         $vendor = vendors::find($asset->vendor_id);
         $user = User::find($asset->user_id);
-
         return view('AssetManagement.showAssetInfo')->with(['asset' => $asset, 'vendor' => $vendor, 'user' => $user]);
     }
 

@@ -54,7 +54,7 @@ Add Asset
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
                                 <strong>Budget:</strong>
-                                <input type="text" name="year" id="year" class="form-control" value="">
+                                <input type="text" name="budget" id="budget" class="form-control" value="">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
