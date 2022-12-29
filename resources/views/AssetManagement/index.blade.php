@@ -27,7 +27,7 @@ Asset Management
         <div class="row">
           <div class="col col-md-auto">
             <!-- Search Bar -->
-            <form action="/Asset/search" method="GET">
+            <form action="/asset/search" method="GET">
               <div class="input-group">
                 <div class="form-outline">
                   <input type="search" class="form-control" placeholder="Find serial number here" name="serial_number">
@@ -63,7 +63,7 @@ Asset Management
           </div>
           <!-- PDF Button -->
           <div class="col col-md-auto">
-            <a class="btn btn-secondary" title="Download as PDF" href="{{ URL::to('/Asset/pdf') }}">
+            <a class="btn btn-secondary" title="Download as PDF" href="{{ URL::to('/asset/pdf') }}">
               <i class="bi bi-save"></i> Export to PDF
             </a>
           </div>

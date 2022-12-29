@@ -32,8 +32,8 @@ Route::middleware([
 });
 
 Route::resource('/Asset', assetController::class);
-Route::get('/Asset/search', [assetController::class, 'search']);
-Route::get('/Asset/pdf', [assetController::class, 'createPDF']);
+Route::get('/asset/search', [assetController::class, 'search']);
+Route::get('/asset/pdf', [assetController::class, 'createPDF']);
 Route::post('/Asset/sort', [assetController::class, 'sort']);
 
 Route::resource('/VendorManagement', vendorController::class);
