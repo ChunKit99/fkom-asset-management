@@ -23,7 +23,7 @@ Asset Management
     <div class="card">
       <h4 class="card-header d-flex justify-content-between align-items-center">
         <div>
-          <i class="fal fa-coins"></i> Asset
+          <i class="fal fa-coins"></i> <a href="{{ url('/Asset') }} "class="link-dark text-decoration-none">Asset</a>
         </div>
         <div class="btn-group" role="group" aria-label="button group">
           <a class="btn btn-success" title="New Asset" href="{{ url('/Asset/create') }}">
@@ -64,7 +64,7 @@ Asset Management
                   <option value="user_id">Responsible</option>
                 </select>
                 <button type="submit" class="btn btn-primary" title="Sort Asset">
-                  <i class="bi bi-sort-up"></i> Sort by
+                  <i class="bi bi-sort-down-alt"></i> Sort by
                 </button>
               </div>
             </form>
@@ -96,11 +96,15 @@ Asset Management
               <label for="filter_category" class="col-sm-2 col-form-label">Filter by</label>
               <div class="col-sm-10">
                 <select name="filter_category" id="filter_category" class="form-control">
+                  <option value="apply_all">Apply all</option>
                   <option value="location">Location</option>
                   <option value="category">Category</option>
                   <option value="vendor">Vendor</option>
                   <option value="user">User</option>
                 </select>
+                <span id="filterCategoryHelpInline" class="form-text">
+                  Apply all will filter and match all the condition. Other option will only apply the selected filter category value.
+                </span>
               </div>
             </div>
             <!-- location id -->
@@ -153,7 +157,7 @@ Asset Management
             </div>
             <!-- button -->
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-            <button type="submit" class="btn btn-primary">Filter</button>
+              <button type="submit" class="btn btn-primary">Filter</button>
             </div>
           </form>
         </div>

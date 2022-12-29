@@ -27,6 +27,17 @@ class assetController extends Controller
 
             $criteria = $request->input('filter_category');
                 switch ($criteria) {
+                    case 'apply_all':
+                        $location_id = $request->input('location_id');
+                        $category = $request->input('category');
+                        $category = $request->input('category');
+                        $vendor = $request->input('vendor_id');
+                        $user = $request->input('user_id');
+                        $query->where('assets.location_id', '=', $location_id)
+                        ->where('assets.category', '=', $category)
+                        ->where('vendors.id', '=', $vendor)
+                        ->where('users.id', '=', $user);
+                        break;
                     case 'location':
                         $location_id = $request->input('location_id');
                         $query->where('assets.location_id', '=', $location_id);
@@ -48,37 +59,6 @@ class assetController extends Controller
         // Return the view with the assets variable
         return view('AssetManagement.index')->with(['assets' => $assets, 'vendors' => $vendors, 'users' => $users, 'locations' => $locations]);
     }
-
-    // public function filter(Request $request)
-    // {
-    //     $query = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
-    //         ->join('users', 'users.id', '=', 'assets.user_id')
-    //         ->join('location', 'location.id', '=', 'assets.location_id')
-    //         ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name');
-
-    //     $criteria = $request->input('filter_category');
-    //     switch ($criteria) {
-    //         case 'location':
-    //             $location_id = $request->input('location_id');
-    //             $query->where('assets.location_id', '=', $location_id);
-    //             break;
-    //         case 'category':
-    //             $category = $request->input('category');
-    //             $query->where('assets.category', '=', $category);
-    //             break;
-    //         case 'vendor':
-    //             $vendor = $request->input('vendor');
-    //             $query->where('vendors.name', '=', $vendor);
-    //             break;
-    //         case 'user':
-    //             $user = $request->input('user');
-    //             $query->where('users.name', '=', $user);
-    //             break;
-    //     }
-
-    //     $assets = $query->get();
-    //     return view('AssetManagement.index')->with('assets', $assets);
-    // }
 
     public function sort(Request $request)
     {
