@@ -17,10 +17,19 @@ Asset Management
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
+    <!-- @foreach ($assets as $asset)
+    {{ $asset->id }}
+    @endforeach -->
     <div class="card">
       <h4 class="card-header d-flex justify-content-between align-items-center">
         <div>
           <i class="fal fa-coins"></i> Asset
+        </div>
+        <div class="btn-group" role="group" aria-label="button group">
+          <a class="btn btn-success" title="New Asset" href="{{ url('/Asset/create') }}">
+            <i class="bi bi-plus-circle"></i> Create New Asset</a>
+          <a class="btn btn-secondary" title="Download as PDF" href="{{ URL::to('/asset/pdf') }}">
+            <i class="bi bi-save"></i> Export to PDF</a>
         </div>
       </h4>
       <div class="card-body">
@@ -59,21 +68,94 @@ Asset Management
                 </button>
               </div>
             </form>
-
           </div>
-          <!-- PDF Button -->
+          <!-- filter -->
           <div class="col col-md-auto">
-            <a class="btn btn-secondary" title="Download as PDF" href="{{ URL::to('/asset/pdf') }}">
-              <i class="bi bi-save"></i> Export to PDF
+            <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseFilter" role="button" aria-expanded="false" aria-controls="collapseFilter">
+              <i class="bi bi-filter"></i> Filter by
             </a>
           </div>
-          <!-- PDF Button -->
-          <!-- Add Asset -->
-          <div class="col col-md-auto">
+          <!-- New Asset -->
+          <!-- <div class="col col-md-auto">
             <a class="btn btn-success" title="New Asset" href="{{ url('/Asset/create') }}">
               <i class="bi bi-plus-circle"></i> Create New Asset</a>
-          </div>
-          <!-- Add Asset -->
+        </div> -->
+          <!-- PDF -->
+          <!-- <div class="col col-md-auto">
+            <a class="btn btn-secondary" title="Download as PDF" href="{{ URL::to('/asset/pdf') }}">
+              <i class="bi bi-save"></i> Export to PDF</a>
+          </div> -->
+        </div>
+      </div>
+      <div class="collapse" id="collapseFilter">
+        <div class="card card-body">
+          <form action="/Asset/filter" method="POST">
+            @csrf
+            <!-- filter category -->
+            <div class="mb-3 row">
+              <label for="filter_category" class="col-sm-2 col-form-label">Filter by</label>
+              <div class="col-sm-10">
+                <select name="filter_category" id="filter_category" class="form-control">
+                  <option value="location">Location</option>
+                  <option value="category">Category</option>
+                  <option value="vendor">Vendor</option>
+                  <option value="user">User</option>
+                </select>
+              </div>
+            </div>
+            <!-- location id -->
+            <div class="mb-3 row">
+              <label for="location_id" class="col-sm-2 col-form-label">Location</label>
+              <div class="col-sm-10">
+                <select name="location_id" id="location_id" class="form-control">
+                  @foreach ($locations as $location)
+                  <option value="{{ $location->id }}">{{ $location->name }}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+            <!-- category -->
+            <div class="mb-3 row">
+              <label for="category" class="col-sm-2 col-form-label">Category</label>
+              <div class="col-sm-10">
+                <select name="category" id="category" class="form-control">
+                  <option value="computer">Computer</option>
+                  <option value="equipment">Equipment</option>
+                  <option value="laboratory">Laboratory</option>
+                  <option value="printers">Printers</option>
+                  <option value="networking_equipment">Networking Equipment</option>
+                  <option value="furniture">Furniture</option>
+                  <option value="tools">Tools</option>
+                </select>
+              </div>
+            </div>
+            <!-- vendor id -->
+            <div class="mb-3 row">
+              <label for="vendor_id" class="col-sm-2 col-form-label">Vendor</label>
+              <div class="col-sm-10">
+                <select name="vendor_id" id="vendor_id" class="form-control">
+                  @foreach ($vendors as $vendor)
+                  <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+            <!-- user id -->
+            <div class="mb-3 row">
+              <label for="user_id" class="col-sm-2 col-form-label">User</label>
+              <div class="col-sm-10">
+                <select name="user_id" id="user_id" class="form-control">
+                  @foreach ($users as $user)
+                  <option value="{{ $user->id }}">{{ $user->name }}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+            <!-- button -->
+            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+            <button type="submit" class="btn btn-primary">Filter</button>
+            </div>
+          </form>
         </div>
       </div>
       <div class="card-body">
@@ -133,11 +215,13 @@ Asset Management
                   <td>
                     <!-- View Edit Delete Button -->
                     <div class="d-flex justify-content-center">
-                      <a href="{{ url('/Asset/' . $asset->id) }}" title="View Asset" class="btn btn-primary">View</a>
-                      <a href="{{ url('/Asset/' . $asset->id . '/edit') }}" title="Edit Asset" class="btn btn-warning">Edit</a>
-                      <button type="button" class="btn btn-danger" data-bs-toggle="modal" title="Delete Asset" data-bs-target="#confirmDelete{{$loop->iteration}}">
-                        Delete
-                      </button>
+                      <div class="btn-group" role="group" aria-label="button group">
+                        <a href="{{ url('/Asset/' . $asset->id) }}" title="View Asset" class="btn btn-primary">View</a>
+                        <a href="{{ url('/Asset/' . $asset->id . '/edit') }}" title="Edit Asset" class="btn btn-warning">Edit</a>
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" title="Delete Asset" data-bs-target="#confirmDelete{{$loop->iteration}}">
+                          Delete
+                        </button>
+                      </div>
                       <!-- View Edit Delete Button -->
                       <!-- Modal -->
                       <div class="modal fade" id="confirmDelete{{$loop->iteration}}" tabindex="-1" aria-labelledby="confirmDelete{{$loop->iteration}}" aria-hidden="true">
