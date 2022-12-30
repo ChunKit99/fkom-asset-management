@@ -54,7 +54,7 @@
                     </li>
                     <!-- Maintenance Management -->
                     <li>
-                        <a href="#" class="nav-link link-dark px-0 align-middle ">
+                        <a href="/MaintenanceManagement" class="nav-link link-dark px-0 align-middle ">
                             <i class="fs-4 bi-tools"></i> <span class="ms-1 d-none d-sm-inline">Maintenance</span></a>
                     </li>
                     <!-- Vendor Management -->
