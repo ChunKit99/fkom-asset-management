@@ -24,6 +24,7 @@
                                             <th>Vendor Name</th>
                                             <th>Contact</th>
                                             <th>Email</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -35,12 +36,13 @@
                                             <td>{{ $item->email}}</td>
                                             <td>
                                                 <a href="{{ url('/VendorManagement/' .$item->id) }}" title="View Vendor"> <button class="btn btn-info btn-sm"> <i class="fa fa-eye" aria hidden="true"></i>View</button></a>
-                                                <a href="{{ url('/VendorManagement/' .$item->id . '/edit') }}" title="Edit Vendor"> <button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Edit</button> </a> 
-                                                <form method="POST" action="{{ url('/VendorManagement/' .$item->id) }}" accept-charset="UTF-8" style="display:inline">
-                                                    {{ method_field('DELETE') }}
-                                                    {{ csrf_field() }}
-                                                    <button type="submit" class="btn btn-danger btn-sm" title="Delete Vendor" onclick="return confirm(&quot;Confirm delete?&quot;)">
-                                                    <i class="fa fa-trash-o" aria-hidden="true"></i>Delete</button>
+
+                                                <a href="{{ url('/VendorManagement/' .$item->id . '/edit') }}" title="Edit Vendor"> <button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Edit</button></a> 
+                                                  {{ method_field('DELETE') }}
+                                                  {{ csrf_field() }}
+                                                  <button type="submit" class="btn btn-danger btn-sm" title="Delete Vendor" onclick="return confirm(&quot;Confirm delete?&quot;)">
+                                                  <i class="fa fa-trash-o" aria-hidden="true"></i>Delete</button>
+                
                                                 </form>
                                             </td>
                                         </tr>
