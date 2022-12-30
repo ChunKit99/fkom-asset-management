@@ -29,7 +29,7 @@ Asset Information
             <div class="form-group row">
               <label for="location" class="col-sm-2 col-form-label"><strong>Location:</strong></label>
               <div class="col-sm-10">
-                <input type="text" name="location" id="location" class="form-control-plaintext" value="{{$locations->name}}" readonly>
+                <input type="text" name="location" id="location" class="form-control-plaintext" value="{{$location->name}}" readonly>
               </div>
             </div>
             <!-- category -->

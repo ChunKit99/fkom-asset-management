@@ -2,6 +2,7 @@
 @section('title')
 Asset Management
 @endsection
+
 @section('content')
 <div class="row">
   <div class="col-md-11 mx-auto">
@@ -182,6 +183,7 @@ Asset Management
               </thead>
               <!--Table head-->
               <!--Table body-->
+              @if(count($assets) > 0)
               <tbody>
                 @foreach ($assets as $asset)
                 <tr>
@@ -258,6 +260,13 @@ Asset Management
                 @endforeach
               </tbody>
               <!--Table body-->
+              @else
+              <tbody>
+              <tr>
+              <td colspan="8" class="table-active">No record found</td>
+              </tr>
+              </tbody>
+              @endif
             </table>
             <!--Table-->
           </div>

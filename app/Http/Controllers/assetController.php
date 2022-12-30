@@ -56,6 +56,8 @@ class assetController extends Controller
                         break;
                 }
         $assets = $query->orderBy('assets.id', 'ASC')->get();
+        session()->put('assets', $assets);
+        session()->put('assetsAction', 'Filtered');
         // Return the view with the assets variable
         return view('AssetManagement.index')->with(['assets' => $assets, 'vendors' => $vendors, 'users' => $users, 'locations' => $locations]);
     }
@@ -72,22 +74,25 @@ class assetController extends Controller
             ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
             ->orderBy($category, 'ASC')
             ->get();
+            session()->put('assets', $assets);  
+            session()->put('assetsAction', 'Sorted');
         return view('AssetManagement.index')->with(['assets' => $assets, 'vendors' => $vendors, 'users' => $users, 'locations' => $locations]);
     }
 
     // Generate PDF
-    public function createPDF()
+    public function createPDF(Request $request)
     {
         // retreive all records from db
-        $data = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
-            ->join('users', 'users.id', '=', 'assets.user_id')
-            ->join('location', 'location.id', '=', 'assets.location_id')
-            ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
-            ->orderBy('assets.id', 'ASC')
-            ->get();
+        // $data = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
+        //     ->join('users', 'users.id', '=', 'assets.user_id')
+        //     ->join('location', 'location.id', '=', 'assets.location_id')
+        //     ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
+        //     ->orderBy('assets.id', 'ASC')
+        //     ->get();
+        $assets = session()->get('assets');
         // share data to view
         // view()->share('pdfview',$data);
-        $pdf = PDF::loadView(('AssetManagement.pdfview'), array('assets' =>  $data))
+        $pdf = PDF::loadView(('AssetManagement.pdfview'), array('assets' =>  $assets))
             ->setPaper('a4', 'portrait');
         // download PDF file with download method
         return $pdf->download('pdf_file.pdf');
@@ -119,6 +124,8 @@ class assetController extends Controller
             ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
             ->orderBy('assets.id', 'ASC')
             ->get();
+        session()->put('assets', $assets);
+        session()->put('assetsAction', 'All');
         return view('AssetManagement.index')->with(['assets' => $assets, 'vendors' => $vendors, 'users' => $users, 'locations' => $locations]);
     }
 
@@ -143,8 +150,8 @@ class assetController extends Controller
         $asset = assets::find($id);
         $vendor = Vendor::find($asset->vendor_id);
         $user = User::find($asset->user_id);
-        $locations = Location::find($asset->location_id);
-        return view('AssetManagement.showAssetInfo')->with(['asset' => $asset, 'vendor' => $vendor, 'user' => $user, 'locations' => $locations]);
+        $location = Location::find($asset->location_id);
+        return view('AssetManagement.showAssetInfo')->with(['asset' => $asset, 'vendor' => $vendor, 'user' => $user, 'location' => $location]);
     }
 
 
