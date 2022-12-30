@@ -59,7 +59,7 @@
                     </li>
                     <!-- Vendor Management -->
                     <li>
-                        <a href="#" class="nav-link link-dark px-0 align-middle">
+                        <a href="/VendorManagement" class="nav-link link-dark px-0 align-middle">
                             <i class="fs-4 bi-shop"></i> <span class="ms-1 d-none d-sm-inline">Vendor</span> </a>
                     </li>
                 </ul>
