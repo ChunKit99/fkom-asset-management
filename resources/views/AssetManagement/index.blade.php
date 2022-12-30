@@ -57,7 +57,7 @@ Asset Management
               <div class="input-group">
                 @csrf
                 <!-- <label for="sort_category" class="form-control">Sort by:</label> -->
-                <select name="sort_category" id="sort_category" class="form-control">
+                <select name="sort_category" id="sort_category" class="form-select">
                   <option value="location_id">Location</option>
                   <option value="category">Category</option>
                   <option value="budget">Budget</option>
@@ -72,8 +72,8 @@ Asset Management
           </div>
           <!-- filter -->
           <div class="col col-md-auto">
-            <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseFilter" role="button" aria-expanded="false" aria-controls="collapseFilter">
-              <i class="bi bi-filter"></i> Filter by
+            <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseFilter" title="Filter Collapse" role="button" aria-expanded="false" aria-controls="collapseFilter">
+              <i class="bi bi-filter"></i> Filter by <i class="bi bi-arrows-collapse"></i>
             </a>
           </div>
           <!-- New Asset -->
@@ -96,7 +96,7 @@ Asset Management
             <div class="mb-3 row">
               <label for="filter_category" class="col-sm-2 col-form-label">Filter by</label>
               <div class="col-sm-10">
-                <select name="filter_category" id="filter_category" class="form-control">
+                <select name="filter_category" id="filter_category" class="form-select">
                   <option value="apply_all">Apply all</option>
                   <option value="location">Location</option>
                   <option value="category">Category</option>
@@ -112,7 +112,7 @@ Asset Management
             <div class="mb-3 row">
               <label for="location_id" class="col-sm-2 col-form-label">Location</label>
               <div class="col-sm-10">
-                <select name="location_id" id="location_id" class="form-control">
+                <select name="location_id" id="location_id" class="form-select">
                   @foreach ($locations as $location)
                   <option value="{{ $location->id }}">{{ $location->name }}</option>
                   @endforeach
@@ -123,7 +123,7 @@ Asset Management
             <div class="mb-3 row">
               <label for="category" class="col-sm-2 col-form-label">Category</label>
               <div class="col-sm-10">
-                <select name="category" id="category" class="form-control">
+                <select name="category" id="category" class="form-select">
                   <option value="computer">Computer</option>
                   <option value="equipment">Equipment</option>
                   <option value="laboratory">Laboratory</option>
@@ -138,7 +138,7 @@ Asset Management
             <div class="mb-3 row">
               <label for="vendor_id" class="col-sm-2 col-form-label">Vendor</label>
               <div class="col-sm-10">
-                <select name="vendor_id" id="vendor_id" class="form-control">
+                <select name="vendor_id" id="vendor_id" class="form-select">
                   @foreach ($vendors as $vendor)
                   <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
                   @endforeach
@@ -149,7 +149,7 @@ Asset Management
             <div class="mb-3 row">
               <label for="user_id" class="col-sm-2 col-form-label">User</label>
               <div class="col-sm-10">
-                <select name="user_id" id="user_id" class="form-control">
+                <select name="user_id" id="user_id" class="form-select">
                   @foreach ($users as $user)
                   <option value="{{ $user->id }}">{{ $user->name }}</option>
                   @endforeach
@@ -158,7 +158,7 @@ Asset Management
             </div>
             <!-- button -->
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-              <button type="submit" class="btn btn-primary">Filter</button>
+              <button type="submit" class="btn btn-primary" title="Filter Asset" >Filter</button>
             </div>
           </form>
         </div>
