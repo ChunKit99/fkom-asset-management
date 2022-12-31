@@ -6,6 +6,9 @@ use App\Http\Controllers\locationController;
 
 use App\Http\Controllers\assetController;
 
+use App\Http\Controllers\budgetController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,6 +39,8 @@ Route::get('/asset/search', [assetController::class, 'search']);
 Route::get('/asset/pdf', [assetController::class, 'createPDF']);
 Route::post('/Asset/sort', [assetController::class, 'sort']);
 Route::post('/Asset/filter', [assetController::class, 'filter']);
+
+Route::resource('/Budget', budgetController::class);
 
 Route::resource('/VendorManagement', vendorController::class);
 Route::resource('/LocationManagement', locationController::class);
