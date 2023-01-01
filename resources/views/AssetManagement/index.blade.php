@@ -30,7 +30,7 @@ Asset Management
           <a class="btn btn-success" title="New Asset" href="{{ url('/Asset/create') }}">
             <i class="bi bi-plus-circle"></i> Create New Asset</a>
           <a class="btn btn-secondary" title="Download as PDF" href="{{ URL::to('/asset/pdf') }}">
-            <i class="bi bi-save"></i> Export to PDF</a>
+            <i class="bi bi-file-pdf"></i> Download PDF</a>
         </div>
       </h4>
       <div class="card-body">
