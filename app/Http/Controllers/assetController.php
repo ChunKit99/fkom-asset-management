@@ -211,12 +211,11 @@ class assetController extends Controller
         $vendors = Vendor::all();
         $users = User::all();
         $locations = Location::all();
-        // return view('AssetManagement.editAsset')->with('asset', $asset)->with('users', $users)->with('vendors', $vendors)->with('locations', $locations);
         // Get the image record
-        $image = DB::table('images')->where('id', $asset->image_id)->first();
+        $image = $asset->image_path;
 
         // Generate a URL to the image file using the asset() function
-        $image_url = $image ? asset($image->path) : 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fcommons.wikimedia.org%2Fwiki%2FFile%3AImage_not_available.png&psig=AOvVaw2Hoo2LgzWlZE0konJmJV7L&ust=1672749350736000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCMCwqYnzqPwCFQAAAAAdAAAAABAE';
+        $image_url = $image ? asset($asset->image_path) : 'https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png?20210219185637';
 
         return view('AssetManagement.editAsset')->with(['asset' => $asset, 'vendors' => $vendors, 'users' => $users, 'locations' => $locations, 'image_url' => $image_url]);
 
@@ -224,32 +223,34 @@ class assetController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'serial_number' => 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
         // Retrieve the asset and the input values
         $asset = assets::find($id);
         $input = $request->all();
 
-        DB::transaction(function () use ($input, $asset) {
+        if($request->hasFile('image')){
+            Storage::delete('/storage/'.$asset->image_path);
             // Store the image file
-            $image = $input['image'];
-            $path = $image->store('public/images');
-
+            $fileName = date('YmdHis') . "_" .$request->file('image')->getClientOriginalName();
+            $path = $request->file('image')->storeAs('images', $fileName, 'public');
             // Insert the image record
-            $image_id = DB::table('images')->insertGetId([
-                'name' => $image->getClientOriginalName(),
-                'path' => $path,
-            ]);
+            $image_path = '/storage/'.$path;
+        }else{
+            $image_path = $asset->image_path;
+        }
 
-            // Update the asset record with the new image ID
-            $asset->update([
-                'serial_number' => $input['serial_number'],
-                'location_id' => $input['location_id'],
-                'category' => $input['category'],
-                'budget' => $input['budget'],
-                'vendor_id' => $input['vendor_id'],
-                'user_id' => $input['user_id'],
-                'image_id' => $image_id,
-            ]);
-        });
+        // Update the asset record with the new image ID
+        $asset->update([
+            'serial_number' => $input['serial_number'],
+            'location_id' => $input['location_id'],
+            'category' => $input['category'],
+            'vendor_id' => $input['vendor_id'],
+            'user_id' => $input['user_id'],
+            'image_path' => $image_path,
+        ]);
 
         return redirect('Asset')->with('success', 'Asset Info Updated!');
     }
