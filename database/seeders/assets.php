@@ -20,7 +20,7 @@ class assets extends Seeder
     public function run()
     {
         $faker = Faker::create();
-        foreach(range(1,50) as $value){
+        foreach(range(1,5) as $value){
             DB::table('assets') -> insert([
                 'serial_number' => $faker -> bothify('?#???###J#'),
                 //J2nsz429L8
@@ -29,6 +29,7 @@ class assets extends Seeder
                 'vendor_id' => Vendor::all()->random()->id,
                 'user_id' => User::all()->random()->id,
                 'location_id' => Location::all()->random()->id,
+                'image_path' => null,
             ]);
         }
     }

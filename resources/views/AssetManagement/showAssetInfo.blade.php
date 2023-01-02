@@ -18,6 +18,12 @@ Asset Information
           <div class="card-body">
             <h4><strong>Asset</strong></h4>
             <input type="hidden" name="id" id="id" class="form-control" value="{{$asset->id}}">
+            <!-- Image -->
+            <div class="form-group row">
+            <div class="col-sm-10">
+              <img src="{{$image_url}}" alt="Asset image" width="400" height="auto" class="img img-responsive">
+            </div>
+            </div>
             <!-- Serial Number -->
             <div class="form-group row">
               <label for="serial_number" class="col-sm-2 col-form-label"><strong>Serial Number:</strong></label>

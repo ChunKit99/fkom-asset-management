@@ -8,7 +8,7 @@ Add Asset
         <div class="card">
             <h4 class="card-header d-flex justify-content-between align-items-center">
                 <div>
-                <i class="bi bi-file-earmark-plus"></i> Asset Information Add
+                    <i class="bi bi-file-earmark-plus"></i> Asset Information Add
                 </div>
             </h4>
             <div class="card-body">
@@ -23,9 +23,13 @@ Add Asset
                 </div>
                 @endif
                 <!-- go to asset controller -->
-                <form action="{{ url('Asset') }}" method="POST">
+                <form action="{{ url('Asset') }}" method="POST" enctype="multipart/form-data">
                     {{csrf_field()}}
                     <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <label for="image" class="form-label"><strong>Images:</strong></label>
+                            <input class="form-control" type="file" id="image" name="image" accept="image/jpg,image/png,image/jpg">
+                        </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
                                 <strong>Serial Number:</strong>

@@ -19,11 +19,12 @@ return new class extends Migration
             $table->String('category');
             $table->double('budget', 8, 2);
             $table->unsignedBigInteger('location_id');
-            $table->unsignedBigInteger('vendor_id');
-            $table->unsignedBigInteger('user_id');
             $table->foreign('location_id')->references('id')->on('location')->onDelete('cascade');
+            $table->unsignedBigInteger('vendor_id');
             $table->foreign('vendor_id')->references('id')->on('vendors')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->String('image_path')->nullable();
             $table->timestamps();
         });
     }
