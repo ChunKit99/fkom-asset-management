@@ -23,12 +23,12 @@ Add Asset
                 </div>
                 @endif
                 <!-- go to asset controller -->
-                <form action="{{ url('Asset') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ url('Asset') }}" method="POST">
                     {{csrf_field()}}
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <label for="image" class="form-label"><strong>Images:</strong></label>
-                            <input class="form-control" type="file" id="image" name="image" accept="image/jpg,image/png,image/jpg">
+                            <input class="form-control" type="file" id="image" name="image" accept="image/jpg,image/png,image/jpg,image/gif,svg">
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">

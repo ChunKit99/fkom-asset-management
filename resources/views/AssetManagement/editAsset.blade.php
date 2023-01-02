@@ -21,20 +21,22 @@ Edit Asset
                 </ul>
             </div>
             @endif
-            <form action="{{ url('Asset/' . $asset->id) }}" method="POST" enctype="multipart/form-data"> 
+            <form action="{{ url('Asset/' . $asset->id) }}" method="POST" enctype="multipart/form-data">
                 {{csrf_field()}}
                 @method("PATCH")
                 <div class="card-body">
-                    <h4><strong>Asset</strong></h4>
                     <input type="hidden" name="id" id="id" class="form-control" value="{{$asset->id}}">
                     <!-- Image -->
                     <div class="form-group row">
-                        <div class="col-sm-10">
-                            <img src="{{$image_url}}" alt="Asset image" width="400" height="auto" class="img img-responsive">
+                        <div class="col-sm">
+                            <div class="text-center">
+                                <img src="{{$image_url}}" alt="Asset image" width="200" height="auto" class="img img-thumbnail">
+                            </div>
                         </div>
                     </div>
+                    <h4><strong>Asset</strong></h4>
                     <div class="form-group row">
-                    <!-- <label for="image" class="col-sm-2 col-form-label"><strong>Images:</strong></label> -->
+                        <label for="image" class="col-sm-2 col-form-label"><strong>Update Images:</strong></label>
                         <div class="col-sm">
                             <input class="form-control" type="file" id="image" name="image" accept="image/jpg,image/png,image/jpg">
                         </div>
