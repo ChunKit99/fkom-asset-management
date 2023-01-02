@@ -12,7 +12,7 @@ use App\Models\Location;
 use Illuminate\Http\Request;
 use PDF;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class assetController extends Controller
 {
@@ -84,13 +84,6 @@ class assetController extends Controller
     // Generate PDF
     public function createPDF(Request $request)
     {
-        // retreive all records from db
-        // $data = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
-        //     ->join('users', 'users.id', '=', 'assets.user_id')
-        //     ->join('location', 'location.id', '=', 'assets.location_id')
-        //     ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
-        //     ->orderBy('assets.id', 'ASC')
-        //     ->get();
         $assets = session()->get('assets');
         // share data to view
         // view()->share('pdfview',$data);
@@ -144,15 +137,6 @@ class assetController extends Controller
         return view('AssetManagement.addAsset')->with(['vendors' => $vendors, 'users' => $users, 'locations' => $locations]);
     }
 
-
-    // public function store(Request $request)
-    // {
-    //     $input = $request->all();
-    //     assets::create($input);
-    //     return redirect('Asset')->with('success', 'New Asset Added!');
-    // }
-
-
     public function store(Request $request)
     {
         $request->validate([
@@ -164,7 +148,7 @@ class assetController extends Controller
 
         if($request->hasFile('image')){
             // Store the image file
-            $fileName = date('YmdHis') . "_" .$request->file('image')->getClientOriginalName();
+            $fileName = date('Y_m_d_His') . "_" .$request->file('image')->getClientOriginalName();
             $path = $request->file('image')->storeAs('images', $fileName, 'public');
             // Insert the image record
             $image_path = '/storage/'.$path;
@@ -232,9 +216,12 @@ class assetController extends Controller
         $input = $request->all();
 
         if($request->hasFile('image')){
-            Storage::delete('/storage/'.$asset->image_path);
+            if (File::exists(public_path($asset->image_path))) {
+                // Delete file
+                File::delete(public_path($asset->image_path));
+            }
             // Store the image file
-            $fileName = date('YmdHis') . "_" .$request->file('image')->getClientOriginalName();
+            $fileName = date('Y_m_d_His') . "_" .$request->file('image')->getClientOriginalName();
             $path = $request->file('image')->storeAs('images', $fileName, 'public');
             // Insert the image record
             $image_path = '/storage/'.$path;
@@ -257,15 +244,12 @@ class assetController extends Controller
 
     public function destroy($id)
     {
+        $asset = assets::find($id);
+        if (File::exists(public_path($asset->image_path))) {
+            // Delete file
+            File::delete(public_path($asset->image_path));
+        }
         assets::destroy($id);
         return redirect('Asset')->with('success', 'Asset Deleted!');
     }
 }
-
-
-//public function index()
-//{
-    // $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
-    // ->join('users', 'users.id', '=', 'assets.user_id')
-    // ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name')
-    // ->get();
