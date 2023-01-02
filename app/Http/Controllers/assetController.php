@@ -27,36 +27,36 @@ class assetController extends Controller
             ->join('location', 'location.id', '=', 'assets.location_id')
             ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name');
 
-            $criteria = $request->input('filter_category');
-                switch ($criteria) {
-                    case 'apply_all':
-                        $location_id = $request->input('location_id');
-                        $category = $request->input('category');
-                        $category = $request->input('category');
-                        $vendor = $request->input('vendor_id');
-                        $user = $request->input('user_id');
-                        $query->where('assets.location_id', '=', $location_id)
-                        ->where('assets.category', '=', $category)
-                        ->where('vendors.id', '=', $vendor)
-                        ->where('users.id', '=', $user);
-                        break;
-                    case 'location':
-                        $location_id = $request->input('location_id');
-                        $query->where('assets.location_id', '=', $location_id);
-                        break;
-                    case 'category':
-                        $category = $request->input('category');
-                        $query->where('assets.category', '=', $category);
-                        break;
-                    case 'vendor':
-                        $vendor = $request->input('vendor_id');
-                        $query->where('vendors.id', '=', $vendor);
-                        break;
-                    case 'user':
-                        $user = $request->input('user_id');
-                        $query->where('users.id', '=', $user);
-                        break;
-                }
+        $criteria = $request->input('filter_category');
+        switch ($criteria) {
+            case 'apply_all':
+                $location_id = $request->input('location_id');
+                $category = $request->input('category');
+                $category = $request->input('category');
+                $vendor = $request->input('vendor_id');
+                $user = $request->input('user_id');
+                $query->where('assets.location_id', '=', $location_id)
+                    ->where('assets.category', '=', $category)
+                    ->where('vendors.id', '=', $vendor)
+                    ->where('users.id', '=', $user);
+                break;
+            case 'location':
+                $location_id = $request->input('location_id');
+                $query->where('assets.location_id', '=', $location_id);
+                break;
+            case 'category':
+                $category = $request->input('category');
+                $query->where('assets.category', '=', $category);
+                break;
+            case 'vendor':
+                $vendor = $request->input('vendor_id');
+                $query->where('vendors.id', '=', $vendor);
+                break;
+            case 'user':
+                $user = $request->input('user_id');
+                $query->where('users.id', '=', $user);
+                break;
+        }
         $assets = $query->orderBy('assets.id', 'ASC')->get();
         session()->put('assets', $assets);
         session()->put('assetsAction', 'Filtered');
@@ -70,14 +70,30 @@ class assetController extends Controller
         $users = User::all();
         $locations = Location::all();
         $category = $request->input('sort_category');
-        $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
-            ->join('users', 'users.id', '=', 'assets.user_id')
-            ->join('location', 'location.id', '=', 'assets.location_id')
-            ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
-            ->orderBy($category, 'ASC')
-            ->get();
-            session()->put('assets', $assets);  
-            session()->put('assetsAction', 'Sorted');
+        if ($category == 'default_lo') {
+            $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
+                ->join('users', 'users.id', '=', 'assets.user_id')
+                ->join('location', 'location.id', '=', 'assets.location_id')
+                ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
+                ->orderBy('assets.id', 'DESC')
+                ->get();
+        } else if ($category == 'default_ol') {
+            $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
+                ->join('users', 'users.id', '=', 'assets.user_id')
+                ->join('location', 'location.id', '=', 'assets.location_id')
+                ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
+                ->orderBy('assets.id', 'ASC')
+                ->get();
+        } else {
+            $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
+                ->join('users', 'users.id', '=', 'assets.user_id')
+                ->join('location', 'location.id', '=', 'assets.location_id')
+                ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
+                ->orderBy($category, 'ASC')
+                ->get();
+        }
+        session()->put('assets', $assets);
+        session()->put('assetsAction', 'Sorted');
         return view('AssetManagement.index')->with(['assets' => $assets, 'vendors' => $vendors, 'users' => $users, 'locations' => $locations]);
     }
 
@@ -122,7 +138,7 @@ class assetController extends Controller
             ->join('users', 'users.id', '=', 'assets.user_id')
             ->join('location', 'location.id', '=', 'assets.location_id')
             ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
-            ->orderBy('assets.id', 'ASC')
+            ->orderBy('assets.id', 'DESC')
             ->get();
         session()->put('assets', $assets);
         session()->put('assetsAction', 'All');
@@ -146,16 +162,16 @@ class assetController extends Controller
         ]);
         $input = $request->all();
 
-        if($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             // Store the image file
-            $fileName = date('Y_m_d_His') . "_" .$request->file('image')->getClientOriginalName();
+            $fileName = date('Y_m_d_His') . "_" . $request->file('image')->getClientOriginalName();
             $path = $request->file('image')->storeAs('images', $fileName, 'public');
             // Insert the image record
-            $image_path = '/storage/'.$path;
-        }else{
+            $image_path = '/storage/' . $path;
+        } else {
             $image_path = null;
         }
-        
+
         // Insert the asset record
         assets::create([
             'serial_number' => $input['serial_number'],
@@ -178,7 +194,7 @@ class assetController extends Controller
         $user = User::find($asset->user_id);
         $location = Location::find($asset->location_id);
         // return view('AssetManagement.showAssetInfo')->with(['asset' => $asset, 'vendor' => $vendor, 'user' => $user, 'location' => $location]);
-        
+
         // Get the image record
         $image = $asset->image_path;
 
@@ -202,7 +218,6 @@ class assetController extends Controller
         $image_url = $image ? asset($asset->image_path) : 'https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png?20210219185637';
 
         return view('AssetManagement.editAsset')->with(['asset' => $asset, 'vendors' => $vendors, 'users' => $users, 'locations' => $locations, 'image_url' => $image_url]);
-
     }
 
     public function update(Request $request, $id)
@@ -215,17 +230,17 @@ class assetController extends Controller
         $asset = assets::find($id);
         $input = $request->all();
 
-        if($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             if (File::exists(public_path($asset->image_path))) {
                 // Delete file
                 File::delete(public_path($asset->image_path));
             }
             // Store the image file
-            $fileName = date('Y_m_d_His') . "_" .$request->file('image')->getClientOriginalName();
+            $fileName = date('Y_m_d_His') . "_" . $request->file('image')->getClientOriginalName();
             $path = $request->file('image')->storeAs('images', $fileName, 'public');
             // Insert the image record
-            $image_path = '/storage/'.$path;
-        }else{
+            $image_path = '/storage/' . $path;
+        } else {
             $image_path = $asset->image_path;
         }
 

@@ -19,11 +19,13 @@ Asset Information
             <input type="hidden" name="id" id="id" class="form-control" value="{{$asset->id}}">
             <!-- Image -->
             <div class="form-group row">
-            <div class="col-sm">
-            <div class="text-center">
-              <img src="{{$image_url}}" alt="Asset image" width="200" height="auto" class="img img-thumbnail">
-            </div>
-            </div>
+              <div class="col-sm">
+                <div class="text-center">
+                  <a href="{{$image_url}}" target="_blank" title="Open in New Page">
+                    <img src="{{$image_url}}" alt="Asset image" width="200" height="auto" class="img img-thumbnail">
+                  </a>
+                </div>
+              </div>
             </div>
             <h4><strong>Asset</strong></h4>
             <!-- Serial Number -->
@@ -99,17 +101,17 @@ Asset Information
               </div>
             </div>
           </div>
-      <div class="card-body">
-        <!-- button -->
-        <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-          <a class="btn btn-info" href="{{ url('Asset') }}"> Back</a>
-        </div>
+          <div class="card-body">
+            <!-- button -->
+            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+              <a class="btn btn-info" href="{{ url('Asset') }}"> Back</a>
+            </div>
         </form>
-        </div>
-
       </div>
+
     </div>
   </div>
+</div>
 </div>
 </div>
 @endsection

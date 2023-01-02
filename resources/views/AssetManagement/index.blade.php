@@ -58,6 +58,8 @@ Asset Management
                 @csrf
                 <!-- <label for="sort_category" class="form-control">Sort by:</label> -->
                 <select name="sort_category" id="sort_category" class="form-select">
+                  <option value="default_lo">Default (latest to oldest)</option>
+                  <option value="default_ol">Default (oldest to latest)</option>
                   <option value="location_id">Location</option>
                   <option value="category">Category</option>
                   <option value="budget">Budget</option>
@@ -76,16 +78,6 @@ Asset Management
               <i class="bi bi-filter"></i> Filter by <i class="bi bi-arrows-collapse"></i>
             </a>
           </div>
-          <!-- New Asset -->
-          <!-- <div class="col col-md-auto">
-            <a class="btn btn-success" title="New Asset" href="{{ url('/Asset/create') }}">
-              <i class="bi bi-plus-circle"></i> Create New Asset</a>
-        </div> -->
-          <!-- PDF -->
-          <!-- <div class="col col-md-auto">
-            <a class="btn btn-secondary" title="Download as PDF" href="{{ URL::to('/asset/pdf') }}">
-              <i class="bi bi-save"></i> Export to PDF</a>
-          </div> -->
         </div>
       </div>
       <div class="collapse" id="collapseFilter">
@@ -101,7 +93,7 @@ Asset Management
                   <option value="location">Location</option>
                   <option value="category">Category</option>
                   <option value="vendor">Vendor</option>
-                  <option value="user">User</option>
+                  <option value="user">Responsible</option>
                 </select>
                 <span id="filterCategoryHelpInline" class="form-text">
                   Apply all will filter and match all the condition. Other option will only apply the selected filter category value.
@@ -147,7 +139,7 @@ Asset Management
             </div>
             <!-- user id -->
             <div class="mb-3 row">
-              <label for="user_id" class="col-sm-2 col-form-label">User</label>
+              <label for="user_id" class="col-sm-2 col-form-label">Responsible</label>
               <div class="col-sm-10">
                 <select name="user_id" id="user_id" class="form-select">
                   @foreach ($users as $user)

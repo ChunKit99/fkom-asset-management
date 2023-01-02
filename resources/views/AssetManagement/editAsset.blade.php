@@ -35,6 +35,7 @@ Edit Asset
                         </div>
                     </div>
                     <h4><strong>Asset</strong></h4>
+
                     <div class="form-group row">
                         <label for="image" class="col-sm-2 col-form-label"><strong>Update Images:</strong></label>
                         <div class="col-sm">
