@@ -29,7 +29,11 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    require 'admin.php';
 });
+
+
 
 Route::resource('/Asset', assetController::class);
 Route::get('/asset/search', [assetController::class, 'search']);
