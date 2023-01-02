@@ -4,9 +4,10 @@ namespace App\Http\Controllers\budgetController;
 
 namespace App\Http\Controllers;
 
+use DB;
+
 use App\Models\assets;
 use Illuminate\Http\Request;
-
 
 class budgetController extends Controller
 {
@@ -34,11 +35,12 @@ class budgetController extends Controller
 
     public function show(Request $request, $id)
     {
-        $assets = assets::select('assets.*')
-        ->orderBy('assets.category', 'ASC')
-        ->get();
-
-        return view('BudgetManagement.graphBudget', ['assets'=>$assets]);
+        $asset = DB::select(DB::raw("SELECT category, SUM(budget) as total FROM assets GROUP BY category;"));
+        $data_array=array();
+        foreach ($asset as $val) {
+            array_push($data_array, "['".$val->category."',".$val->total."],");
+        }
+        return view('BudgetManagement.graphBudget')->with('data', $data_array);
     }
     
 }
