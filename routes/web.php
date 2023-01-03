@@ -3,8 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\vendorController;
 use App\Http\Controllers\locationController;
-
 use App\Http\Controllers\assetController;
+use App\Http\Controllers\Admin\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,19 +21,20 @@ Route::get('/', function () {
     return view('/auth/login');
 });
 
-Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+// Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])->group(function () {
 
-    require 'admin.php';
-});
+//     Route::get('/dashboard', function () {
+//         return view('dashboard');
+//     })->name('dashboard');
 
-// Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-//     return view('dashboard');
-// })->name('dashboard');
+//         require 'admin.php';   
+// });
 
-// require 'admin.php';
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
+
+require 'admin.php';
 
 
 Route::resource('/Asset', assetController::class);
