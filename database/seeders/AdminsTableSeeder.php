@@ -2,8 +2,11 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+
+use App\Models\Admin;
+use Faker\Factory as Faker;
+
 
 class AdminsTableSeeder extends Seeder
 {
@@ -14,13 +17,12 @@ class AdminsTableSeeder extends Seeder
      */
     public function run()
     {
-        //
-        $faker =Faker::create();
+        $faker = Faker::create();
 
         Admin::create([
-            'name' => $faker->name,
-            'email' => 'admin@gmail.com',
-            'password' => bcrypt('password'),
+            'name'      =>  $faker->name,
+            'email'=>'admin@petakom.com',
+            'password'=> bcrypt('123456'),
         ]);
     }
 }

@@ -21,11 +21,7 @@ Route::get('/', function () {
     return view('/auth/login');
 });
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified'
-])->group(function () {
+Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
@@ -33,6 +29,11 @@ Route::middleware([
     require 'admin.php';
 });
 
+// Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+//     return view('dashboard');
+// })->name('dashboard');
+
+// require 'admin.php';
 
 
 Route::resource('/Asset', assetController::class);
@@ -43,3 +44,5 @@ Route::post('/Asset/filter', [assetController::class, 'filter']);
 
 Route::resource('/VendorManagement', vendorController::class);
 Route::resource('/LocationManagement', locationController::class);
+
+

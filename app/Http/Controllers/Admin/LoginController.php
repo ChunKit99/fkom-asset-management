@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Auth;
+
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr; 
+// use Illuminate\Support\Arr; 
 use App\Http\Controllers\Controller;
-use Illuminate\Auth\AuthenticationException; 
+// use Illuminate\Auth\AuthenticationException; 
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
