@@ -18,13 +18,10 @@ Asset Management
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
-    <!-- @foreach ($assets as $asset)
-    {{ $asset->id }}
-    @endforeach -->
     <div class="card">
       <h4 class="card-header d-flex justify-content-between align-items-center">
         <div>
-          <i class="fal fa-coins"></i> <a href="{{ url('/Asset') }} "class="link-dark text-decoration-none">Asset</a>
+          <i class="fal fa-coins"></i> <a href="{{ url('/Asset') }} " class="link-dark text-decoration-none">Asset</a>
         </div>
         <div class="btn-group" role="group" aria-label="button group">
           <a class="btn btn-success" title="New Asset" href="{{ url('/Asset/create') }}">
@@ -150,7 +147,7 @@ Asset Management
             </div>
             <!-- button -->
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-              <button type="submit" class="btn btn-primary" title="Filter Asset" >Filter</button>
+              <button type="submit" class="btn btn-primary" title="Filter Asset">Filter</button>
             </div>
           </form>
         </div>
@@ -179,7 +176,6 @@ Asset Management
               <tbody>
                 @foreach ($assets as $asset)
                 <tr>
-                  <!--  {{ $asset->vendor_name }} | {{ $asset->user_name }} if using join -->
                   <td scope="row">{{ $loop->iteration }}</td>
                   <!--Serial Number-->
                   <td>{{ $asset->serial_number }}</td>
@@ -254,9 +250,9 @@ Asset Management
               <!--Table body-->
               @else
               <tbody>
-              <tr>
-              <td colspan="8" class="table-active">No record found</td>
-              </tr>
+                <tr>
+                  <td colspan="8" class="table-active">No record found</td>
+                </tr>
               </tbody>
               @endif
             </table>
