@@ -119,9 +119,11 @@ class assetController extends Controller
             $user = User::find($asset->user_id);
             $location = Location::find($asset->location_id);
             // return view('AssetManagement.showAssetInfo')->with(['asset' => $asset, 'vendor' => $vendor, 'user' => $user, 'locations' => $location]);
-            $image = DB::table('images')->where('id', $asset->image_id)->first();
+            // Get the image record
+            $image = $asset->image_path;
+
             // Generate a URL to the image file using the asset() function
-            $image_url = asset($image->path);
+            $image_url = $image ? asset($asset->image_path) : 'https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png?20210219185637';
 
             return view('AssetManagement.showAssetInfo')->with(['asset' => $asset, 'vendor' => $vendor, 'user' => $user, 'location' => $location, 'image_url' => $image_url]);
         } else {
