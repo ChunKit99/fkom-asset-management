@@ -5,6 +5,7 @@ use App\Http\Controllers\vendorController;
 use App\Http\Controllers\locationController;
 use App\Http\Controllers\assetController;
 use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,9 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 })->name('dashboard');
 
 require 'admin.php';
+
+Route::resource('/admin', AdminController::class);
+Route::resource('/FacultyMember', FacultyMemberController::class);
 
 
 Route::resource('/Asset', assetController::class);
