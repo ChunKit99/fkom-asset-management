@@ -6,12 +6,14 @@
                 <div class="card">
                     <div class="card-header">Location</div>
                         <div class="card-body">
+                            
                             <a href="{{ url('/LocationManagement/create') }}">
-                                <button class="icon-btn add-btn">
-                                    <div class="add-icon"></div>
-                                    <div class="btn-txt">Add Location</div>
-                                </button>
+                                    <button> New Location
+                                      <span></span>
+                                    </button>
                             </a>
+                            
+
                             <br/>
                             <br/>
                             <div class="table-responsive">
@@ -29,13 +31,16 @@
                                             <td>{{ $loop->iteration}}</td>
                                             <td>{{ $item->name}}</td>
                                             <td>
-                                                <a href="{{ url('/LocationManagement/' .$item->id) }}" title="View Location"> <button class="btn btn-info btn-sm"> <i class="fa fa-eye" aria hidden="true"></i>View</button></a>
-                                                <a href="{{ url('/LocationManagement/' .$item->id . '/edit') }}" title="Edit Location"> <button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Edit</button></a>
-                                                <form method="POST" action="{{ url('/LocationManagement/' .$item->id) }}" accept-charset="UTF-8" style="display:inline">
-                                                    {{ method_field('DELETE') }}
-                                                    {{ csrf_field() }}
-                                                    <button type="submit" class="btn btn-danger btn-sm" title="Delete Location" onclick="return confirm(&quot;Confirm delete?&quot;)">
-                                                    <i class="fa fa-trash-o" aria-hidden="true"></i>Delete</button>
+                                                <a href="{{ url('/LocationManagement/' .$item->id) }}" title="View Vendor"> <button class="btn btn-info btn-sm"> <i class="bi bi-eye"></i>View</button></a>
+
+                                                <a href="{{ url('/LocationManagement/' .$item->id . '/edit') }}" title="Edit Vendor"> <button class="btn btn-primary btn-sm"><i class="bi bi-pencil-square"></i>Edit</button></a> 
+                                                  {{ method_field('DELETE') }}
+                                                  {{ csrf_field() }}
+                                                  <button type="submit" class="btn btn-danger btn-sm" title="Delete Vendor" onclick="return confirm(&quot;Confirm delete?&quot;)">
+                                                  <i class="bi bi-trash"></i>Delete</button>
+                                                  {{ method_field('DELETE') }}
+                                                  {{ csrf_field() }}
+                
                                                 </form>
                                             </td>
                                         </tr>
@@ -53,99 +58,57 @@
     </div>
 @endsection
 <style>
-.icon-btn {
-  width: 50px;
-  height: 50px;
-  border: 1px solid #cdcdcd;
-  background: white;
-  border-radius: 25px;
-  overflow: hidden;
-  position: relative;
-  transition: width 0.2s ease-in-out;
-  font-weight: 500;
-  font-family: inherit;
+button {
+ border: none;
+ display: block;
+ position: relative;
+ padding: 0.7em 2.4em;
+ font-size: 18px;
+ background: transparent;
+ cursor: pointer;
+ user-select: none;
+ overflow: hidden;
+ color: royalblue;
+ z-index: 1;
+ font-family: inherit;
+ font-weight: 500;
 }
 
-.add-btn:hover {
-  width: 120px;
+button span {
+ position: absolute;
+ left: 0;
+ top: 0;
+ width: 100%;
+ height: 100%;
+ background: transparent;
+ z-index: -1;
+ border: 4px solid royalblue;
 }
 
-.add-btn::before,
-.add-btn::after {
-  transition: width 0.2s ease-in-out, border-radius 0.2s ease-in-out;
-  content: "";
-  position: absolute;
-  height: 4px;
-  width: 10px;
-  top: calc(50% - 2px);
-  background: seagreen;
+button span::before {
+ content: "";
+ display: block;
+ position: absolute;
+ width: 8%;
+ height: 500%;
+ background: var(--lightgray);
+ top: 50%;
+ left: 50%;
+ transform: translate(-50%, -50%) rotate(-60deg);
+ transition: all 0.3s;
 }
 
-.add-btn::after {
-  right: 14px;
-  overflow: hidden;
-  border-top-right-radius: 2px;
-  border-bottom-right-radius: 2px;
+button:hover span::before {
+ transform: translate(-50%, -50%) rotate(-90deg);
+ width: 100%;
+ background: royalblue;
 }
 
-.add-btn::before {
-  left: 14px;
-  border-top-left-radius: 2px;
-  border-bottom-left-radius: 2px;
+button:hover {
+ color: white;
 }
 
-.icon-btn:focus {
-  outline: none;
-}
-
-.btn-txt {
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-
-.add-btn:hover::before,
-.add-btn:hover::after {
-  width: 4px;
-  border-radius: 2px;
-}
-
-.add-btn:hover .btn-txt {
-  opacity: 1;
-}
-
-.add-icon::after,
-.add-icon::before {
-  transition: all 0.2s ease-in-out;
-  content: "";
-  position: absolute;
-  height: 20px;
-  width: 2px;
-  top: calc(50% - 10px);
-  background: seagreen;
-  overflow: hidden;
-}
-
-.add-icon::before {
-  left: 22px;
-  border-top-left-radius: 2px;
-  border-bottom-left-radius: 2px;
-}
-
-.add-icon::after {
-  right: 22px;
-  border-top-right-radius: 2px;
-  border-bottom-right-radius: 2px;
-}
-
-.add-btn:hover .add-icon::before {
-  left: 15px;
-  height: 4px;
-  top: calc(50% - 2px);
-}
-
-.add-btn:hover .add-icon::after {
-  right: 15px;
-  height: 4px;
-  top: calc(50% - 2px);
+button:active span::before {
+ background: #2751cd;
 }
 </style>
