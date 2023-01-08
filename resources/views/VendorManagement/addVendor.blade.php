@@ -1,4 +1,4 @@
-@extends('VendorManagement.VendorLayout')
+@extends('layout')
 @section('content')
 <div class="card">
     <div class="card-header">VendorManagement</div>

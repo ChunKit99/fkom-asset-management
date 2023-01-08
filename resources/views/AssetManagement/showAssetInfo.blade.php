@@ -16,8 +16,18 @@ Asset Information
           {{csrf_field()}}
           @method("GET")
           <div class="card-body">
-            <h4><strong>Asset</strong></h4>
             <input type="hidden" name="id" id="id" class="form-control" value="{{$asset->id}}">
+            <!-- Image -->
+            <div class="form-group row">
+              <div class="col-sm">
+                <div class="text-center">
+                  <a href="{{$image_url}}" target="_blank" title="Open in New Page">
+                    <img src="{{$image_url}}" alt="Asset image" width="200" height="auto" class="img img-thumbnail">
+                  </a>
+                </div>
+              </div>
+            </div>
+            <h4><strong>Asset</strong></h4>
             <!-- Serial Number -->
             <div class="form-group row">
               <label for="serial_number" class="col-sm-2 col-form-label"><strong>Serial Number:</strong></label>
@@ -29,7 +39,7 @@ Asset Information
             <div class="form-group row">
               <label for="location" class="col-sm-2 col-form-label"><strong>Location:</strong></label>
               <div class="col-sm-10">
-                <input type="text" name="location" id="location" class="form-control-plaintext" value="{{$locations->name}}" readonly>
+                <input type="text" name="location" id="location" class="form-control-plaintext" value="{{$location->name}}" readonly>
               </div>
             </div>
             <!-- category -->
@@ -91,17 +101,17 @@ Asset Information
               </div>
             </div>
           </div>
-      <div class="card-body">
-        <!-- button -->
-        <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-          <a class="btn btn-info" href="{{ url('Asset') }}"> Back</a>
-        </div>
+          <div class="card-body">
+            <!-- button -->
+            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+              <a class="btn btn-info" href="{{ url('Asset') }}"> Back</a>
+            </div>
         </form>
-        </div>
-
       </div>
+
     </div>
   </div>
+</div>
 </div>
 </div>
 @endsection

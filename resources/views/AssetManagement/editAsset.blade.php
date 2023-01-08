@@ -21,12 +21,27 @@ Edit Asset
                 </ul>
             </div>
             @endif
-            <form action="{{ url('Asset/' . $asset->id) }}" method="POST">
+            <form action="{{ url('Asset/' . $asset->id) }}" method="POST" enctype="multipart/form-data">
                 {{csrf_field()}}
                 @method("PATCH")
                 <div class="card-body">
-                    <h4><strong>Asset</strong></h4>
                     <input type="hidden" name="id" id="id" class="form-control" value="{{$asset->id}}">
+                    <!-- Image -->
+                    <div class="form-group row">
+                        <div class="col-sm">
+                            <div class="text-center">
+                                <img src="{{$image_url}}" alt="Asset image" width="200" height="auto" class="img img-thumbnail">
+                            </div>
+                        </div>
+                    </div>
+                    <h4><strong>Asset</strong></h4>
+                    <div class="form-group row">
+                        <label for="image" class="col-sm-2 col-form-label"><strong>Update Images:</strong></label>
+                        <div class="col-sm">
+                            <input class="form-control" type="file" id="image" name="image" accept="image/jpg,image/png,image/jpg">
+                        </div>
+                    </div>
+
                     <!-- Serial Number -->
                     <div class="form-group row">
                         <label for="serial_number" class="col-sm-2 col-form-label"><strong>Serial Number:</strong></label>
@@ -38,7 +53,7 @@ Edit Asset
                     <div class="form-group row">
                         <label for="location_id" class="col-sm-2 col-form-label"><strong>Location:</strong></label>
                         <div class="col-sm-10">
-                            <select name="location_id" id="location_id" class="form-control">
+                            <select name="location_id" id="location_id" class="form-select">
                                 @foreach($locations as $location)
                                 <option value="{{ $location->id }}" {{ $location->id == $asset->location_id ? 'selected' : '' }}>{{ $location->name }}</option>
                                 @endforeach
@@ -49,7 +64,7 @@ Edit Asset
                     <div class="form-group row">
                         <label for="category" class="col-sm-2 col-form-label"><strong>Category:</strong></label>
                         <div class="col-sm-10">
-                            <select name="category" id="category" class="form-control">
+                            <select name="category" id="category" class="form-select">
                                 <option value="computer" {{ $asset->category == 'computer' ? 'selected' : '' }}>Computer</option>
                                 <option value="equipment" {{ $asset->category == 'equipment' ? 'selected' : '' }}>Equipment</option>
                                 <option value="laboratory" {{ $asset->category == 'laboratory' ? 'selected' : '' }}>Laboratory</option>
@@ -63,8 +78,8 @@ Edit Asset
                     <!-- Budget -->
                     <div class="form-group row">
                         <label for="category" class="col-sm-2 col-form-label"><strong>Budget:</strong></label>
-                        <div class="col-sm-10">
-                            <input type="text" name="budget" id="budget" class="form-control" value="{{$asset->budget}}">
+                        <div class="col-sm-2">
+                            <a href="#" class="link-dark text-decoration-none form-control-plaintext" title="Go to Budget Management">{{$asset->budget}}</a>
                         </div>
                     </div>
                 </div>
@@ -75,7 +90,7 @@ Edit Asset
                     <div class="form-group row">
                         <label for="vendor_id" class="col-sm-2 col-form-label"><strong>Name:</strong></label>
                         <div class="col-sm-10">
-                            <select name="vendor_id" id="vendor_id" class="form-control">
+                            <select name="vendor_id" id="vendor_id" class="form-select">
                                 @foreach($vendors as $vendor)
                                 <option value="{{ $vendor->id }}" {{ $vendor->id == $asset->vendor_id ? 'selected' : '' }}>{{ $vendor->name }}</option>
                                 @endforeach
@@ -89,7 +104,7 @@ Edit Asset
                     <div class="form-group row">
                         <label for="user_name" class="col-sm-2 col-form-label"><strong>Username:</strong></label>
                         <div class="col-sm-10">
-                            <select name="user_id" id="user_id" class="form-control">
+                            <select name="user_id" id="user_id" class="form-select">
                                 @foreach ($users as $user)
                                 <option value="{{ $user->id }}" {{ $user->id == $asset->user_id ? 'selected' : '' }}>{{ $user->name }}</option>
                                 @endforeach
@@ -97,7 +112,7 @@ Edit Asset
                         </div>
                     </div>
                 </div>
-                <div class="card-body">    
+                <div class="card-body">
                     <!-- button -->
                     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                         <button type="submit" class="btn btn-primary">Submit</button>

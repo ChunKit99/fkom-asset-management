@@ -11,6 +11,8 @@ use App\Models\Vendor;
 use App\Models\Location;
 use Illuminate\Http\Request;
 use PDF;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class assetController extends Controller
 {
@@ -25,37 +27,39 @@ class assetController extends Controller
             ->join('location', 'location.id', '=', 'assets.location_id')
             ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name');
 
-            $criteria = $request->input('filter_category');
-                switch ($criteria) {
-                    case 'apply_all':
-                        $location_id = $request->input('location_id');
-                        $category = $request->input('category');
-                        $category = $request->input('category');
-                        $vendor = $request->input('vendor_id');
-                        $user = $request->input('user_id');
-                        $query->where('assets.location_id', '=', $location_id)
-                        ->where('assets.category', '=', $category)
-                        ->where('vendors.id', '=', $vendor)
-                        ->where('users.id', '=', $user);
-                        break;
-                    case 'location':
-                        $location_id = $request->input('location_id');
-                        $query->where('assets.location_id', '=', $location_id);
-                        break;
-                    case 'category':
-                        $category = $request->input('category');
-                        $query->where('assets.category', '=', $category);
-                        break;
-                    case 'vendor':
-                        $vendor = $request->input('vendor_id');
-                        $query->where('vendors.id', '=', $vendor);
-                        break;
-                    case 'user':
-                        $user = $request->input('user_id');
-                        $query->where('users.id', '=', $user);
-                        break;
-                }
+        $criteria = $request->input('filter_category');
+        switch ($criteria) {
+            case 'apply_all':
+                $location_id = $request->input('location_id');
+                $category = $request->input('category');
+                $category = $request->input('category');
+                $vendor = $request->input('vendor_id');
+                $user = $request->input('user_id');
+                $query->where('assets.location_id', '=', $location_id)
+                    ->where('assets.category', '=', $category)
+                    ->where('vendors.id', '=', $vendor)
+                    ->where('users.id', '=', $user);
+                break;
+            case 'location':
+                $location_id = $request->input('location_id');
+                $query->where('assets.location_id', '=', $location_id);
+                break;
+            case 'category':
+                $category = $request->input('category');
+                $query->where('assets.category', '=', $category);
+                break;
+            case 'vendor':
+                $vendor = $request->input('vendor_id');
+                $query->where('vendors.id', '=', $vendor);
+                break;
+            case 'user':
+                $user = $request->input('user_id');
+                $query->where('users.id', '=', $user);
+                break;
+        }
         $assets = $query->orderBy('assets.id', 'ASC')->get();
+        session()->put('assets', $assets);
+        session()->put('assetsAction', 'Filtered');
         // Return the view with the assets variable
         return view('AssetManagement.index')->with(['assets' => $assets, 'vendors' => $vendors, 'users' => $users, 'locations' => $locations]);
     }
@@ -66,28 +70,40 @@ class assetController extends Controller
         $users = User::all();
         $locations = Location::all();
         $category = $request->input('sort_category');
-        $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
-            ->join('users', 'users.id', '=', 'assets.user_id')
-            ->join('location', 'location.id', '=', 'assets.location_id')
-            ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
-            ->orderBy($category, 'ASC')
-            ->get();
+        if ($category == 'default_lo') {
+            $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
+                ->join('users', 'users.id', '=', 'assets.user_id')
+                ->join('location', 'location.id', '=', 'assets.location_id')
+                ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
+                ->orderBy('assets.id', 'DESC')
+                ->get();
+        } else if ($category == 'default_ol') {
+            $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
+                ->join('users', 'users.id', '=', 'assets.user_id')
+                ->join('location', 'location.id', '=', 'assets.location_id')
+                ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
+                ->orderBy('assets.id', 'ASC')
+                ->get();
+        } else {
+            $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
+                ->join('users', 'users.id', '=', 'assets.user_id')
+                ->join('location', 'location.id', '=', 'assets.location_id')
+                ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
+                ->orderBy($category, 'ASC')
+                ->get();
+        }
+        session()->put('assets', $assets);
+        session()->put('assetsAction', 'Sorted');
         return view('AssetManagement.index')->with(['assets' => $assets, 'vendors' => $vendors, 'users' => $users, 'locations' => $locations]);
     }
 
     // Generate PDF
-    public function createPDF()
+    public function createPDF(Request $request)
     {
-        // retreive all records from db
-        $data = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
-            ->join('users', 'users.id', '=', 'assets.user_id')
-            ->join('location', 'location.id', '=', 'assets.location_id')
-            ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
-            ->orderBy('assets.id', 'ASC')
-            ->get();
+        $assets = session()->get('assets');
         // share data to view
         // view()->share('pdfview',$data);
-        $pdf = PDF::loadView(('AssetManagement.pdfview'), array('assets' =>  $data))
+        $pdf = PDF::loadView(('AssetManagement.pdfview'), array('assets' =>  $assets))
             ->setPaper('a4', 'portrait');
         // download PDF file with download method
         return $pdf->download('pdf_file.pdf');
@@ -102,7 +118,14 @@ class assetController extends Controller
             $vendor = Vendor::find($asset->vendor_id);
             $user = User::find($asset->user_id);
             $location = Location::find($asset->location_id);
-            return view('AssetManagement.showAssetInfo')->with(['asset' => $asset, 'vendor' => $vendor, 'user' => $user, 'locations' => $location]);
+            // return view('AssetManagement.showAssetInfo')->with(['asset' => $asset, 'vendor' => $vendor, 'user' => $user, 'locations' => $location]);
+            // Get the image record
+            $image = $asset->image_path;
+
+            // Generate a URL to the image file using the asset() function
+            $image_url = $image ? asset($asset->image_path) : 'https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png?20210219185637';
+
+            return view('AssetManagement.showAssetInfo')->with(['asset' => $asset, 'vendor' => $vendor, 'user' => $user, 'location' => $location, 'image_url' => $image_url]);
         } else {
             return redirect('Asset')->with('warning', 'No record found!');
         }
@@ -117,8 +140,10 @@ class assetController extends Controller
             ->join('users', 'users.id', '=', 'assets.user_id')
             ->join('location', 'location.id', '=', 'assets.location_id')
             ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
-            ->orderBy('assets.id', 'ASC')
+            ->orderBy('assets.id', 'DESC')
             ->get();
+        session()->put('assets', $assets);
+        session()->put('assetsAction', 'All');
         return view('AssetManagement.index')->with(['assets' => $assets, 'vendors' => $vendors, 'users' => $users, 'locations' => $locations]);
     }
 
@@ -130,21 +155,55 @@ class assetController extends Controller
         return view('AssetManagement.addAsset')->with(['vendors' => $vendors, 'users' => $users, 'locations' => $locations]);
     }
 
-
     public function store(Request $request)
     {
+        $request->validate([
+            'serial_number' => 'required',
+            'budget' => 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
         $input = $request->all();
-        assets::create($input);
+
+        if ($request->hasFile('image')) {
+            // Store the image file
+            $fileName = date('Y_m_d_His') . "_" . $request->file('image')->getClientOriginalName();
+            $path = $request->file('image')->storeAs('images', $fileName, 'public');
+            // Insert the image record
+            $image_path = '/storage/' . $path;
+        } else {
+            $image_path = null;
+        }
+
+        // Insert the asset record
+        assets::create([
+            'serial_number' => $input['serial_number'],
+            'location_id' => $input['location_id'],
+            'category' => $input['category'],
+            'budget' => $input['budget'],
+            'vendor_id' => $input['vendor_id'],
+            'user_id' => $input['user_id'],
+            'image_path' => $image_path,
+        ]);
+
         return redirect('Asset')->with('success', 'New Asset Added!');
     }
+
 
     public function show($id)
     {
         $asset = assets::find($id);
         $vendor = Vendor::find($asset->vendor_id);
         $user = User::find($asset->user_id);
-        $locations = Location::find($asset->location_id);
-        return view('AssetManagement.showAssetInfo')->with(['asset' => $asset, 'vendor' => $vendor, 'user' => $user, 'locations' => $locations]);
+        $location = Location::find($asset->location_id);
+        // return view('AssetManagement.showAssetInfo')->with(['asset' => $asset, 'vendor' => $vendor, 'user' => $user, 'location' => $location]);
+
+        // Get the image record
+        $image = $asset->image_path;
+
+        // Generate a URL to the image file using the asset() function
+        $image_url = $image ? asset($asset->image_path) : 'https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png?20210219185637';
+
+        return view('AssetManagement.showAssetInfo')->with(['asset' => $asset, 'vendor' => $vendor, 'user' => $user, 'location' => $location, 'image_url' => $image_url]);
     }
 
 
@@ -154,48 +213,60 @@ class assetController extends Controller
         $vendors = Vendor::all();
         $users = User::all();
         $locations = Location::all();
-        return view('AssetManagement.editAsset')->with('asset', $asset)->with('users', $users)->with('vendors', $vendors)->with('locations', $locations);
+        // Get the image record
+        $image = $asset->image_path;
+
+        // Generate a URL to the image file using the asset() function
+        $image_url = $image ? asset($asset->image_path) : 'https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png?20210219185637';
+
+        return view('AssetManagement.editAsset')->with(['asset' => $asset, 'vendors' => $vendors, 'users' => $users, 'locations' => $locations, 'image_url' => $image_url]);
     }
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'serial_number' => 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
         // Retrieve the asset and the input values
         $asset = assets::find($id);
         $input = $request->all();
 
-        // Find the vendor_id corresponding to the input vendor name
-        // $vendorName = $input['vendor_name'];
-        // $vendor = vendors::where('name', $vendorName)->first();
-        // $vendorId = $vendor->id;
-        $vendorId = $input['vendor_id'];
+        if ($request->hasFile('image')) {
+            if (File::exists(public_path($asset->image_path))) {
+                // Delete file
+                File::delete(public_path($asset->image_path));
+            }
+            // Store the image file
+            $fileName = date('Y_m_d_His') . "_" . $request->file('image')->getClientOriginalName();
+            $path = $request->file('image')->storeAs('images', $fileName, 'public');
+            // Insert the image record
+            $image_path = '/storage/' . $path;
+        } else {
+            $image_path = $asset->image_path;
+        }
 
-        // Find the user_id corresponding to the input user name
-        // $userName = $input['user_name'];
-        // $user = User::where('name', $userName)->first();
-        // $userId = $user->id;
-        $userId = $input['user_id'];
-        $locationId = $input['location_id'];
-
-        // Update the vendor_id and user_id in the input values and save the asset
-        $input['vendor_id'] = $vendorId;
-        $input['user_id'] = $userId;
-        $input['location_id'] = $locationId;
-        $asset->update($input);
+        // Update the asset record with the new image ID
+        $asset->update([
+            'serial_number' => $input['serial_number'],
+            'location_id' => $input['location_id'],
+            'category' => $input['category'],
+            'vendor_id' => $input['vendor_id'],
+            'user_id' => $input['user_id'],
+            'image_path' => $image_path,
+        ]);
 
         return redirect('Asset')->with('success', 'Asset Info Updated!');
     }
 
     public function destroy($id)
     {
+        $asset = assets::find($id);
+        if (File::exists(public_path($asset->image_path))) {
+            // Delete file
+            File::delete(public_path($asset->image_path));
+        }
         assets::destroy($id);
         return redirect('Asset')->with('success', 'Asset Deleted!');
     }
 }
-
-
-//public function index()
-//{
-    // $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
-    // ->join('users', 'users.id', '=', 'assets.user_id')
-    // ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name')
-    // ->get();

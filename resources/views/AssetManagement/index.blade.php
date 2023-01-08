@@ -2,6 +2,7 @@
 @section('title')
 Asset Management
 @endsection
+
 @section('content')
 <div class="row">
   <div class="col-md-11 mx-auto">
@@ -17,19 +18,16 @@ Asset Management
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
-    <!-- @foreach ($assets as $asset)
-    {{ $asset->id }}
-    @endforeach -->
     <div class="card">
       <h4 class="card-header d-flex justify-content-between align-items-center">
         <div>
-          <i class="fal fa-coins"></i> <a href="{{ url('/Asset') }} "class="link-dark text-decoration-none">Asset</a>
+          <i class="fal fa-coins"></i> <a href="{{ url('/Asset') }} " class="link-dark text-decoration-none">Asset</a>
         </div>
         <div class="btn-group" role="group" aria-label="button group">
           <a class="btn btn-success" title="New Asset" href="{{ url('/Asset/create') }}">
             <i class="bi bi-plus-circle"></i> Create New Asset</a>
           <a class="btn btn-secondary" title="Download as PDF" href="{{ URL::to('/asset/pdf') }}">
-            <i class="bi bi-save"></i> Export to PDF</a>
+            <i class="bi bi-file-pdf"></i> Download PDF</a>
         </div>
       </h4>
       <div class="card-body">
@@ -56,7 +54,9 @@ Asset Management
               <div class="input-group">
                 @csrf
                 <!-- <label for="sort_category" class="form-control">Sort by:</label> -->
-                <select name="sort_category" id="sort_category" class="form-control">
+                <select name="sort_category" id="sort_category" class="form-select">
+                  <option value="default_lo">Default (latest to oldest)</option>
+                  <option value="default_ol">Default (oldest to latest)</option>
                   <option value="location_id">Location</option>
                   <option value="category">Category</option>
                   <option value="budget">Budget</option>
@@ -71,20 +71,10 @@ Asset Management
           </div>
           <!-- filter -->
           <div class="col col-md-auto">
-            <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseFilter" role="button" aria-expanded="false" aria-controls="collapseFilter">
-              <i class="bi bi-filter"></i> Filter by
+            <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseFilter" title="Filter Collapse" role="button" aria-expanded="false" aria-controls="collapseFilter">
+              <i class="bi bi-filter"></i> Filter by <i class="bi bi-arrows-collapse"></i>
             </a>
           </div>
-          <!-- New Asset -->
-          <!-- <div class="col col-md-auto">
-            <a class="btn btn-success" title="New Asset" href="{{ url('/Asset/create') }}">
-              <i class="bi bi-plus-circle"></i> Create New Asset</a>
-        </div> -->
-          <!-- PDF -->
-          <!-- <div class="col col-md-auto">
-            <a class="btn btn-secondary" title="Download as PDF" href="{{ URL::to('/asset/pdf') }}">
-              <i class="bi bi-save"></i> Export to PDF</a>
-          </div> -->
         </div>
       </div>
       <div class="collapse" id="collapseFilter">
@@ -95,12 +85,12 @@ Asset Management
             <div class="mb-3 row">
               <label for="filter_category" class="col-sm-2 col-form-label">Filter by</label>
               <div class="col-sm-10">
-                <select name="filter_category" id="filter_category" class="form-control">
+                <select name="filter_category" id="filter_category" class="form-select">
                   <option value="apply_all">Apply all</option>
                   <option value="location">Location</option>
                   <option value="category">Category</option>
                   <option value="vendor">Vendor</option>
-                  <option value="user">User</option>
+                  <option value="user">Responsible</option>
                 </select>
                 <span id="filterCategoryHelpInline" class="form-text">
                   Apply all will filter and match all the condition. Other option will only apply the selected filter category value.
@@ -111,7 +101,7 @@ Asset Management
             <div class="mb-3 row">
               <label for="location_id" class="col-sm-2 col-form-label">Location</label>
               <div class="col-sm-10">
-                <select name="location_id" id="location_id" class="form-control">
+                <select name="location_id" id="location_id" class="form-select">
                   @foreach ($locations as $location)
                   <option value="{{ $location->id }}">{{ $location->name }}</option>
                   @endforeach
@@ -122,7 +112,7 @@ Asset Management
             <div class="mb-3 row">
               <label for="category" class="col-sm-2 col-form-label">Category</label>
               <div class="col-sm-10">
-                <select name="category" id="category" class="form-control">
+                <select name="category" id="category" class="form-select">
                   <option value="computer">Computer</option>
                   <option value="equipment">Equipment</option>
                   <option value="laboratory">Laboratory</option>
@@ -137,7 +127,7 @@ Asset Management
             <div class="mb-3 row">
               <label for="vendor_id" class="col-sm-2 col-form-label">Vendor</label>
               <div class="col-sm-10">
-                <select name="vendor_id" id="vendor_id" class="form-control">
+                <select name="vendor_id" id="vendor_id" class="form-select">
                   @foreach ($vendors as $vendor)
                   <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
                   @endforeach
@@ -146,9 +136,9 @@ Asset Management
             </div>
             <!-- user id -->
             <div class="mb-3 row">
-              <label for="user_id" class="col-sm-2 col-form-label">User</label>
+              <label for="user_id" class="col-sm-2 col-form-label">Responsible</label>
               <div class="col-sm-10">
-                <select name="user_id" id="user_id" class="form-control">
+                <select name="user_id" id="user_id" class="form-select">
                   @foreach ($users as $user)
                   <option value="{{ $user->id }}">{{ $user->name }}</option>
                   @endforeach
@@ -157,7 +147,7 @@ Asset Management
             </div>
             <!-- button -->
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-              <button type="submit" class="btn btn-primary">Filter</button>
+              <button type="submit" class="btn btn-primary" title="Filter Asset">Filter</button>
             </div>
           </form>
         </div>
@@ -182,10 +172,10 @@ Asset Management
               </thead>
               <!--Table head-->
               <!--Table body-->
+              @if(count($assets) > 0)
               <tbody>
                 @foreach ($assets as $asset)
                 <tr>
-                  <!--  {{ $asset->vendor_name }} | {{ $asset->user_name }} if using join -->
                   <td scope="row">{{ $loop->iteration }}</td>
                   <!--Serial Number-->
                   <td>{{ $asset->serial_number }}</td>
@@ -258,6 +248,13 @@ Asset Management
                 @endforeach
               </tbody>
               <!--Table body-->
+              @else
+              <tbody>
+                <tr>
+                  <td colspan="8" class="table-active">No record found</td>
+                </tr>
+              </tbody>
+              @endif
             </table>
             <!--Table-->
           </div>
