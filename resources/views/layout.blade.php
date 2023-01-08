@@ -45,13 +45,18 @@
                         </li>
                         <!-- Maintenance Management -->
                         <li>
-                            <a href="#" class="nav-link link-dark px-0 align-middle ">
+                            <a href="/MaintenanceManagement" class="nav-link link-dark px-0 align-middle ">
                                 <i class="fs-4 bi-tools"></i> <span class="ms-1 d-none d-sm-inline">Maintenance</span></a>
                         </li>
                         <!-- Vendor Management -->
                         <li>
-                            <a href="#" class="nav-link link-dark px-0 align-middle">
+                            <a href="/VendorManagement" class="nav-link link-dark px-0 align-middle">
                                 <i class="fs-4 bi-shop"></i> <span class="ms-1 d-none d-sm-inline">Vendor</span> </a>
+                        </li>
+                        <!-- Location Management -->
+                        <li>
+                            <a href="/LocationManagement" class="nav-link link-dark px-0 align-middle">
+                                <i class="fs-4 bi-map"></i> <span class="ms-1 d-none d-sm-inline">Location</span> </a>
                         </li>
                     </ul>
                     <hr>
