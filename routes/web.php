@@ -3,8 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\vendorController;
 use App\Http\Controllers\locationController;
-
 use App\Http\Controllers\assetController;
+use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\FacultyMemberController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,18 +20,27 @@ use App\Http\Controllers\assetController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('/auth/login');
 });
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified'
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-});
+// Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])->group(function () {
+
+//     Route::get('/dashboard', function () {
+//         return view('dashboard');
+//     })->name('dashboard');
+
+//         require 'admin.php';   
+// });
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
+
+require 'admin.php';
+
+Route::resource('/admin', UserController::class);
+Route::resource('/FacultyMember', FacultyMemberController::class);
+
 
 Route::resource('/Asset', assetController::class);
 Route::get('/asset/search', [assetController::class, 'search']);
@@ -39,3 +50,5 @@ Route::post('/Asset/filter', [assetController::class, 'filter']);
 
 Route::resource('/VendorManagement', vendorController::class);
 Route::resource('/LocationManagement', locationController::class);
+
+
