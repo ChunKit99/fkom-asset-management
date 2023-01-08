@@ -22,7 +22,7 @@ Add Asset
             </div>
             @endif
             <!-- go to asset controller -->
-            <form action="{{ url('Asset') }}" method="POST">
+            <form action="{{ url('Asset') }}" method="POST" enctype="multipart/form-data">
                 {{csrf_field()}}
                 <div class="card-body">
                     <h4><strong>Asset</strong></h4>

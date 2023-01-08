@@ -84,7 +84,21 @@ class assetController extends Controller
                 ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
                 ->orderBy('assets.id', 'ASC')
                 ->get();
-        } else {
+        }else if ($category == 'budget_a') {
+            $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
+                ->join('users', 'users.id', '=', 'assets.user_id')
+                ->join('location', 'location.id', '=', 'assets.location_id')
+                ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
+                ->orderBy('assets.budget', 'ASC')
+                ->get();
+        }else if ($category == 'budget_d') {
+            $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
+                ->join('users', 'users.id', '=', 'assets.user_id')
+                ->join('location', 'location.id', '=', 'assets.location_id')
+                ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
+                ->orderBy('assets.budget', 'DESC')
+                ->get();
+        }  else {
             $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
                 ->join('users', 'users.id', '=', 'assets.user_id')
                 ->join('location', 'location.id', '=', 'assets.location_id')

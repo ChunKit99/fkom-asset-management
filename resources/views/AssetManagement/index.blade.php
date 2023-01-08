@@ -55,11 +55,12 @@ Asset Management
                 @csrf
                 <!-- <label for="sort_category" class="form-control">Sort by:</label> -->
                 <select name="sort_category" id="sort_category" class="form-select">
-                  <option value="default_lo">Default (latest to oldest)</option>
-                  <option value="default_ol">Default (oldest to latest)</option>
+                  <option value="default_lo">Default (Latest Created)</option>
+                  <option value="default_ol">Default (Oldest Created)</option>
                   <option value="location_id">Location</option>
                   <option value="category">Category</option>
-                  <option value="budget">Budget</option>
+                  <option value="budget_a">Budget (Ascending Order)</option>
+                  <option value="budget_d">Budget (Descending Order)</option>
                   <option value="vendor_id">Vendor</option>
                   <option value="user_id">Responsible</option>
                 </select>
