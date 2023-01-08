@@ -7,20 +7,20 @@ use App\Http\Controllers\Controller;
 //import model to connect db
 use App\Models\User;
 
-class AdminController extends Controller
+class UserController extends Controller
 {
     //index is all data print
     public function index()
     {
-        $Admin = User::all();
+        $User = User::all();
         
-        return view ('Admin.UserAccount.index')->with('admins',$Admin);
+        return view ('admin.UserAccount.index')->with('user',$User);
     }
 
     // form kosong so no need call variable
     public function create()
     {
-        return view('Admin.UserAccount.addUser');
+        return view('admin.UserAccount.addUser');
     }
 
     //keep data request from form then go back to index
@@ -32,21 +32,21 @@ class AdminController extends Controller
 
     //view one data only show function cannot edit/delete
     public function show($id){
-        $Admin = User::find($id);
-        return view ('Admin.UserAccount.showUserInfo')->with('admins',$Admin);   
+        $User = User::find($id);
+        return view ('admin.UserAccount.showUserInfo')->with('user',$User);   
     }
 
     //edit function 
     public function edit($id){
-        $Admin = User::find($id);
-        return view('Admin.UserAccount.editUser')->with('admins', $Admin);
+        $User = User::find($id);
+        return view('admin.UserAccount.editUser')->with('user', $User);
     }
 
     //update request function b4 update confirm with id 
     public function update(Request $request, $id){
-        $Admin = User::find($id);
+        $User = User::find($id);
         $input = $request->all();
-        $Admin->update($input);
+        $User->update($input);
         return redirect('admin')->with('flash_message', 'User Info Updated');
     }
 

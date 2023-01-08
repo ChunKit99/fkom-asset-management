@@ -33,7 +33,8 @@
                         </li>
                         <!-- member Management -->
                         <li>
-                            <a href="/FacultyMember" class="nav-link link-dark px-0 align-middle"> <i class="fs-4 bi-people"></i>
+                            <a href="/FacultyMember" class="nav-link link-dark px-0 align-middle"> <i
+                                    class="fs-4 bi-people"></i>
                                 <span class="d-none d-sm-inline">Faculty Member</span></a>
 
                         </li>
@@ -67,7 +68,8 @@
                             id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30"
                                 class="rounded-circle">
-                            <span class="d-none d-sm-inline mx-1 text-dark">loser</span>
+                            <span class="d-none d-sm-inline mx-1 text-dark"> {{ Auth::user() }}
+                            </span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-light text-small shadow">
                             <li><a class="dropdown-item" href="#">Settings</a></li>
@@ -75,7 +77,7 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="#">Sign out</a></li>
+                            <li><a class="dropdown-item" href="{{ route('logout') }}">Sign out</a></li>
                         </ul>
                     </div>
                 </div>

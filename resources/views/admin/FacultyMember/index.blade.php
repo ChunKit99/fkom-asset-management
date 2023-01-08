@@ -1,6 +1,7 @@
 @extends('layout')
 @section('content')
 
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col">
@@ -21,7 +22,7 @@
                     }
                     </style>
 
-                    <a href="{{ url('/admin/create') }}" class="btn btn-primary pull-right" id="right-panel-link"
+                    <a href="{{ url('/FacultyMember/create') }}" class="btn btn-primary pull-right" id="right-panel-link"
                         href="#right-panel"><i class="bi bi-eye" aria-hidden="true"></i> Add New </a>
 
                     <!--overall view table-->
@@ -30,33 +31,41 @@
                             <thead class="thead-dark">
                                 <tr class="table-info">
                                     <th scope="col">No.</th>
+                                    <th scope="col">Name</th>
                                     <th scope="col">Username</th>
-                                    <th scope="col">Email Address</th>
+                                    <th scope="col">Contact Number</th>
+                                    <th scope="col">Position</th>
+                                    <th scope="col">Department</th>
+                                    <th scope="col">Location</th>
                                     <th scope="col"></th>
                                     <th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <!--loop all data out -->
-                                @foreach($user as $item)
+                                @foreach($members as $item)
                                 
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{$item -> name}}</td>
-                                    <td>{{$item -> email}}</td>
+                                    <td>{{$item -> username}}</td>
+                                    <td>{{$item -> contact}}</td>
+                                    <td>{{$item -> position}}</td>
+                                    <td>{{$item -> department}}</td>
+                                    <td>{{$item -> location}}</td>
                                     <td>
 
                                         <!-- view button -->
-                                        <a href="{{ url('/admin/' . $item->id) }}" title="View Book"><button
+                                        <a href="{{ url('/FacultyMember/' . $item->id) }}" title="View Book"><button
                                                 class="btn btn-info"><i class="bi bi-eye"
                                                     aria-hidden="true"></i>View</button></a>
                                         <!-- edit button -->
-                                        <a href="{{ url('/admin/' . $item->id . '/edit') }}" title="Edit Book"><button
+                                        <a href="{{ url('/FacultyMember/' . $item->id . '/edit') }}" title="Edit Book"><button
                                                 class="btn btn-warning"><i class="bi bi-pencil-square"
                                                     aria-hidden="true">
                                                 </i>Edit</button></a>
                                         <!-- delete button -->
-                                        <form method="post" action="{{ url('/admin' . '/' . $item->id) }}"
+                                        <form method="post" action="{{ url('/FacultyMember' . '/' . $item->id) }}"
                                             accept-charset="UTF-8" style="display:inline">
                                             {{ method_field('DELETE') }}
                                             {{  csrf_field() }}

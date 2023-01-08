@@ -6,53 +6,61 @@ use App\Http\Controllers\Controller;
 
 //import model to connect db
 use App\Models\FacultyMemberCurd;
+use App\Models\User;
 
 class FacultyMemberController extends Controller
 {
     ////index is all data print
     public function index()
     {
-        $Admin = User::all();
-        
-        return view ('Admin.dashboard.index')->with('admins',$Admin);
+        $Member = FacultyMemberCurd::all();
+        $User = User::all();
+
+        $join = FacultyMemberCurd :: join('users','users.name', '=', 'members.username')
+                ->select('members.id','members.name','users.name as username','members.contact','members.position','members.department','members.location')
+                ->get();
+
+        return view ('Admin.FacultyMember.index')->with('members',$Member);
     }
 
     // form kosong so no need call variable
     public function create()
     {
-        return view('Admin.dashboard.addUser');
+        $Member = FacultyMemberCurd::all();
+        $User = User::all();
+        return view('Admin.FacultyMember.addMember')->with(['members' => $Member, 'users' => $User]);
     }
 
     //keep data request from form then go back to index
     public function store(Request $request){
         $input = $request->all();
-        User::create($input);
-        return redirect('admin')->with('flash_message','New User Added');
+        FacultyMemberCurd::create($input);
+        return redirect('FacultyMember')->with('flash_message','New User Added');
     }
 
     //view one data only show function cannot edit/delete
     public function show($id){
-        $Admin = User::find($id);
-        return view ('Admin.dashboard.showUserInfo')->with('admins',$Admin);   
+        $Member = FacultyMemberCurd::find($id);
+        return view ('Admin.FacultyMember.showMember')->with('members',$Member);   
     }
 
     //edit function 
     public function edit($id){
-        $Admin = User::find($id);
-        return view('Admin.dashboard.editUser')->with('admins', $Admin);
+        $Member = FacultyMemberCurd::find($id);
+        return view('Admin.FacultyMember.editMember')->with('members', $Member);
     }
 
     //update request function b4 update confirm with id 
     public function update(Request $request, $id){
-        $Admin = User::find($id);
+        $Member = FacultyMemberCurd::find($id);
         $input = $request->all();
-        $Admin->update($input);
-        return redirect('admin')->with('flash_message', 'User Info Updated');
+        $Member->update($input);
+        return redirect('FacultyMember')->with('flash_message', 'User Info Updated');
     }
 
     //delete destroy
     public function destroy($id){
-        User::destroy($id);
-        return redirect('admin')->with('flash_message', 'User Account deleted');
+        FacultyMemberCurd::destroy($id);
+        return redirect('FacultyMember')->with('flash_message', 'User Account deleted');
     }
 }
