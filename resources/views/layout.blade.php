@@ -40,7 +40,7 @@
                         <!-- Budget -->
 
                         <li>
-                            <a href="#" class="nav-link link-dark px-0 align-middle"><i class="fs-4 bi-currency-dollar"></i> <span class="d-none d-sm-inline">Budget
+                            <a href="/Budget" class="nav-link link-dark px-0 align-middle"><i class="fs-4 bi-currency-dollar"></i> <span class="d-none d-sm-inline">Budget
                                     Management</span></a>
                         </li>
                         <!-- Maintenance Management -->
