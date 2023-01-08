@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Vendor;
 use App\Models\Location;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Auth;
 
 class maintenanceController extends Controller
 {
@@ -132,7 +133,45 @@ class maintenanceController extends Controller
         $vendors = Vendor::all();
         $users = User::all();
         $locations = Location::all();
-        return view ('MaintenanceManagement.addMaintenance')->with(['assets' => $assets, 'vendors' => $vendors, 'users' => $users, 'locations' => $locations]);
+        $maintenance = Maintenances::join('assets', 'maintenances.serial_number','=','assets.serial_number')
+        ->join('users', 'users.id','=','assets.user_id')
+        ->join('location', 'location.id','=','assets.location_id')
+        ->join('vendors', 'vendors.id','=','assets.vendor_id')
+        ->select('users.name', 'assets.id', 'assets.serial_number', 'assets.category', 'assets.budget', 'location.name as location', 'vendors.name as vendor')
+        ->where('assets.id', '=', 'b3lfe820J0')
+        ->get();
+        
+        // $assets = assets::join('maintenances', 'maintenances.serial_number','=','assets.serial_number')
+        // ->select('maintenances.serial_number', 'assets.id', 'assets.budget')
+        // ->get();
+        // $vendor = Vendor::join('assets','assets.vendor_id','=','vendors.id')
+        // ->join('maintenances', 'maintenances.serial_number','=','assets.serial_number')
+        // ->select('maintenances.serial_number', 'vendors.name', 'vendors.contact', 'vendors.email')
+        // ->get();
+        // $user = User::join('assets','assets.user_id','=','users.id')
+        // ->join('maintenances', 'maintenances.serial_number','=','assets.serial_number')
+        // ->select('maintenances.serial_number', 'users.name', 'users.email')
+        // ->get();
+        // $locations = Location::join('assets','assets.location_id','=','location.id')
+        // ->join('maintenances', 'maintenances.serial_number','=','assets.serial_number')
+        // ->select('maintenances.serial_number', 'location.name')
+        // ->get();
+        return view ('MaintenanceManagement.addMaintenance')->with(['maintenances', $maintenance, 'assets' => $assets, 'vendors' => $vendors, 'users' => $users, 'locations' => $locations]);
+    }
+
+    public function list(Request $request)
+    {
+        // $user = Auth::id();
+        $vendors = Vendor::all();
+        $users = User::all();
+        $locations = Location::all();
+        $assets = assets::join('users', 'users.id','=','assets.user_id')
+        ->join('location', 'location.id','=','assets.location_id')
+        ->join('vendors', 'vendors.id','=','assets.vendor_id')
+        ->select('users.name', 'assets.id', 'assets.serial_number', 'assets.category', 'assets.budget', 'location.name as location', 'vendors.name as vendor')
+        ->where('users.id', '=', '2')
+        ->get();
+        return view ('MaintenanceManagement.list')->with('assets', $assets);
     }
 
     public function store(Request $request)
@@ -146,12 +185,12 @@ class maintenanceController extends Controller
     {
         $maintenance = Maintenances::find($id);
         $assets = assets::find($maintenance->id);
-        $vendor = Vendor::find($maintenance->id);
-        $vendor = Vendor::find($maintenance->contact);
-        $vendor = Vendor::find($maintenance->email);
-        $user = User::find($maintenance->name);
-        $user = User::find($maintenance->email);
-        $locations = Location::find($maintenance->name);
+        // $vendor = Vendor::find($maintenance->id);
+        // $vendor = Vendor::find($maintenance->contact);
+        // $vendor = Vendor::find($maintenance->email);
+        // $user = User::find($maintenance->name);
+        // $user = User::find($maintenance->email);
+        // $locations = Location::find($maintenance->name);
         // $assets = assets::join('maintenances', 'maintenances.serial_number','=','assets.serial_number')
         // ->select('maintenances.serial_number', 'assets.id')
         // ->get();
@@ -167,7 +206,7 @@ class maintenanceController extends Controller
         // ->join('maintenances', 'maintenances.serial_number','=','assets.serial_number')
         // ->select('maintenances.serial_number', 'location.name')
         // ->get();
-        return view('MaintenanceManagement.viewMaintenance')->with(['maintenances' => $maintenance, 'assets' => $assets, 'vendor' => $vendor, 'user' => $user, 'locations' => $locations]);
+        return view('MaintenanceManagement.viewMaintenance')->with(['maintenances' => $maintenance, 'assets' => $assets]);
     }
 
     public function edit($id)

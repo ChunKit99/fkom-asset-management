@@ -68,35 +68,6 @@ Edit Maintenance Record
                         </div>
                     </div>
                 </div>
-                <!-- Vendor -->
-                <div class="card-body">
-                    <h4><strong>Vendor</strong></h4>
-                    <!-- name -->
-                    <div class="form-group row">
-                        <label for="vendor_id" class="col-sm-2 col-form-label"><strong>Name:</strong></label>
-                        <div class="col-sm-10">
-                            <select name="vendor_id" id="vendor_id" class="form-control">
-                                @foreach($vendors as $vendor)
-                                <option value="{{ $vendor->id }}" {{ $vendor->id == $asset->vendor_id ? 'selected' : '' }}>{{ $vendor->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <!-- Responsible Faculty Member -->
-                <div class="card-body">
-                    <h4><strong>Responsible Faculty Member</strong></h4>
-                    <div class="form-group row">
-                        <label for="user_name" class="col-sm-2 col-form-label"><strong>Username:</strong></label>
-                        <div class="col-sm-10">
-                            <select name="user_id" id="user_id" class="form-control">
-                                @foreach ($users as $user)
-                                <option value="{{ $user->id }}" {{ $user->id == $asset->user_id ? 'selected' : '' }}>{{ $user->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                </div>
                 <div class="card-body">    
                     <!-- button -->
                     <div class="col-xs-12 col-sm-12 col-md-12 text-center">

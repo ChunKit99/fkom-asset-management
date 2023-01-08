@@ -39,6 +39,7 @@ Route::post('/Asset/sort', [assetController::class, 'sort']);
 Route::post('/Asset/filter', [assetController::class, 'filter']);
 
 Route::resource('/MaintenanceManagement', maintenanceController::class);
+Route::get('/maintenanceManagement/list', [maintenanceController::class, 'list']);
 
 Route::resource('/VendorManagement', vendorController::class);
 Route::resource('/LocationManagement', locationController::class);

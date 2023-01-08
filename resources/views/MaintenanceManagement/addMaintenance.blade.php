@@ -39,7 +39,7 @@ Add Maintenance Record
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
                                 <strong>Location:</strong>
-                                <select name="location_id" id="location_id" class="form-control">
+                                <select selected disabled name="location_id" id="location_id" class="form-control">
                                     @foreach($locations as $location)
                                     <option value="{{ $asset->id }}">{{ $location->name }}</option>
                                     @endforeach
@@ -48,7 +48,7 @@ Add Maintenance Record
                         </div>
                         <div class="form-group">
                             <strong>Category:</strong>
-                            <select name="category" id="category" class="form-control">
+                            <select selected disabled name="category" id="category" class="form-control">
                                 <option value="computer">Computer</option>
                                 <option value="equipment">Equipment</option>
                                 <option value="laboratory">Laboratory</option>
@@ -62,13 +62,17 @@ Add Maintenance Record
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
                                 <strong>Budget:</strong>
-                                <input type="text" name="budget" id="budget" class="form-control" value="">
+                                <select selected disabled name="budget" id="budget" class="form-control">
+                                    @foreach($assets as $asset)
+                                    <option value="{{ $asset->budget }}">{{ $asset->budget }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
                                 <strong>Vendor:</strong>
-                                <select name="vendor_id" id="vendor_id" class="form-control">
+                                <select selected disabled name="vendor_id" id="vendor_id" class="form-control">
                                     @foreach($vendors as $vendor)
                                     <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
                                     @endforeach
@@ -78,7 +82,7 @@ Add Maintenance Record
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
                                 <strong>Responsible Faculty Members:</strong>
-                                <select name="user_id" id="user_id" class="form-control">
+                                <select selected disabled name="user_id" id="user_id" class="form-control">
                                     @foreach ($users as $user)
                                     <option value="{{ $user->id }}">{{ $user->name }}</option>
                                     @endforeach
@@ -87,7 +91,7 @@ Add Maintenance Record
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                             <button type="submit" class="btn btn-primary">Submit</button>
-                            <a class="btn btn-info" href="{{ url('MaintenanceManagement') }}"> Cancel</a>
+                            <a class="btn btn-info" href="{{ url('maintenanceManagement/list') }}"> Cancel</a>
                         </div>
                     </div>
                 </form>

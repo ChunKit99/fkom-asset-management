@@ -1,32 +1,20 @@
 @extends('layout')
 @section('title')
-Maintenance Management
+Add Maintenance List
 @endsection
 @section('content')
 <div class="row">
     <div class="col-md-11 mx-auto">
-        @if ($message = Session::get('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <p>{{ $message }}</p>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        @endif
-        @if ($message = Session::get('warning'))
-        <div class="alert alert-warning  alert-dismissible fade show" role="alert">
-            <p>{{ $message }}</p>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        @endif
         <div class="card">
             <h4 class="card-header d-flex justify-content-between align-items-center">
                 <div>
                     <i class="fal fa-coins"></i> <a href="{{ url('/MaintenanceManagement') }} "
-                        class="link-dark text-decoration-none">Maintenance Management</a>
+                        class="link-dark text-decoration-none">Maintenance List</a>
                 </div>
                 <div class="btn-group" role="group" aria-label="button group">
                     <a class="btn btn-success" title="New Maintenance"
-                        href="{{ url('/maintenanceManagement/list') }}">
-                        <i class="bi bi-plus-circle"></i> Create New Maintenance</a>
+                        href="{{ url('/MaintenanceManagement/') }}">
+                        <i class="bi bi-plus-circle"></i> Back</a>
                 </div>
             </h4>
             <div class="card-body">
@@ -39,46 +27,30 @@ Maintenance Management
                                 <tr>
                                     <th>#</th>
                                     <th>Serial Number</th>
-                                    <th>Request Time</th>
-                                    <th>Approve Time</th>
-                                    <th>Status</th>
-                                    <th>Cost</th>
+                                    <th>Category</th>
+                                    <th>Budget</th>
+                                    <th>Location</th>
+                                    <th>Vendor Name</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <!--Table head-->
                             <!--Table body-->
                             <tbody>
-                                @foreach ($maintenances as $maintenance)
+                                @foreach ($assets as $asset)
                                 <tr>
                                     <td scope="row">{{ $loop->iteration }}</td>
-                                    <td>{{ $maintenance->serial_number }}</td>
-                                    <td>{{ $maintenance->request_time }}</td>
-                                    <td>{{ $maintenance->approve_time }}</td>
-                                    <td>
-                                        <!--Category-->
-                                        @if($maintenance->status == 'Under Review')
-                                        Under Review
-                                        @elseif($maintenance->status == 'Approved')
-                                        Approved
-                                        @elseif($maintenance->status == 'Rejected')
-                                        Rejected
-                                        @else
-                                        @endif
-                                    </td>
-                                    <td>{{ $maintenance->cost }}</td>
+                                    <td>{{ $asset->serial_number }}</td>
+                                    <td>{{ $asset->category }}</td>
+                                    <td>{{ $asset->budget }}</td>
+                                    <td>{{ $asset->location }}</td>
+                                    <td>{{ $asset->vendor }}</td>
                                     <td>
                                         <!-- View Edit Delete Button -->
                                         <div class="d-flex justify-content-center">
                                             <div class="btn-group" role="group" aria-label="button group">
-                                                <a href="{{ url('/MaintenanceManagement/' . $maintenance->id) }}" title="View Record"
-                                                    class="btn btn-primary">View</a>
-                                                <a href="{{ url('/MaintenanceManagement/' . $maintenance->id . '/edit') }}" title="Edit Record"
-                                                    class="btn btn-warning">Edit</a>
-                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                                    title="Delete Record"
-                                                    data-bs-target="#confirmDelete{{$loop->iteration}}">
-                                                    Delete
-                                                </button>
+                                                <a href="{{ url('/MaintenanceManagement/create') }}" title="Add Record"
+                                                    class="btn btn-warning">Add Request</a>
                                             </div>
                                             <!-- View Edit Delete Button -->
                                             <!-- Modal -->
@@ -94,10 +66,10 @@ Maintenance Management
                                                         </div>
                                                         <div class="modal-body">
                                                             <p>Are you sure to delete?</p>
-                                                            <strong>Serial Number: </strong>{{$maintenance->serial_number}}
+                                                            <strong>Serial Number: </strong>{{$asset->serial_number}}
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <form action="{{ url('/MaintenanceManagement' . '/' . $maintenance->id)}}"
+                                                            <form action="{{ url('/MaintenanceManagement' . '/' . $asset->id)}}"
                                                                 method="POST" style="width:fit-content">
                                                                 {{csrf_field()}}
                                                                 {{method_field('DELETE')}}
