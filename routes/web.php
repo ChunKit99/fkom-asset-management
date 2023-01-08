@@ -5,6 +5,7 @@ use App\Http\Controllers\vendorController;
 use App\Http\Controllers\locationController;
 use App\Http\Controllers\maintenanceController;
 use App\Http\Controllers\assetController;
+use App\Http\Controllers\budgetController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\FacultyMemberController;
@@ -51,6 +52,8 @@ Route::post('/Asset/filter', [assetController::class, 'filter']);
 
 Route::resource('/MaintenanceManagement', maintenanceController::class);
 Route::get('/maintenanceManagement/list', [maintenanceController::class, 'list']);
+
+Route::resource('/Budget', budgetController::class);
 
 Route::resource('/VendorManagement', vendorController::class);
 Route::resource('/LocationManagement', locationController::class);
