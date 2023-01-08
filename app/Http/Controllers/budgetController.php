@@ -10,7 +10,7 @@ use App\Models\assets;
 use Illuminate\Http\Request;
 
 class budgetController extends Controller
-{
+{ 
     // 
     public function index()
     {

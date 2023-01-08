@@ -42,5 +42,6 @@ Route::post('/Asset/filter', [assetController::class, 'filter']);
 
 Route::resource('/Budget', budgetController::class);
 
+
 Route::resource('/VendorManagement', vendorController::class);
 Route::resource('/LocationManagement', locationController::class);
