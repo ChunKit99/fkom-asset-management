@@ -46,6 +46,7 @@ Route::resource('/FacultyMember', FacultyMemberController::class);
 
 Route::resource('/Asset', assetController::class);
 Route::get('/asset/search', [assetController::class, 'search']);
+Route::get('/asset/search2', [assetController::class, 'search2']);
 Route::get('/asset/pdf', [assetController::class, 'createPDF']);
 Route::post('/Asset/sort', [assetController::class, 'sort']);
 Route::post('/Asset/filter', [assetController::class, 'filter']);

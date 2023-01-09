@@ -37,7 +37,7 @@ Asset Management
             <form action="/asset/search" method="GET">
               <div class="input-group">
                 <div class="form-outline">
-                  <input type="search" class="form-control" placeholder="Find serial number here" name="serial_number">
+                  <input type="text" class="form-control" placeholder="Find serial number here" id='search_field' name="serial_number">
                 </div>
                 <!-- Search Bar -->
                 <!-- Search Bar Button-->
@@ -55,14 +55,14 @@ Asset Management
                 @csrf
                 <!-- <label for="sort_category" class="form-control">Sort by:</label> -->
                 <select name="sort_category" id="sort_category" class="form-select">
-                  <option value="default_lo">Default (Latest Created)</option>
-                  <option value="default_ol">Default (Oldest Created)</option>
-                  <option value="location_id">Location</option>
-                  <option value="category">Category</option>
-                  <option value="budget_a">Budget (Ascending Order)</option>
-                  <option value="budget_d">Budget (Descending Order)</option>
-                  <option value="vendor_id">Vendor</option>
-                  <option value="user_id">Responsible</option>
+                  <option value="default_ol" @isset($sort_category) @if($sort_category=='default_ol' ) selected @endif @endisset>Default (Oldest Created)</option>
+                  <option value="default_lo" @isset($sort_category) @if($sort_category=='default_lo' ) selected @endif @endisset>Default (Latest Created)</option>
+                  <option value="location_id" @isset($sort_category) @if($sort_category=='location_id' ) selected @endif @endisset>Location</option>
+                  <option value="category" @isset($sort_category) @if($sort_category=='category' ) selected @endif @endisset>Category</option>
+                  <option value="budget_a" @isset($sort_category) @if($sort_category=='budget_a' ) selected @endif @endisset>Budget (Ascending Order)</option>
+                  <option value="budget_d" @isset($sort_category) @if($sort_category=='budget_d' ) selected @endif @endisset>Budget (Descending Order)</option>
+                  <option value="vendor_id" @isset($sort_category) @if($sort_category=='vendor_id' ) selected @endif @endisset>Vendor</option>
+                  <option value="user_id" @isset($sort_category) @if($sort_category=='user_id' ) selected @endif @endisset>Responsible</option>
                 </select>
                 <button type="submit" class="btn btn-primary" title="Sort Asset">
                   <i class="bi bi-sort-down-alt"></i> Sort by
@@ -174,7 +174,7 @@ Asset Management
               <!--Table head-->
               <!--Table body-->
               @if(count($assets) > 0)
-              <tbody>
+              <tbody id="mytable">
                 @foreach ($assets as $asset)
                 <tr>
                   <td scope="row">{{ $loop->iteration }}</td>
@@ -264,4 +264,83 @@ Asset Management
     </div>
   </div>
 </div>
+<script>
+  const searchField = document.getElementById('search_field');
+  searchField.addEventListener('input', function() {
+    const searchValue = searchField.value;
+    const url = '/asset/search2?q=' + searchValue;
+
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        // get the table element
+        const table = document.getElementById('mytable');
+
+        // build the new table rows
+        let tableRows = '';
+        if (data.length === 0) {
+          tableRows += `
+          <tr>
+            <td colspan="8" class="table-active">No record found</td>
+          </tr>
+          `;
+        } else {
+          data.forEach((item, index) => {
+            tableRows += `
+          <tr>
+          <td scope="row">${index + 1}</td>
+          <td>${item.serial_number}</td>
+          <td>${item.location_name}</td>
+          <td>
+            ${item.category === 'computer' ? 'Computer' : ''}
+            ${item.category === 'equipment' ? 'Equipment' : ''}
+            ${item.category === 'laboratory' ? 'Laboratory' : ''}
+            ${item.category === 'printers' ? 'Printers' : ''}
+            ${item.category === 'networking_equipment' ? 'Networking Equipment' : ''}
+            ${item.category === 'furniture' ? 'Furniture' : ''}
+            ${item.category === 'tools' ? 'Tools' : ''}
+          </td>
+          <td>${item.budget}</td>
+          <td>${item.vendor_name}</td>
+          <td>${item.user_name}</td>
+          <td>
+            <div class="d-flex justify-content-center">
+              <div class="btn-group" role="group" aria-label="button group">
+                <a href="{{ url('/Asset/' . '${item.id}') }}" title="View Asset" class="btn btn-primary">View</a>
+                <a href="{{ url('/Asset/' . '${item.id}' . '/edit') }}" title="Edit Asset" class="btn btn-warning">Edit</a>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" title="Delete Asset" data-bs-target="#confirmDelete${item.id}">
+                  Delete
+                </button>
+              </div>
+              <div class="modal fade" id="confirmDelete${item.id}" tabindex="-1" aria-labelledby="confirmDelete${item.id}" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">Delete Asset</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <p>Are you sure to delete?</p>
+                    <strong>Serial Number: </strong>${item.serial_number}
+                  </div>
+                  <div class="modal-footer">
+                    <form action="{{ url('/Asset' . '/' . '${item.id}')}}" method="POST" style="width:fit-content">
+                      {{csrf_field()}}
+                      {{method_field('DELETE')}}
+                      <button type="submit" class="btn btn-danger btn-sm" title="Delete Asset">Delete</button>
+                      <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              `;
+          });
+        }
+        // update the table's innerHTML
+        table.innerHTML = tableRows;
+      })
+      .catch(error => console.error(error));
+  });
+</script>
 @endsection

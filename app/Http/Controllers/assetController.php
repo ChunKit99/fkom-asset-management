@@ -11,7 +11,6 @@ use App\Models\Vendor;
 use App\Models\Location;
 use Illuminate\Http\Request;
 use PDF;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
 class assetController extends Controller
@@ -108,7 +107,7 @@ class assetController extends Controller
         }
         session()->put('assets', $assets);
         session()->put('assetsAction', 'Sorted');
-        return view('AssetManagement.index')->with(['assets' => $assets, 'vendors' => $vendors, 'users' => $users, 'locations' => $locations]);
+        return view('AssetManagement.index')->with(['assets' => $assets, 'vendors' => $vendors, 'users' => $users, 'locations' => $locations, 'sort_category'=>$category]);
     }
 
     // Generate PDF
@@ -121,6 +120,19 @@ class assetController extends Controller
             ->setPaper('a4', 'portrait');
         // download PDF file with download method
         return $pdf->download('pdf_file.pdf');
+    }
+
+    public function search2(Request $request)
+    {
+      $query = $request->input('q');
+      $results = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
+      ->join('users', 'users.id', '=', 'assets.user_id')
+      ->join('location', 'location.id', '=', 'assets.location_id')
+      ->where('serial_number', 'like', "%$query%")
+      ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
+      ->get();
+    
+      return response()->json($results);
     }
 
     public function search(Request $request)
