@@ -21,11 +21,11 @@ class maintenanceSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
-        foreach(range(1,50) as $value){
+        foreach(range(1,10) as $value){
             DB::table('maintenances') -> insert([
                 'serial_number' => assets::inRandomOrder()->first()->serial_number,
-                'request_time' => Carbon::now()->format('Y-m-d H:i:s'),
-                'approve_time' => Carbon::now()->format('Y-m-d H:i:s'),
+                // 'request_time' => Carbon::now()->format('Y-m-d H:i:s'),
+                // 'approve_time' => Carbon::now()->format('Y-m-d H:i:s'),
                 'status' => $faker -> randomElement(['Under Review', 'Approved', 'Rejected']),
                 'cost' => $faker -> randomFloat('2', 100, 500),
             ]);

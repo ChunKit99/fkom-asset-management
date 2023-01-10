@@ -52,6 +52,8 @@ Maintenance Management
                                 <input type="text" name="status" id="status" class="form-control-plaintext" value="@if($maintenances->status == 'Under Review')Under Review
                   @elseif($maintenances->status == 'Approved')Approved
                   @elseif($maintenances->status == 'Rejected')Rejected
+                  @elseif($maintenances->status == 'Completed')Completed
+                @elseif($maintenances->status == 'Cancelled')Cancelled
                   @else 
                   @endif" readonly>
                             </div>
@@ -65,8 +67,6 @@ Maintenance Management
                             </div>
                         </div>
                     </div>
-                    <!-- Location -->
-                    
                     <div class="card-body">
                         <!-- button -->
                         <div class="col-xs-12 col-sm-12 col-md-12 text-center">

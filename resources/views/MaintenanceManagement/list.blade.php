@@ -12,8 +12,7 @@ Add Maintenance List
                         class="link-dark text-decoration-none">Maintenance List</a>
                 </div>
                 <div class="btn-group" role="group" aria-label="button group">
-                    <a class="btn btn-success" title="New Maintenance"
-                        href="{{ url('/MaintenanceManagement/') }}">
+                    <a class="btn btn-success" title="New Maintenance" href="{{ url('/MaintenanceManagement/') }}">
                         <i class="bi bi-plus-circle"></i> Back</a>
                 </div>
             </h4>
@@ -49,40 +48,17 @@ Add Maintenance List
                                         <!-- View Edit Delete Button -->
                                         <div class="d-flex justify-content-center">
                                             <div class="btn-group" role="group" aria-label="button group">
-                                                <a href="{{ url('/MaintenanceManagement/create') }}" title="Add Record"
-                                                    class="btn btn-warning">Add Request</a>
+                                                <form action="{{ url('MaintenanceManagement') }}" method="POST">
+                                                    {{csrf_field()}}
+                                                    <input name="serial_number" id="serial_number" hidden class="form-control"
+                                                        value="{{ $asset->serial_number }}"></input>
+                                                    <input name="request_time" id="request_time" hidden class="form-control"
+                                                        value=""></input>
+                                                    <input name="status" id="status" hidden class="form-control"
+                                                        value=""></input>
+                                                    <button type="submit" class="btn btn-primary">Add Request</button>
+                                                </form>
                                             </div>
-                                            <!-- View Edit Delete Button -->
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="confirmDelete{{$loop->iteration}}" tabindex="-1"
-                                                aria-labelledby="confirmDelete{{$loop->iteration}}" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered">
-                                                    <div class="modal-content">
-                                                        <!-- Modal Header -->
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title">Delete Record</h4>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <p>Are you sure to delete?</p>
-                                                            <strong>Serial Number: </strong>{{$asset->serial_number}}
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <form action="{{ url('/MaintenanceManagement' . '/' . $asset->id)}}"
-                                                                method="POST" style="width:fit-content">
-                                                                {{csrf_field()}}
-                                                                {{method_field('DELETE')}}
-                                                                <button type="submit" class="btn btn-danger btn-sm"
-                                                                    title="Delete Record">Delete</button>
-                                                                <button type="button" class="btn btn-secondary btn-sm"
-                                                                    data-bs-dismiss="modal">Close</button>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- end Modal  -->
                                         </div>
                                     </td>
                                 </tr>

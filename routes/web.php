@@ -57,6 +57,7 @@ Route::post('/Asset/filter', [assetController::class, 'filter']);
 
 Route::resource('/MaintenanceManagement', maintenanceController::class);
 Route::get('/maintenanceManagement/list', [maintenanceController::class, 'list']);
+Route::get('/maintenanceManagement/add/{id}', [maintenanceController::class, 'add']);
 
 Route::resource('/Budget', budgetController::class);
 

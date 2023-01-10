@@ -62,6 +62,10 @@ Maintenance Management
                                         Approved
                                         @elseif($maintenance->status == 'Rejected')
                                         Rejected
+                                        @elseif($maintenance->status == 'Completed')
+                                        Completed
+                                        @elseif($maintenance->status == 'Cancelled')
+                                        Cancelled
                                         @else
                                         @endif
                                     </td>
