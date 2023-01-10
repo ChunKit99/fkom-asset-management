@@ -61,5 +61,6 @@ Route::get('/maintenanceManagement/add/{id}', [maintenanceController::class, 'ad
 
 Route::resource('/Budget', budgetController::class);
 
+
 Route::resource('/VendorManagement', vendorController::class);
 Route::resource('/LocationManagement', locationController::class);
