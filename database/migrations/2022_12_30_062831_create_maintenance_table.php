@@ -16,10 +16,10 @@ return new class extends Migration
         Schema::create('maintenances', function (Blueprint $table) {
             $table->id();
             $table->string('serial_number');
-            $table->string('request_time');
-            $table->string('approve_time');
-            $table->string('status');
-            $table->string('cost');
+            $table->string('request_time')->nullable();
+            $table->string('approve_time')->nullable();
+            $table->string('status')->nullable();
+            $table->string('cost')->nullable();
             $table->timestamps();
         });
     }

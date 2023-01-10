@@ -29,46 +29,34 @@ Edit Maintenance Record
                     <input type="hidden" name="id" id="id" class="form-control" value="{{$maintenances->id}}">
                     <!-- Serial Number -->
                     <div class="form-group row">
-                        <label for="serial_number" class="col-sm-2 col-form-label"><strong>Serial Number:</strong></label>
+                        <label for="serial_number" class="col-sm-2 col-form-label"><strong>Serial
+                                Number:</strong></label>
                         <div class="col-sm-10">
-                            <input type="text" name="serial_number" id="serial_number" class="form-control" value="{{$maintenances->serial_number}}">
+                            <input type="text" name="serial_number" id="serial_number" class="form-control"
+                                value="{{$maintenances->serial_number}}" readonly>
                         </div>
                     </div>
-                    <!-- Location -->
+                    <!-- Status -->
                     <div class="form-group row">
-                        <label for="location_id" class="col-sm-2 col-form-label"><strong>Location:</strong></label>
+                        <label for="serial_number" class="col-sm-2 col-form-label"><strong>Status:</strong></label>
                         <div class="col-sm-10">
-                            <select name="location_id" id="location_id" class="form-control">
-                                @foreach($locations as $location)
-                                <option value="{{ $location->id }}" {{ $location->id == $asset->location_id ? 'selected' : '' }}>{{ $location->name }}</option>
-                                @endforeach
+                            <select name="status" id="status" class="form-select">
+                                <option value="Under Review" {{ $maintenances->status == 'under_review' ? 'selected' : '' }}>Under Review</option>
+                                <option value="Completed" {{ $maintenances->status == 'completed' ? 'selected' : '' }}>Completed</option>
+                                <option value="Cancelled" {{ $maintenances->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                             </select>
                         </div>
                     </div>
-                    <!-- category -->
+                    <!-- Cost -->
                     <div class="form-group row">
-                        <label for="category" class="col-sm-2 col-form-label"><strong>Category:</strong></label>
+                        <label for="category" class="col-sm-2 col-form-label"><strong>Cost:</strong></label>
                         <div class="col-sm-10">
-                            <select name="category" id="category" class="form-control">
-                                <option value="computer" {{ $asset->category == 'computer' ? 'selected' : '' }}>Computer</option>
-                                <option value="equipment" {{ $asset->category == 'equipment' ? 'selected' : '' }}>Equipment</option>
-                                <option value="laboratory" {{ $asset->category == 'laboratory' ? 'selected' : '' }}>Laboratory</option>
-                                <option value="printers" {{ $asset->category == 'printers' ? 'selected' : '' }}>Printers</option>
-                                <option value="networking_equipment" {{ $asset->category == 'networking_equipment' ? 'selected' : '' }}>Networking Equipment</option>
-                                <option value="furniture" {{ $asset->category == 'furniture' ? 'selected' : '' }}>Furniture</option>
-                                <option value="tools" {{ $asset->category == 'tools' ? 'selected' : '' }}>Tools</option>
-                            </select>
-                        </div>
-                    </div>
-                    <!-- Budget -->
-                    <div class="form-group row">
-                        <label for="category" class="col-sm-2 col-form-label"><strong>Budget:</strong></label>
-                        <div class="col-sm-10">
-                            <input type="text" name="budget" id="budget" class="form-control" value="{{$asset->budget}}">
+                            <input type="text" name="cost" id="cost" class="form-control"
+                                value="{{$maintenances->cost}}" readonly>
                         </div>
                     </div>
                 </div>
-                <div class="card-body">    
+                <div class="card-body">
                     <!-- button -->
                     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                         <button type="submit" class="btn btn-primary">Submit</button>

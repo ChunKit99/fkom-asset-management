@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Vendor;
 use App\Models\Location;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use App\Http\Controllers\Auth;
 
 class maintenanceController extends Controller
@@ -118,45 +119,37 @@ class maintenanceController extends Controller
             ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
             ->orderBy('assets.id', 'ASC')
             ->get();
+
         return view ('MaintenanceManagement.index')->with(['assets' => $assets, 'vendors' => $vendors, 'users' => $users, 'locations' => $locations]);
     }
     
     public function index()
     {
         $maintenance = Maintenances::all();
+
         return view ('MaintenanceManagement.index')->with('maintenances', $maintenance);
     }
 
-    public function create()
+    public function add($id)
     {
-        $assets = assets::all();
-        $vendors = Vendor::all();
-        $users = User::all();
-        $locations = Location::all();
-        $maintenance = Maintenances::join('assets', 'maintenances.serial_number','=','assets.serial_number')
-        ->join('users', 'users.id','=','assets.user_id')
-        ->join('location', 'location.id','=','assets.location_id')
-        ->join('vendors', 'vendors.id','=','assets.vendor_id')
-        ->select('users.name', 'assets.id', 'assets.serial_number', 'assets.category', 'assets.budget', 'location.name as location', 'vendors.name as vendor')
-        ->where('assets.id', '=', 'b3lfe820J0')
-        ->get();
-        
-        // $assets = assets::join('maintenances', 'maintenances.serial_number','=','assets.serial_number')
-        // ->select('maintenances.serial_number', 'assets.id', 'assets.budget')
-        // ->get();
-        // $vendor = Vendor::join('assets','assets.vendor_id','=','vendors.id')
-        // ->join('maintenances', 'maintenances.serial_number','=','assets.serial_number')
-        // ->select('maintenances.serial_number', 'vendors.name', 'vendors.contact', 'vendors.email')
-        // ->get();
-        // $user = User::join('assets','assets.user_id','=','users.id')
-        // ->join('maintenances', 'maintenances.serial_number','=','assets.serial_number')
-        // ->select('maintenances.serial_number', 'users.name', 'users.email')
-        // ->get();
-        // $locations = Location::join('assets','assets.location_id','=','location.id')
-        // ->join('maintenances', 'maintenances.serial_number','=','assets.serial_number')
-        // ->select('maintenances.serial_number', 'location.name')
-        // ->get();
-        return view ('MaintenanceManagement.addMaintenance')->with(['maintenances', $maintenance, 'assets' => $assets, 'vendors' => $vendors, 'users' => $users, 'locations' => $locations]);
+        $asset = assets::find($id);
+        $vendor = Vendor::find($asset->vendor_id);
+        $user = User::find($asset->user_id);
+        $location = Location::find($asset->location_id);
+        $nowTimeDate = Carbon::now();
+        // Maintenances'request_time' => Carbon::now();
+        $status = 'Under Review';
+
+        // return view ('MaintenanceManagement.addMaintenance')->with(['asset' => $asset, 'vendor' => $vendor, 'user' => $user, 'location' => $location]);
+
+        return view ('MaintenanceManagement.addMaintenance')->with(['asset' => $asset, 'vendor' => $vendor, 'user' => $user, 'location' => $location, 'nowTimeDate' => $nowTimeDate, 'status' => $status]);
+    }
+
+    public function create($id)
+    {
+        $assets = assets::find($id);
+
+        return view ('MaintenanceManagement.addMaintenance')->with('assets',$assets);
     }
 
     public function list(Request $request)
@@ -169,14 +162,17 @@ class maintenanceController extends Controller
         ->join('location', 'location.id','=','assets.location_id')
         ->join('vendors', 'vendors.id','=','assets.vendor_id')
         ->select('users.name', 'assets.id', 'assets.serial_number', 'assets.category', 'assets.budget', 'location.name as location', 'vendors.name as vendor')
-        ->where('users.id', '=', '2')
+        ->where('users.id', '=', '6')
         ->get();
+
         return view ('MaintenanceManagement.list')->with('assets', $assets);
     }
 
     public function store(Request $request)
     {
         $input = $request->all();
+        $input['status'] = 'Under Review';
+        $input['request_time'] = Carbon::now();
         Maintenances::create($input);
         return redirect('MaintenanceManagement')->with('success', 'New Maintenance Request Added!');
     }
@@ -185,27 +181,6 @@ class maintenanceController extends Controller
     {
         $maintenance = Maintenances::find($id);
         $assets = assets::find($maintenance->id);
-        // $vendor = Vendor::find($maintenance->id);
-        // $vendor = Vendor::find($maintenance->contact);
-        // $vendor = Vendor::find($maintenance->email);
-        // $user = User::find($maintenance->name);
-        // $user = User::find($maintenance->email);
-        // $locations = Location::find($maintenance->name);
-        // $assets = assets::join('maintenances', 'maintenances.serial_number','=','assets.serial_number')
-        // ->select('maintenances.serial_number', 'assets.id')
-        // ->get();
-        // $vendor = Vendor::join('assets','assets.vendor_id','=','vendors.id')
-        // ->join('maintenances', 'maintenances.serial_number','=','assets.serial_number')
-        // ->select('maintenances.serial_number', 'vendors.name', 'vendors.contact', 'vendors.email')
-        // ->get();
-        // $user = User::join('assets','assets.user_id','=','users.id')
-        // ->join('maintenances', 'maintenances.serial_number','=','assets.serial_number')
-        // ->select('maintenances.serial_number', 'users.name', 'users.email')
-        // ->get();
-        // $locations = Location::join('assets','assets.location_id','=','location.id')
-        // ->join('maintenances', 'maintenances.serial_number','=','assets.serial_number')
-        // ->select('maintenances.serial_number', 'location.name')
-        // ->get();
         return view('MaintenanceManagement.viewMaintenance')->with(['maintenances' => $maintenance, 'assets' => $assets]);
     }
 
@@ -217,6 +192,38 @@ class maintenanceController extends Controller
         $users = User::all();
         $locations = Location::all();
         return view('MaintenanceManagement.editMaintenance')->with('maintenances', $maintenance)->with('asset', $asset)->with('users', $users)->with('vendors', $vendors)->with('locations', $locations);
+    }
+
+    public function update(Request $request, $id)
+    {
+        // $request->validate([
+        //     'serial_number' => 'required',
+        //     'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        // ]);
+        // Retrieve the asset and the input values
+        $maintenance = Maintenances::find($id);
+        $input = $request->all();
+
+        // if ($request->hasFile('image')) {
+        //     if (File::exists(public_path($asset->image_path))) {
+        //         // Delete file
+        //         File::delete(public_path($asset->image_path));
+        //     }
+        //     // Store the image file
+        //     $fileName = date('Y_m_d_His') . "_" . $request->file('image')->getClientOriginalName();
+        //     $path = $request->file('image')->storeAs('images', $fileName, 'public');
+        //     // Insert the image record
+        //     $image_path = '/storage/' . $path;
+        // } else {
+        //     $image_path = $asset->image_path;
+        // }
+
+        // Update the asset record with the new image ID
+        $maintenance->update([
+            'status' => $input['status'],
+        ]);
+
+        return redirect('MaintenanceManagement')->with('success', 'Maintenance Info Updated!');
     }
 
     public function destroy($id)
