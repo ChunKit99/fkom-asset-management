@@ -11,12 +11,21 @@ BudgetManagement
             <div>
                 <i class="bi bi-eye"></i> View Budget Report
             </div>
-              <div class="btn-group" role="group" aria-label="button group">
+            <div class="btn-group" role="group" aria-label="button group">
               <!-- Back to Main--> 
               <a class="btn btn-info" title="View Report" href="{{ url('/Budget') }}"><i class="bi bi-arrow-left-circle-fill"></i> Back</a>
-              </div>
+              <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown"><i class="bi bi-bar-chart-line-fill"></i>
+                Select Charts
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#pie_chart">Pie Chart</a></li>
+                <li><a class="dropdown-item" href="#donut_chart">Donut Chart</a></li>
+                <li><a class="dropdown-item" href="#column_chart">Column Chart</a></li>
+                <li><a class="dropdown-item" href="#bar_chart">Bar Chart</a></li>
+              </ul>
+            </div>
         </h4>
-        <div class = "card-body">
+        <div class = "card-body" id="pie_chart">
             <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
             <script type="text/javascript">
                 google.charts.load('current', {'packages':['corechart']});
@@ -47,7 +56,7 @@ BudgetManagement
             </body>
           </div>
 
-          <div class = "card-body">
+          <div class = "card-body" id="donut_chart">
               <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
               <script type="text/javascript">
                 google.charts.load("current", {packages:["corechart"]});
@@ -76,7 +85,7 @@ BudgetManagement
             </div>
 
 
-            <div class = "card-body">
+            <div class = "card-body" id="column_chart">
             <head>
               <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
               <script type="text/javascript">
@@ -109,7 +118,7 @@ BudgetManagement
             </body>
             </div>
             
-            <div class = "card-body">
+            <div class = "card-body" id="bar_chart">
             <head>
               <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
               <script type="text/javascript">
@@ -143,7 +152,9 @@ BudgetManagement
             </body>
               </div>
 
-        </div>       
+
+        </div>
     </div>
 </div>
+
 @endsection
