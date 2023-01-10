@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layouts.master')
 @section('title')
 Add Maintenance List
 @endsection

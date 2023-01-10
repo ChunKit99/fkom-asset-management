@@ -17,30 +17,16 @@ class RedirectIfAuthenticated
      * @param  string|null  ...$guards
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    
-
-    /**
-    * Handle an incoming request.
-    *
-    * @param \Illuminate\Http\Request $request
-    * @param \Closure $next
-    * @param string|null $guard
-    * @return mixed
-    */
-    public function handle($request, Closure $next, $guard = null)
+    public function handle(Request $request, Closure $next, ...$guards)
     {
-        switch($guard){
-        case 'admin':
-        if (Auth::guard($guard)->check()) {
-        return redirect('/admin');
+        $guards = empty($guards) ? [null] : $guards;
+
+        foreach ($guards as $guard) {
+            if (Auth::guard($guard)->check()) {
+                return redirect(RouteServiceProvider::HOME);
+            }
         }
-        break;
-        default:
-        if (Auth::guard($guard)->check()) {
-        return redirect('/');
-        }
-        break;
-        }
+
         return $next($request);
     }
 }
