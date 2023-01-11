@@ -15,7 +15,7 @@
             <input type="text" name="contact" id="contact" value="{{$vendors->contact}}" class="form-control" readonly></br>
             <label>Email</label></br>
             <input type="text" name="email" id="email" value="{{$vendors->email}}" class="form-control" readonly></br>
-            <a class="btn btn-info" href="{{ url('VendorManagement') }}"> Back</a></br>
+            <input type="submit" value="Back" class="btn btn-success"></br>
 
         </form>
     </div>
