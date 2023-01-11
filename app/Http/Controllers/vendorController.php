@@ -51,4 +51,37 @@ class vendorController extends Controller
         Vendor::destroy($id);
         return redirect('VendorManagement')->with('flash_message', 'Vendor deleted!');
     }
+    public function exportCSV(Request $request)
+    {
+        $fileName = 'Vendors.csv';
+        $vendor = Vendor::all();
+
+            $headers = array(
+                "Content-type"        => "text/csv",
+                "Content-Disposition" => "attachment; filename=$fileName",
+                "Pragma"              => "no-cache",
+                "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+                "Expires"             => "0"
+            );
+
+            $columns = array('ID', 'Name','Contact','Email');
+
+            $callback = function() use($vendor, $columns) {
+                $file = fopen('php://output', 'w');
+                fputcsv($file, $columns);
+
+                foreach ($vendor as $vendor) {
+                    $row['ID']  = $vendor->id;
+                    $row['Name']    = $vendor->name;
+                    $row['Contact']    = $vendor->contact;
+                    $row['Email']    = $vendor->email;
+    
+                    fputcsv($file, array($row['ID'], $row['Name'], $row['Contact'], $row['Email']));
+                }
+
+                fclose($file);
+            };
+
+            return response()->stream($callback, 200, $headers);
+    }
 }

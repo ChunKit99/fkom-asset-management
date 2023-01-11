@@ -48,12 +48,19 @@ Route::resource('/ManageUserProfile', UserProfileController::class);
 Route::get('/manageUserProfile/editPassword/{id}', [UserProfileController::class, 'editPassword']);
 Route::post('/manageUserProfile/updatePassword/{id}', [UserProfileController::class, 'updatePassword']);
 
-Route::resource('/Asset', assetController::class);
-Route::get('/asset/search', [assetController::class, 'search']);
-Route::get('/asset/search2', [assetController::class, 'search2']);
-Route::get('/asset/pdf', [assetController::class, 'createPDF']);
-Route::post('/Asset/sort', [assetController::class, 'sort']);
-Route::post('/Asset/filter', [assetController::class, 'filter']);
+Route::middleware(['auth'])->group(function () {
+    Route::resource('/Asset', assetController::class);
+    Route::get('/asset/search', [assetController::class, 'search']);
+    Route::get('/asset/search2', [assetController::class, 'search2']);
+    Route::get('/asset/pdf', [assetController::class, 'createPDF']);
+    Route::post('/Asset/sort', [assetController::class, 'sort']);
+    Route::post('/Asset/filter', [assetController::class, 'filter']);
+});
+
+Route::middleware(['auth', 'isAdmin'])->group(function () {
+    Route::get('/Asset/create', [assetController::class, 'create']);
+    Route::get('/Asset/edit', [assetController::class, 'edit']);
+});
 
 Route::resource('/MaintenanceManagement', maintenanceController::class);
 Route::get('/maintenanceManagement/list', [maintenanceController::class, 'list']);
@@ -64,3 +71,6 @@ Route::resource('/Budget', budgetController::class);
 
 Route::resource('/VendorManagement', vendorController::class);
 Route::resource('/LocationManagement', locationController::class);
+//csv_file
+Route::get('location/exportcsv', [locationController::class, 'exportCSV'])->name('location.exportcsv');
+Route::get('vendor/exportcsv', [vendorController::class, 'exportCSV'])->name('vendor.exportcsv');

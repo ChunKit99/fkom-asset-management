@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends($layout)
 @section('title')
 Asset Information
 @endsection
@@ -108,9 +108,7 @@ Asset Information
             </div>
         </form>
       </div>
-
     </div>
-  </div>
 </div>
 </div>
 </div>

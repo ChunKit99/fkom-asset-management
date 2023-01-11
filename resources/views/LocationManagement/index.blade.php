@@ -13,6 +13,11 @@
                     <div class="btn-group" role="group" aria-label="button group">
                         <a title="New Location" href="{{ url('/LocationManagement/create') }}">
                             <button>New Location<span></span></button></a>
+                        <!-- <a class="btn btn-secondary" title="Download as CSV" href="{{ URL::to('/asset/csv') }}"> -->
+                        <a class="btn btn-secondary" title="Download as CSV" href="{{ route('location.exportcsv') }}">
+                            <i class="bi bi-filetype-csv"></i> Download CSV</a>
+                    
+
                     </div>
                 </h6>
                 <div class="card-body">
@@ -53,9 +58,6 @@
             </div>
         </div>
     </div>
-
-</div>
-</div>
 </div>
 @endsection
 <style>
