@@ -48,6 +48,8 @@ Route::resource('/ManageUserProfile', UserProfileController::class);
 Route::get('/manageUserProfile/editPassword/{id}', [UserProfileController::class, 'editPassword']);
 Route::post('/manageUserProfile/updatePassword/{id}', [UserProfileController::class, 'updatePassword']);
 
+
+
 Route::middleware(['auth'])->group(function () {
     Route::resource('/Asset', assetController::class);
     Route::get('/asset/search', [assetController::class, 'search']);
