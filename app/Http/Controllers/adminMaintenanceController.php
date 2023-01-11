@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\maintenanceController;
+namespace App\Http\Controllers\adminMaintenanceController;
 namespace App\Http\Controllers;
 use App\Models\Maintenances;
 use App\Models\assets;
@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Http\Controllers\Auth;
 
-class maintenanceController extends Controller
+class adminMaintenanceController extends Controller
 {
     public function filter(Request $request)
     {
@@ -120,14 +120,14 @@ class maintenanceController extends Controller
             ->orderBy('assets.id', 'ASC')
             ->get();
 
-        return view ('MaintenanceManagement.index')->with(['assets' => $assets, 'vendors' => $vendors, 'users' => $users, 'locations' => $locations]);
+        return view ('AdminMaintenanceManagement.index')->with(['assets' => $assets, 'vendors' => $vendors, 'users' => $users, 'locations' => $locations]);
     }
     
     public function index()
     {
         $maintenance = Maintenances::all();
 
-        return view ('MaintenanceManagement.index')->with('maintenances', $maintenance);
+        return view ('AdminMaintenanceManagement.index')->with('maintenances', $maintenance);
     }
 
     public function add($id)
@@ -165,7 +165,7 @@ class maintenanceController extends Controller
         ->where('users.id', '=', '14')
         ->get();
 
-        return view ('MaintenanceManagement.list')->with('assets', $assets);
+        return view ('AdminMaintenanceManagement.list')->with('assets', $assets);
     }
 
     public function store(Request $request)
@@ -181,17 +181,13 @@ class maintenanceController extends Controller
     {
         $maintenance = Maintenances::find($id);
         $assets = assets::find($maintenance->id);
-        return view('MaintenanceManagement.viewMaintenance')->with(['maintenances' => $maintenance, 'assets' => $assets]);
+        return view('AdminMaintenanceManagement.viewMaintenance')->with(['maintenances' => $maintenance, 'assets' => $assets]);
     }
 
     public function edit($id)
     {
         $maintenance = Maintenances::find($id);
-        $asset = assets::find($id);
-        $vendors = Vendor::all();
-        $users = User::all();
-        $locations = Location::all();
-        return view('MaintenanceManagement.editMaintenance')->with('maintenances', $maintenance)->with('asset', $asset)->with('users', $users)->with('vendors', $vendors)->with('locations', $locations);
+        return view('AdminMaintenanceManagement.editMaintenance')->with('maintenances', $maintenance);
     }
 
     public function update(Request $request, $id)
@@ -203,6 +199,7 @@ class maintenanceController extends Controller
         // Retrieve the asset and the input values
         $maintenance = Maintenances::find($id);
         $input = $request->all();
+        $input['approve_time'] = Carbon::now();
 
         // if ($request->hasFile('image')) {
         //     if (File::exists(public_path($asset->image_path))) {
@@ -221,9 +218,11 @@ class maintenanceController extends Controller
         // Update the asset record with the new image ID
         $maintenance->update([
             'status' => $input['status'],
+            'approve_time' => $input['approve_time'],
+            'cost' => $input['cost'],
         ]);
 
-        return redirect('MaintenanceManagement')->with('success', 'Maintenance Info Updated!');
+        return redirect('AdminMaintenanceManagement')->with('success', 'Maintenance Info Updated!');
     }
 
     public function destroy($id)

@@ -48,7 +48,7 @@
                     data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
                         <!-- side nav component -->
-                        <a class="nav-link" href="{{ url('#') }}">Add Category</a>
+                        <a class="nav-link" href="{{ url('/MaintenanceManagement') }}">Maintenance Record</a>
                     </nav>
                 </div>
                 <!-- location -->

@@ -10,6 +10,7 @@ use App\Http\Controllers\User\UserProfileController;
 use App\Http\Controllers\vendorController;
 use App\Http\Controllers\locationController;
 use App\Http\Controllers\maintenanceController;
+use App\Http\Controllers\adminMaintenanceController;
 use App\Http\Controllers\assetController;
 use App\Http\Controllers\budgetController;
 /*
@@ -39,6 +40,8 @@ Route::prefix('Admin')->middleware(['auth', 'isAdmin'])->group(function(){
     Route::get('/manageAdminProfile/editPassword/{id}', [AdminProfileController::class, 'editPassword']);
     Route::post('/manageAdminProfile/updatePassword/{id}', [AdminProfileController::class, 'updatePassword']);
 
+    // Route::resource('/AdminMaintenanceManagement', adminMaintenanceController::class);
+
 });
 
 Auth::routes();
@@ -57,7 +60,7 @@ Route::post('/Asset/filter', [assetController::class, 'filter']);
 
 Route::resource('/MaintenanceManagement', maintenanceController::class);
 Route::get('/maintenanceManagement/list', [maintenanceController::class, 'list']);
-Route::get('/maintenanceManagement/add/{id}', [maintenanceController::class, 'add']);
+Route::resource('/AdminMaintenanceManagement', adminMaintenanceController::class);
 
 Route::resource('/Budget', budgetController::class);
 
