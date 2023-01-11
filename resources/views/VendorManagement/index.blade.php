@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends($layout)
 @section('content')
 <div class="container">
     <div class="row">
@@ -10,12 +10,14 @@
                             <h4>Vendor</h4>
                         </a>
                     </div>
+                    @if(Auth::check() && Auth::user()->role_as==1)
                     <div class="btn-group" role="group" aria-label="button group">
                         <a title="New Vendor" href="{{ url('/VendorManagement/create') }}">
                             <button>New Vendor<span></span></button></a>
                         <a class="btn btn-secondary" title="Download as CSV" href="{{ route('vendor.exportcsv') }}">
                             <i class="bi bi-filetype-csv"></i> Download CSV</a>
                     </div>
+                    @endif
                 </h6>
                 <div class="card-body">
                     <br />
@@ -39,7 +41,7 @@
                                     <td>{{ $item->email}}</td>
                                     <td>
                                         <a href="{{ url('/VendorManagement/' .$item->id) }}" title="View Vendor"> <button class="btn btn-primary btn-sm"> <i class="bi bi-eye"></i>View</button></a>
-
+                                        @if(Auth::check() && Auth::user()->role_as==1)
                                         <a href="{{ url('/VendorManagement/' .$item->id . '/edit') }}" title="Edit Vendor"> <button class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i>Edit</button></a>
                                         <form method="POST" action="{{ url('/VendorManagement/' .$item->id) }}" accept-charset="UTF-8" style="display:inline">
                                             {{ method_field('DELETE') }}
@@ -48,6 +50,7 @@
                                                 <i class="bi bi-trash" aria-hidden="true"></i>Delete</button>
 
                                         </form>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach

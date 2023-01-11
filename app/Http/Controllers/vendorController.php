@@ -4,13 +4,20 @@ namespace App\Http\Controllers\vendorController;
 namespace App\Http\Controllers;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
+use Auth;
+
 
 class vendorController extends Controller
 {
     public function index()
     {
+        if(Auth::check() && Auth::user()->role_as==1){
+            $layout = 'layouts.master';
+        }else{
+            $layout = 'layouts.masteruser';
+        }
         $Vendor = Vendor::all();
-        return view ('VendorManagement.index')->with('vendors', $Vendor);
+        return view ('VendorManagement.index')->with('vendors', $Vendor)->with('layout', $layout);
     
     }
 
