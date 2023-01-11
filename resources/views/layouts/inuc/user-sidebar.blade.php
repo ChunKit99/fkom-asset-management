@@ -34,7 +34,7 @@
                     data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
                         <!-- side nav component -->
-                        <a class="nav-link" href="{{ url('#') }}">Add Category</a>
+                        <a class="nav-link" href="{{ url('/Budget') }}">Budget List</a>
                     </nav>
                 </div>
                 <!-- Maintenance -->
