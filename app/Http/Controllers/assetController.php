@@ -236,7 +236,6 @@ class assetController extends Controller
             $vendor = Vendor::find($asset->vendor_id);
             $user = User::find($asset->user_id);
             $location = Location::find($asset->location_id);
-            // return view('AssetManagement.showAssetInfo')->with(['asset' => $asset, 'vendor' => $vendor, 'user' => $user, 'locations' => $location]);
             // Get the image record
             $image = $asset->image_path;
 
@@ -329,23 +328,29 @@ class assetController extends Controller
             $layout = 'layouts.masteruser';
         }
         $asset = assets::find($id);
-        $vendor = Vendor::find($asset->vendor_id);
-        $user = User::find($asset->user_id);
-        $location = Location::find($asset->location_id);
-
-        // Get the image record
-        $image = $asset->image_path;
-
-        // Generate a URL to the image file using the asset() function
-        $image_url = $image ? asset($asset->image_path) : 'https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png?20210219185637';
-
-        return view('AssetManagement.showAssetInfo')->with(['asset' => $asset, 'vendor' => $vendor, 'user' => $user, 'location' => $location, 'image_url' => $image_url, 'layout' =>$layout]);
+        if($asset){
+            $vendor = Vendor::find($asset->vendor_id);
+            $user = User::find($asset->user_id);
+            $location = Location::find($asset->location_id);
+    
+            // Get the image record
+            $image = $asset->image_path;
+    
+            // Generate a URL to the image file using the asset() function
+            $image_url = $image ? asset($asset->image_path) : 'https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png?20210219185637';
+    
+            return view('AssetManagement.showAssetInfo')->with(['asset' => $asset, 'vendor' => $vendor, 'user' => $user, 'location' => $location, 'image_url' => $image_url, 'layout' =>$layout]);
+        }
+        return redirect('Asset')->with('warning', 'No record found!');
     }
 
 
     public function edit($id)
     {
         $asset = assets::find($id);
+        if(!$asset){
+            return redirect('Asset')->with('warning', 'No record found!');
+        }
         $vendors = Vendor::all();
         $users = User::all();
         $locations = Location::all();

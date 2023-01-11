@@ -59,7 +59,8 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/Asset/create', [assetController::class, 'create']);
-    Route::get('/Asset/edit', [assetController::class, 'edit']);
+    Route::get('/Asset/{id}/edit', [assetController::class, 'edit'])->middleware(['auth', 'isAdmin']);
+    Route::delete('/Asset/{id}', [assetController::class, 'destroy'])->middleware(['auth', 'isAdmin']);
 });
 
 Route::resource('/MaintenanceManagement', maintenanceController::class);
