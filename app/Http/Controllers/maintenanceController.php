@@ -162,7 +162,7 @@ class maintenanceController extends Controller
         ->join('location', 'location.id','=','assets.location_id')
         ->join('vendors', 'vendors.id','=','assets.vendor_id')
         ->select('users.name', 'assets.id', 'assets.serial_number', 'assets.category', 'assets.budget', 'location.name as location', 'vendors.name as vendor')
-        ->where('users.id', '=', '6')
+        ->where('users.id', '=', '11')
         ->get();
 
         return view ('MaintenanceManagement.list')->with('assets', $assets);
