@@ -5,7 +5,7 @@ namespace App\Http\Controllers\budgetController;
 namespace App\Http\Controllers;
 
 use DB;
-
+use PDF;
 use App\Models\assets;
 use Illuminate\Http\Request;
 
@@ -42,5 +42,5 @@ class budgetController extends Controller
         }
         return view('BudgetManagement.graphBudget')->with('data', $data_array);
     }
-    
+
 }

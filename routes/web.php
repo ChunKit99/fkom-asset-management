@@ -10,6 +10,7 @@ use App\Http\Controllers\User\UserProfileController;
 use App\Http\Controllers\vendorController;
 use App\Http\Controllers\locationController;
 use App\Http\Controllers\maintenanceController;
+use App\Http\Controllers\adminMaintenanceController;
 use App\Http\Controllers\assetController;
 use App\Http\Controllers\budgetController;
 /*
@@ -39,6 +40,8 @@ Route::prefix('Admin')->middleware(['auth', 'isAdmin'])->group(function(){
     Route::get('/manageAdminProfile/editPassword/{id}', [AdminProfileController::class, 'editPassword']);
     Route::post('/manageAdminProfile/updatePassword/{id}', [AdminProfileController::class, 'updatePassword']);
 
+    // Route::resource('/AdminMaintenanceManagement', adminMaintenanceController::class);
+
 });
 
 Auth::routes();
@@ -61,18 +64,28 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/Asset/create', [assetController::class, 'create']);
-    Route::get('/Asset/edit', [assetController::class, 'edit']);
+    Route::get('/Asset/{id}/edit', [assetController::class, 'edit'])->middleware(['auth', 'isAdmin']);
+    Route::delete('/Asset/{id}', [assetController::class, 'destroy'])->middleware(['auth', 'isAdmin']);
 });
 
 Route::resource('/MaintenanceManagement', maintenanceController::class);
 Route::get('/maintenanceManagement/list', [maintenanceController::class, 'list']);
-Route::get('/maintenanceManagement/add/{id}', [maintenanceController::class, 'add']);
+Route::resource('/AdminMaintenanceManagement', adminMaintenanceController::class);
 
 Route::resource('/Budget', budgetController::class);
 
+Route::middleware(['auth'])->group(function () {
 
 Route::resource('/VendorManagement', vendorController::class);
 Route::resource('/LocationManagement', locationController::class);
 //csv_file
 Route::get('location/exportcsv', [locationController::class, 'exportCSV'])->name('location.exportcsv');
 Route::get('vendor/exportcsv', [vendorController::class, 'exportCSV'])->name('vendor.exportcsv');
+});
+
+Route::middleware(['auth', 'isAdmin'])->group(function () {
+    Route::get('/LocationManagement/create', [locationController::class, 'create']);
+    Route::get('/LocationManagement/{id}/edit', [locationController::class, 'edit']);
+    Route::get('/VendorManagement/create', [locationController::class, 'create']);
+    Route::get('/VendorManagement/{id}/edit', [locationController::class, 'edit']);
+});

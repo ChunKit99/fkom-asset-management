@@ -1,6 +1,6 @@
-@extends('layouts.masteruser')
+@extends('layouts.master')
 @section('title')
-Maintenance Record
+All Maintenance Record
 @endsection
 @section('content')
 <div class="row">
@@ -20,13 +20,13 @@ Maintenance Record
         <div class="card">
             <h4 class="card-header d-flex justify-content-between align-items-center">
                 <div>
-                    <i class="fal fa-coins"></i> <a href="{{ url('/MaintenanceManagement') }} "
-                        class="link-dark text-decoration-none">Maintenance Record</a>
+                    <i class="fal fa-coins"></i> <a href="{{ url('/AdminMaintenanceManagement') }} "
+                        class="link-dark text-decoration-none">All Maintenance Record</a>
                 </div>
                 <div class="btn-group" role="group" aria-label="button group">
                     <a class="btn btn-success" title="New Maintenance"
-                        href="{{ url('/maintenanceManagement/list') }}">
-                        <i class="bi bi-plus-circle"></i> Create New Maintenance</a>
+                        href="{{ url('/AdminMaintenanceManagement/create') }}">
+                        <i class="bi bi-plus-circle"></i>PDF</a>
                 </div>
             </h4>
             <div class="card-body">
@@ -74,9 +74,9 @@ Maintenance Record
                                         <!-- View Edit Delete Button -->
                                         <div class="d-flex justify-content-center">
                                             <div class="btn-group" role="group" aria-label="button group">
-                                                <a href="{{ url('/MaintenanceManagement/' . $maintenance->id) }}" title="View Record"
+                                                <a href="{{ url('/AdminMaintenanceManagement/' . $maintenance->id) }}" title="View Record"
                                                     class="btn btn-primary">View</a>
-                                                <a href="{{ url('/MaintenanceManagement/' . $maintenance->id . '/edit') }}" title="Edit Record"
+                                                <a href="{{ url('/AdminMaintenanceManagement/' . $maintenance->id . '/edit') }}" title="Edit Record"
                                                     class="btn btn-warning">Edit</a>
                                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                                                     title="Delete Record"
@@ -101,7 +101,7 @@ Maintenance Record
                                                             <strong>Serial Number: </strong>{{$maintenance->serial_number}}
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <form action="{{ url('/MaintenanceManagement' . '/' . $maintenance->id)}}"
+                                                            <form action="{{ url('/AdminMaintenanceManagement' . '/' . $maintenance->id)}}"
                                                                 method="POST" style="width:fit-content">
                                                                 {{csrf_field()}}
                                                                 {{method_field('DELETE')}}

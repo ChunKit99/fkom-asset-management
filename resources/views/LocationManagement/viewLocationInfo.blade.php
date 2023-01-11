@@ -11,7 +11,9 @@
             <input type="text" name="id" id="id" value="{{$location->id}}" id="id" class="form-control" readonly> <br>
             <label>Location</label>
             <input type="text" name="name" id="name" value="{{$location->name}}" class="form-control" readonly></br>
-
+            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+              <a class="btn btn-info" href="{{ url('LocationManagement') }}"> Back</a>
+            </div>
         </form>
     </div>
 </div>

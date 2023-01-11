@@ -12,8 +12,9 @@ BudgetManagement
                         </div>
                         <div class="btn-group" role="group" aria-label="button group">
                             <!-- View Budget Report--> 
-                        <a class="btn btn-success" title="View Report" href="{{ URL('/Budget/donutGraph') }}">
+                        <a class="btn btn-success" title="View Report" href="{{ url('/Budget/show') }}">
                             <i class="bi bi-eye"></i> View Report</a>
+                            
                         </div>
                     </h4>   
                           <div class="table-responsive text-nowrap">

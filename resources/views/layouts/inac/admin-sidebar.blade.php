@@ -64,7 +64,7 @@
                     data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
                         <!-- side nav component -->
-                        <a class="nav-link" href="{{ url('/MaintenanceManagement') }}">All Maintenance</a>
+                        <a class="nav-link" href="{{ url('/AdminMaintenanceManagement') }}">All Maintenance</a>
                     </nav>
                 </div>
                 <!-- location -->
