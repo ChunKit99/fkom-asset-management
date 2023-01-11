@@ -54,6 +54,8 @@ Route::get('/asset/search2', [assetController::class, 'search2']);
 Route::get('/asset/pdf', [assetController::class, 'createPDF']);
 Route::post('/Asset/sort', [assetController::class, 'sort']);
 Route::post('/Asset/filter', [assetController::class, 'filter']);
+Route::get('/Asset/create', [assetController::class, 'create'])->middleware(['auth', 'isAdmin']);
+Route::get('/Asset/edit', [assetController::class, 'edit'])->middleware(['auth', 'isAdmin']);
 
 Route::resource('/MaintenanceManagement', maintenanceController::class);
 Route::get('/maintenanceManagement/list', [maintenanceController::class, 'list']);

@@ -12,11 +12,17 @@ use App\Models\Location;
 use Illuminate\Http\Request;
 use PDF;
 use Illuminate\Support\Facades\File;
+use Auth;
 
 class assetController extends Controller
 {
     public function filter(Request $request)
     {
+        if(Auth::check() && Auth::user()->role_as==1){
+            $layout = 'layouts.master';
+        }else{
+            $layout = 'layouts.masteruser';
+        }
         $vendors = Vendor::all();
         $users = User::all();
         $locations = Location::all();
@@ -36,78 +42,144 @@ class assetController extends Controller
                 $user = $request->input('user_id');
                 $query->where('assets.location_id', '=', $location_id)
                     ->where('assets.category', '=', $category)
-                    ->where('vendors.id', '=', $vendor)
-                    ->where('users.id', '=', $user);
+                    ->where('vendors.id', '=', $vendor);
+                if(Auth::check() && Auth::user()->role_as==1){
+                }else{
+                    $query->where('users.id', '=', Auth::user()->id);
+                }    
                 break;
             case 'location':
                 $location_id = $request->input('location_id');
                 $query->where('assets.location_id', '=', $location_id);
+                if(Auth::check() && Auth::user()->role_as==1){
+                }else{
+                    $query->where('users.id', '=', Auth::user()->id);
+                }
                 break;
             case 'category':
                 $category = $request->input('category');
                 $query->where('assets.category', '=', $category);
+                if(Auth::check() && Auth::user()->role_as==1){
+                }else{
+                    $query->where('users.id', '=', Auth::user()->id);
+                }
                 break;
             case 'vendor':
                 $vendor = $request->input('vendor_id');
                 $query->where('vendors.id', '=', $vendor);
+                if(Auth::check() && Auth::user()->role_as==1){
+                }else{
+                    $query->where('users.id', '=', Auth::user()->id);
+                }
                 break;
             case 'user':
                 $user = $request->input('user_id');
                 $query->where('users.id', '=', $user);
                 break;
         }
+        
         $assets = $query->orderBy('assets.id', 'ASC')->get();
         session()->put('assets', $assets);
         session()->put('assetsAction', 'Filtered');
         // Return the view with the assets variable
-        return view('AssetManagement.index')->with(['assets' => $assets, 'vendors' => $vendors, 'users' => $users, 'locations' => $locations]);
+        return view('AssetManagement.index')->with(['assets' => $assets, 'vendors' => $vendors, 'users' => $users, 'locations' => $locations, 'layout' =>$layout]);
     }
 
     public function sort(Request $request)
     {
+        if(Auth::check() && Auth::user()->role_as==1){
+            $layout = 'layouts.master';
+        }else{
+            $layout = 'layouts.masteruser';
+        }
         $vendors = Vendor::all();
         $users = User::all();
         $locations = Location::all();
         $category = $request->input('sort_category');
-        if ($category == 'default_lo') {
-            $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
-                ->join('users', 'users.id', '=', 'assets.user_id')
-                ->join('location', 'location.id', '=', 'assets.location_id')
-                ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
-                ->orderBy('assets.id', 'DESC')
-                ->get();
-        } else if ($category == 'default_ol') {
-            $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
-                ->join('users', 'users.id', '=', 'assets.user_id')
-                ->join('location', 'location.id', '=', 'assets.location_id')
-                ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
-                ->orderBy('assets.id', 'ASC')
-                ->get();
-        }else if ($category == 'budget_a') {
-            $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
-                ->join('users', 'users.id', '=', 'assets.user_id')
-                ->join('location', 'location.id', '=', 'assets.location_id')
-                ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
-                ->orderBy('assets.budget', 'ASC')
-                ->get();
-        }else if ($category == 'budget_d') {
-            $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
-                ->join('users', 'users.id', '=', 'assets.user_id')
-                ->join('location', 'location.id', '=', 'assets.location_id')
-                ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
-                ->orderBy('assets.budget', 'DESC')
-                ->get();
-        }  else {
-            $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
-                ->join('users', 'users.id', '=', 'assets.user_id')
-                ->join('location', 'location.id', '=', 'assets.location_id')
-                ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
-                ->orderBy($category, 'ASC')
-                ->get();
+        if(Auth::check() && Auth::user()->role_as==1){
+            if ($category == 'default_lo') {
+                $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
+                    ->join('users', 'users.id', '=', 'assets.user_id')
+                    ->join('location', 'location.id', '=', 'assets.location_id')
+                    ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
+                    ->orderBy('assets.id', 'DESC')
+                    ->get();
+            } else if ($category == 'default_ol') {
+                $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
+                    ->join('users', 'users.id', '=', 'assets.user_id')
+                    ->join('location', 'location.id', '=', 'assets.location_id')
+                    ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
+                    ->orderBy('assets.id', 'ASC')
+                    ->get();
+            }else if ($category == 'budget_a') {
+                $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
+                    ->join('users', 'users.id', '=', 'assets.user_id')
+                    ->join('location', 'location.id', '=', 'assets.location_id')
+                    ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
+                    ->orderBy('assets.budget', 'ASC')
+                    ->get();
+            }else if ($category == 'budget_d') {
+                $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
+                    ->join('users', 'users.id', '=', 'assets.user_id')
+                    ->join('location', 'location.id', '=', 'assets.location_id')
+                    ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
+                    ->orderBy('assets.budget', 'DESC')
+                    ->get();
+            }else{//location, vendor, user
+                $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
+                    ->join('users', 'users.id', '=', 'assets.user_id')
+                    ->join('location', 'location.id', '=', 'assets.location_id')
+                    ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
+                    ->orderBy($category, 'ASC')
+                    ->get();
+            }
+        }else{
+            if ($category == 'default_lo') {
+                $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
+                    ->join('users', 'users.id', '=', 'assets.user_id')
+                    ->join('location', 'location.id', '=', 'assets.location_id')
+                    ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
+                    ->where('assets.user_id', '=', Auth::user()->id)
+                    ->orderBy('assets.id', 'DESC')
+                    ->get();
+            } else if ($category == 'default_ol') {
+                $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
+                    ->join('users', 'users.id', '=', 'assets.user_id')
+                    ->join('location', 'location.id', '=', 'assets.location_id')
+                    ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
+                    ->where('assets.user_id', '=', Auth::user()->id)
+                    ->orderBy('assets.id', 'ASC')
+                    ->get();
+            }else if ($category == 'budget_a') {
+                $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
+                    ->join('users', 'users.id', '=', 'assets.user_id')
+                    ->join('location', 'location.id', '=', 'assets.location_id')
+                    ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
+                    ->where('assets.user_id', '=', Auth::user()->id)
+                    ->orderBy('assets.budget', 'ASC')
+                    ->get();
+            }else if ($category == 'budget_d') {
+                $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
+                    ->join('users', 'users.id', '=', 'assets.user_id')
+                    ->join('location', 'location.id', '=', 'assets.location_id')
+                    ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
+                    ->where('assets.user_id', '=', Auth::user()->id)
+                    ->orderBy('assets.budget', 'DESC')
+                    ->get();
+            }  else {
+                $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
+                    ->join('users', 'users.id', '=', 'assets.user_id')
+                    ->join('location', 'location.id', '=', 'assets.location_id')
+                    ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
+                    ->where('assets.user_id', '=', Auth::user()->id)
+                    ->orderBy($category, 'ASC')
+                    ->get();
+            }
         }
+        
         session()->put('assets', $assets);
         session()->put('assetsAction', 'Sorted');
-        return view('AssetManagement.index')->with(['assets' => $assets, 'vendors' => $vendors, 'users' => $users, 'locations' => $locations, 'sort_category'=>$category]);
+        return view('AssetManagement.index')->with(['assets' => $assets, 'vendors' => $vendors, 'users' => $users, 'locations' => $locations, 'sort_category'=>$category, 'layout' =>$layout]);
     }
 
     // Generate PDF
@@ -125,20 +197,40 @@ class assetController extends Controller
     public function search2(Request $request)
     {
       $query = $request->input('q');
-      $results = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
-      ->join('users', 'users.id', '=', 'assets.user_id')
-      ->join('location', 'location.id', '=', 'assets.location_id')
-      ->where('serial_number', 'like', "%$query%")
-      ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
-      ->get();
+      if(Auth::check() && Auth::user()->role_as==1){
+        $results = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
+        ->join('users', 'users.id', '=', 'assets.user_id')
+        ->join('location', 'location.id', '=', 'assets.location_id')
+        ->where('serial_number', 'like', "%$query%")
+        ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
+        ->get();
+      }else{
+        $results = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
+        ->join('users', 'users.id', '=', 'assets.user_id')
+        ->join('location', 'location.id', '=', 'assets.location_id')
+        ->where('serial_number', 'like', "%$query%")
+        ->where('assets.user_id', '=', Auth::user()->id)
+        ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
+        ->get();
+      }
+
     
       return response()->json($results);
     }
 
     public function search(Request $request)
     {
+        if(Auth::check() && Auth::user()->role_as==1){
+            $layout = 'layouts.master';
+        }else{
+            $layout = 'layouts.masteruser';
+        }
         $serial_number = $request->input('serial_number');
+        if(Auth::check() && Auth::user()->role_as==1){
         $asset = assets::where('serial_number', $serial_number)->first();
+        }else{
+            $asset = assets::where('serial_number', $serial_number)->where('assets.user_id', '=', Auth::user()->id)->first();
+        }
         // return the item or redirect to a index with warning if the item is not found
         if ($asset) {
             $vendor = Vendor::find($asset->vendor_id);
@@ -151,26 +243,40 @@ class assetController extends Controller
             // Generate a URL to the image file using the asset() function
             $image_url = $image ? asset($asset->image_path) : 'https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png?20210219185637';
 
-            return view('AssetManagement.showAssetInfo')->with(['asset' => $asset, 'vendor' => $vendor, 'user' => $user, 'location' => $location, 'image_url' => $image_url]);
+            return view('AssetManagement.showAssetInfo')->with(['asset' => $asset, 'vendor' => $vendor, 'user' => $user, 'location' => $location, 'image_url' => $image_url, 'layout' =>$layout]);
         } else {
             return redirect('Asset')->with('warning', 'No record found!');
         }
     }
     public function index()
     {
-        // $assets = assets::with('vendors', 'user')->get();
+        if(Auth::check() && Auth::user()->role_as==1){
+            $layout = 'layouts.master';
+        }else{
+            $layout = 'layouts.masteruser';
+        }
         $vendors = Vendor::all();
         $users = User::all();
         $locations = Location::all();
-        $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
+        if(Auth::check() && Auth::user()->role_as==1){
+            $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
             ->join('users', 'users.id', '=', 'assets.user_id')
             ->join('location', 'location.id', '=', 'assets.location_id')
             ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
             ->orderBy('assets.id', 'DESC')
             ->get();
+        }else{
+            $assets = assets::join('vendors', 'vendors.id', '=', 'assets.vendor_id')
+            ->join('users', 'users.id', '=', 'assets.user_id')
+            ->join('location', 'location.id', '=', 'assets.location_id')
+            ->select('assets.*', 'vendors.name as vendor_name', 'users.name as user_name', 'location.name as location_name')
+            ->where('assets.user_id', '=', Auth::user()->id)
+            ->orderBy('assets.id', 'DESC')
+            ->get();
+        }
         session()->put('assets', $assets);
         session()->put('assetsAction', 'All');
-        return view('AssetManagement.index')->with(['assets' => $assets, 'vendors' => $vendors, 'users' => $users, 'locations' => $locations]);
+        return view('AssetManagement.index')->with(['assets' => $assets, 'vendors' => $vendors, 'users' => $users, 'locations' => $locations, 'layout' =>$layout]);
     }
 
     public function create()
@@ -217,11 +323,15 @@ class assetController extends Controller
 
     public function show($id)
     {
+        if(Auth::check() && Auth::user()->role_as==1){
+            $layout = 'layouts.master';
+        }else{
+            $layout = 'layouts.masteruser';
+        }
         $asset = assets::find($id);
         $vendor = Vendor::find($asset->vendor_id);
         $user = User::find($asset->user_id);
         $location = Location::find($asset->location_id);
-        // return view('AssetManagement.showAssetInfo')->with(['asset' => $asset, 'vendor' => $vendor, 'user' => $user, 'location' => $location]);
 
         // Get the image record
         $image = $asset->image_path;
@@ -229,7 +339,7 @@ class assetController extends Controller
         // Generate a URL to the image file using the asset() function
         $image_url = $image ? asset($asset->image_path) : 'https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png?20210219185637';
 
-        return view('AssetManagement.showAssetInfo')->with(['asset' => $asset, 'vendor' => $vendor, 'user' => $user, 'location' => $location, 'image_url' => $image_url]);
+        return view('AssetManagement.showAssetInfo')->with(['asset' => $asset, 'vendor' => $vendor, 'user' => $user, 'location' => $location, 'image_url' => $image_url, 'layout' =>$layout]);
     }
 
 

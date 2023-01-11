@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends($layout)
 @section('title')
 Asset Management
 @endsection
@@ -24,8 +24,10 @@ Asset Management
           <i class="fal fa-coins"></i> <a href="{{ url('/Asset') }} " class="link-dark text-decoration-none">Asset</a>
         </div>
         <div class="btn-group" role="group" aria-label="button group">
+          @if(Auth::check() && Auth::user()->role_as==1)
           <a class="btn btn-success" title="New Asset" href="{{ url('/Asset/create') }}">
             <i class="bi bi-plus-circle"></i> Create New Asset</a>
+          @endif
           <a class="btn btn-secondary" title="Download as PDF" href="{{ URL::to('/asset/pdf') }}">
             <i class="bi bi-file-pdf"></i> Download PDF</a>
         </div>
@@ -62,7 +64,9 @@ Asset Management
                   <option value="budget_a" @isset($sort_category) @if($sort_category=='budget_a' ) selected @endif @endisset>Budget (Ascending Order)</option>
                   <option value="budget_d" @isset($sort_category) @if($sort_category=='budget_d' ) selected @endif @endisset>Budget (Descending Order)</option>
                   <option value="vendor_id" @isset($sort_category) @if($sort_category=='vendor_id' ) selected @endif @endisset>Vendor</option>
+                  @if(Auth::check() && Auth::user()->role_as==1)
                   <option value="user_id" @isset($sort_category) @if($sort_category=='user_id' ) selected @endif @endisset>Responsible</option>
+                  @endif
                 </select>
                 <button type="submit" class="btn btn-primary" title="Sort Asset">
                   <i class="bi bi-sort-down-alt"></i> Sort by
@@ -91,7 +95,9 @@ Asset Management
                   <option value="location">Location</option>
                   <option value="category">Category</option>
                   <option value="vendor">Vendor</option>
+                  @if(Auth::check() && Auth::user()->role_as==1)
                   <option value="user">Responsible</option>
+                  @endif
                 </select>
                 <span id="filterCategoryHelpInline" class="form-text">
                   Apply all will filter and match all the condition. Other option will only apply the selected filter category value.
@@ -135,6 +141,7 @@ Asset Management
                 </select>
               </div>
             </div>
+            @if(Auth::check() && Auth::user()->role_as==1)
             <!-- user id -->
             <div class="mb-3 row">
               <label for="user_id" class="col-sm-2 col-form-label">Responsible</label>
@@ -146,6 +153,7 @@ Asset Management
                 </select>
               </div>
             </div>
+            @endif
             <!-- button -->
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
               <button type="submit" class="btn btn-primary" title="Filter Asset">Filter</button>
@@ -167,7 +175,9 @@ Asset Management
                   <th>Category</th>
                   <th>Budget</th>
                   <th>Vendor</th>
+                  @if(Auth::check() && Auth::user()->role_as==1)
                   <th>Responsible</th>
+                  @endif
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -205,13 +215,16 @@ Asset Management
                   <td>{{ $asset->budget }}</td>
                   <!--Vendor-->
                   <td>{{ $asset->vendor_name }}</td>
+                  @if(Auth::check() && Auth::user()->role_as==1)
                   <!--User-->
                   <td>{{ $asset->user_name }}</td>
+                  @endif
                   <td>
                     <!-- View Edit Delete Button -->
                     <div class="d-flex justify-content-center">
                       <div class="btn-group" role="group" aria-label="button group">
                         <a href="{{ url('/Asset/' . $asset->id) }}" title="View Asset" class="btn btn-primary">View</a>
+                        @if(Auth::check() && Auth::user()->role_as==1)
                         <a href="{{ url('/Asset/' . $asset->id . '/edit') }}" title="Edit Asset" class="btn btn-warning">Edit</a>
                         <button type="button" class="btn btn-danger" data-bs-toggle="modal" title="Delete Asset" data-bs-target="#confirmDelete{{$loop->iteration}}">
                           Delete
@@ -243,6 +256,7 @@ Asset Management
                         </div>
                       </div>
                       <!-- end Modal  -->
+                      @endif
                     </div>
                   </td>
                 </tr>
