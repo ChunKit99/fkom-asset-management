@@ -64,3 +64,6 @@ Route::resource('/Budget', budgetController::class);
 
 Route::resource('/VendorManagement', vendorController::class);
 Route::resource('/LocationManagement', locationController::class);
+//csv_file
+Route::get('location/exportcsv', [locationController::class, 'exportCSV'])->name('location.exportcsv');
+Route::get('vendor/exportcsv', [vendorController::class, 'exportCSV'])->name('vendor.exportcsv');

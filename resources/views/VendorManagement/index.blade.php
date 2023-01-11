@@ -13,6 +13,8 @@
                     <div class="btn-group" role="group" aria-label="button group">
                         <a title="New Vendor" href="{{ url('/VendorManagement/create') }}">
                             <button>New Vendor<span></span></button></a>
+                        <a class="btn btn-secondary" title="Download as CSV" href="{{ route('vendor.exportcsv') }}">
+                            <i class="bi bi-filetype-csv"></i> Download CSV</a>
                     </div>
                 </h6>
                 <div class="card-body">

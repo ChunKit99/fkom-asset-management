@@ -51,4 +51,36 @@ class locationController extends Controller
         Location::destroy($id);
         return redirect('LocationManagement')->with('flash_message', 'Location deleted!');
     }
+
+    public function exportCSV(Request $request)
+    {
+        $fileName = 'locations.csv';
+        $location = Location::all();
+
+            $headers = array(
+                "Content-type"        => "text/csv",
+                "Content-Disposition" => "attachment; filename=$fileName",
+                "Pragma"              => "no-cache",
+                "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+                "Expires"             => "0"
+            );
+
+            $columns = array('ID', 'Location');
+
+            $callback = function() use($location, $columns) {
+                $file = fopen('php://output', 'w');
+                fputcsv($file, $columns);
+
+                foreach ($location as $location) {
+                    $row['ID']  = $location->id;
+                    $row['Location']    = $location->name;
+
+                    fputcsv($file, array($row['ID'], $row['Location']));
+                }
+
+                fclose($file);
+            };
+
+            return response()->stream($callback, 200, $headers);
+    }
 }
