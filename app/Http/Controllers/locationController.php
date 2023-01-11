@@ -4,13 +4,19 @@ namespace App\Http\Controllers\locationController;
 namespace App\Http\Controllers;
 use App\Models\Location;
 use Illuminate\Http\Request;
+use Auth;
 
 class locationController extends Controller
 {
     public function index()
     {
+        if(Auth::check() && Auth::user()->role_as==1){
+            $layout = 'layouts.master';
+        }else{
+            $layout = 'layouts.masteruser';
+        }
         $Location = Location::all();
-        return view ('LocationManagement.index')->with('location', $Location);
+        return view ('LocationManagement.index')->with('location', $Location)->with('layout', $layout);
     
     }
 

@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends($layout)
 @section('content')
 <div class="container">
     <div class="row">
@@ -10,15 +10,14 @@
                             <h4>Location</h4>
                         </a>
                     </div>
+                    @if(Auth::check() && Auth::user()->role_as==1)
                     <div class="btn-group" role="group" aria-label="button group">
                         <a title="New Location" href="{{ url('/LocationManagement/create') }}">
                             <button>New Location<span></span></button></a>
-                        <!-- <a class="btn btn-secondary" title="Download as CSV" href="{{ URL::to('/asset/csv') }}"> -->
                         <a class="btn btn-secondary" title="Download as CSV" href="{{ route('location.exportcsv') }}">
                             <i class="bi bi-filetype-csv"></i> Download CSV</a>
-                    
-
                     </div>
+                    @endif
                 </h6>
                 <div class="card-body">
                     <br />
@@ -38,15 +37,15 @@
                                     <td>{{ $item->name}}</td>
                                     <td>
                                         <a href="{{ url('/LocationManagement/' .$item->id) }}" title="View Location"> <button class="btn btn-primary btn-sm"> <i class="bi bi-eye"></i>View</button></a>
-
+                                        @if(Auth::check() && Auth::user()->role_as==1)
                                         <a href="{{ url('/LocationManagement/' .$item->id . '/edit') }}" title="Edit Location"> <button class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i>Edit</button></a>
                                         <form method="POST" action="{{ url('/LocationManagement/' .$item->id) }}" accept-charset="UTF-8" style="display:inline">
                                             {{ method_field('DELETE') }}
                                             {{ csrf_field() }}
                                             <button type="submit" class="btn btn-danger btn-sm" title="Delete Location" onclick="return confirm(&quot;Confirm delete?&quot;)">
                                                 <i class="bi bi-trash"></i>Delete</button>
-
                                         </form>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach

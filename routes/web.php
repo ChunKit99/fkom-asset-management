@@ -69,9 +69,18 @@ Route::get('/maintenanceManagement/add/{id}', [maintenanceController::class, 'ad
 
 Route::resource('/Budget', budgetController::class);
 
+Route::middleware(['auth'])->group(function () {
 
 Route::resource('/VendorManagement', vendorController::class);
 Route::resource('/LocationManagement', locationController::class);
 //csv_file
 Route::get('location/exportcsv', [locationController::class, 'exportCSV'])->name('location.exportcsv');
 Route::get('vendor/exportcsv', [vendorController::class, 'exportCSV'])->name('vendor.exportcsv');
+});
+
+Route::middleware(['auth', 'isAdmin'])->group(function () {
+    Route::get('/LocationManagement/create', [locationController::class, 'create']);
+    Route::get('/LocationManagement/{id}/edit', [locationController::class, 'edit']);
+    Route::get('/VendorManagement/create', [locationController::class, 'create']);
+    Route::get('/VendorManagement/{id}/edit', [locationController::class, 'edit']);
+});
