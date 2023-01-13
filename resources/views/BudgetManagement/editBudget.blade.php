@@ -18,6 +18,8 @@ BudgetManagement
                 <input type = "hidden" name = "id" id = "id" value = "{{$asset->id}}"/>
                 <strong>Serial Number: </strong></br>
                 <input type = "text" name = "serial_number" id = "serial_number" value = "{{$asset->serial_number}}" class = "form-control" readonly></br>
+                <strong>Category: </strong></br>
+                <input type = "text" name = "category" id = "category" value = "{{$asset->category}}" class = "form-control" readonly></br>
                 <strong>Budget: </strong></br>
                 <input type = "text" name = "budget" id = "budget" value = "{{$asset->budget}}" class = "form-control"></br>
                 <div class="col-xs-12 col-sm-12 col-md-12 text-center">

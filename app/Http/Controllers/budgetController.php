@@ -5,22 +5,51 @@ namespace App\Http\Controllers\budgetController;
 namespace App\Http\Controllers;
 
 use DB;
-use PDF;
+
 use App\Models\assets;
+use App\Models\User;
+use App\Models\Budget;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use Auth;
 
 class budgetController extends Controller
 { 
     // 
     public function index()
     {
+        if(Auth::check() && Auth::user()->role_as==1){
+            $layout = 'layouts.master';
+        }else{
+            $layout = 'layouts.masteruser';
+        }
+
         $assets = assets::all();
-        return view('BudgetManagement.home')->with(['assets' => $assets]);
+        $users = User::all();
+
+        if(Auth::check() && Auth::user()->role_as==1){
+            $assets = assets::join('users', 'users.id', '=', 'assets.user_id')
+            ->select('assets.*', 'users.name as user_name')
+            ->orderBy('assets.id', 'DESC')
+            ->get();
+
+        }else{
+            $assets = assets::join('users', 'users.id', '=', 'assets.user_id')
+            ->select('assets.*', 'users.name as user_name')
+            ->where('assets.user_id', '=', Auth::user()->id)
+            ->orderBy('assets.id', 'DESC')
+            ->get();
+
+        }
+        session()->put('assets', $assets);
+        session()->put('assetsAction', 'All');
+        return view('BudgetManagement.home')->with(['assets' => $assets, 'users' => $users, 'layout' =>$layout]);
     }
 
     public function edit($id)
-    {
+    {       
         $asset = assets::find($id);
+        //$budgets = budget::find($id);
         return view('BudgetManagement.editBudget')->with('asset', $asset);
     }
 
@@ -30,7 +59,7 @@ class budgetController extends Controller
         $asset = assets::find($id);
         $input = $request->all();
         $asset->update($input);
-        return redirect('Budget')->with('success', 'Asset Info Updated!');
+        return redirect('Budget')->with('success', 'Budget Updated!');
     }
 
     public function show(Request $request, $id)
@@ -43,4 +72,23 @@ class budgetController extends Controller
         return view('BudgetManagement.graphBudget')->with('data', $data_array);
     }
 
+    public function list(Request $request)
+    {
+        // $user = Auth::id();
+        $budgets = budget::all();
+        $assets = assets::join('budget','budget.serial_number','=','assets.serial_number')
+        ->select('budget.status', 'assets.serial_number', 'assets.category', 'assets.id')
+        ->get();
+
+        return view ('BudgetManagement.listBudget')->with('assets',$assets);
+    }
+ 
+    public function store(Request $request)
+    {
+        $input = $request->all();
+        $input['status'] = 'Request';
+        $input['request_time'] = Carbon::now();
+        Budget::create($input);
+        return redirect('Budget')->with('success', 'New Budget Request Added!');
+    }
 }
