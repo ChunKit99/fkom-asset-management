@@ -47,7 +47,7 @@
                                 
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{$item -> name}}</td>
+                                    <td>{{$item -> fullname}}</td>
                                     <td>{{$item -> username}}</td>
                                     <td>{{$item -> contact}}</td>
                                     <td>{{$item -> position}}</td>
