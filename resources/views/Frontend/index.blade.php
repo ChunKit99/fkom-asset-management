@@ -29,6 +29,7 @@
                     <div class="row">
                         <div class="col">
                             <h5 class="text-uppercase">Ong Wei Cheng</h5>
+                            <br>
 
                             <ul class="list-unstyled mb-0">
                                 <li>
@@ -49,6 +50,8 @@
                         <!--Grid column-->
                         <div class="col">
                             <h5 class="text-uppercase">Tua Yong Liang</h5>
+                            <br>
+
 
                             <ul class="list-unstyled mb-0">
                                 <li>
@@ -56,6 +59,8 @@
                                 </li>
                                 <li>
                                     <p>Maintenance Management</p>
+                                    <p class="invisible">hide</p>
+                                </li>
                                 <li>
                                     <a href="https://github.com/yongliangt" class="text-white">Github</a>
                                 </li>
@@ -66,6 +71,8 @@
                         <!--Grid column-->
                         <div class="col">
                             <h5 class="text-uppercase">Liong Woei Chi</h5>
+                            <br>
+
 
                             <ul class="list-unstyled mb-0">
                                 <li>
@@ -85,6 +92,8 @@
                         <!--Grid column-->
                         <div class="col">
                             <h5 class="text-uppercase">Kong Choon</h5>
+                            <br>
+
 
                             <ul class="list-unstyled mb-0">
                                 <li>
@@ -104,6 +113,8 @@
                         <!--Grid column-->
                         <div class="col">
                             <h5 class="text-uppercase">Liew Chun Kit</h5>
+                            <br>
+
 
                             <ul class="list-unstyled mb-0">
                                 <li>
@@ -111,6 +122,8 @@
                                 </li>
                                 <li>
                                     <p>Asset Management</p>
+                                    <p class="invisible">hide</p>
+
                                 </li>
                                 <li>
                                     <a href="https://github.com/ChunKit99" class="text-white">Github</a>
