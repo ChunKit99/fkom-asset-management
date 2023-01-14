@@ -9,7 +9,7 @@ use App\Models\Vendor;
 use App\Models\Location;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use App\Http\Controllers\Auth;
+use Auth;
 
 class maintenanceController extends Controller
 {
@@ -125,9 +125,14 @@ class maintenanceController extends Controller
     
     public function index()
     {
+        if(Auth::check() && Auth::user()->role_as==1){
+            $layout = 'layouts.master';
+        }else{
+            $layout = 'layouts.masteruser';
+        }
         $maintenance = Maintenances::all();
 
-        return view ('MaintenanceManagement.index')->with('maintenances', $maintenance);
+        return view ('MaintenanceManagement.index')->with(['maintenances'=> $maintenance, 'layout' =>$layout]);
     }
 
     public function add($id)
@@ -154,10 +159,31 @@ class maintenanceController extends Controller
 
     public function list(Request $request)
     {
-        // $user = Auth::id();
+        if(Auth::check() && Auth::user()->role_as==1){
+            $layout = 'layouts.master';
+        }else{
+            $layout = 'layouts.masteruser';
+        }
         $vendors = Vendor::all();
         $users = User::all();
         $locations = Location::all();
+        $maintenance = Maintenances::all();
+
+        // if(Maintenances::where('status', '=', 'completed')
+        // ->orWhere('status', '=', 'cancelled'))
+        // $maintenance = Maintenances::join('assets', 'maintenances.serial_number', '=', 'assets.serial_number')
+        // ->select('maintenances.serial_number', 'maintenances.status')
+        // ->get();
+        if(Auth::check() && Auth::user()->role_as==0){
+            $assets = assets::join('users', 'users.id','=','assets.user_id')
+        ->join('location', 'location.id','=','assets.location_id')
+        ->join('vendors', 'vendors.id','=','assets.vendor_id')
+        ->select('users.name', 'assets.id', 'assets.serial_number', 'assets.category', 'assets.budget', 'location.name as location', 'vendors.name as vendor')
+        ->where('users.id', '=', '14')
+        ->get();
+        }else{
+            $layout = 'layouts.masteruser';
+        }
         $assets = assets::join('users', 'users.id','=','assets.user_id')
         ->join('location', 'location.id','=','assets.location_id')
         ->join('vendors', 'vendors.id','=','assets.vendor_id')
@@ -165,7 +191,7 @@ class maintenanceController extends Controller
         ->where('users.id', '=', '14')
         ->get();
 
-        return view ('MaintenanceManagement.list')->with('assets', $assets);
+        return view ('MaintenanceManagement.list')->with(['assets'=> $assets, 'maintenances' => $maintenance]);
     }
 
     public function store(Request $request)
@@ -174,6 +200,7 @@ class maintenanceController extends Controller
         $input['status'] = 'Under Review';
         $input['request_time'] = Carbon::now();
         Maintenances::create($input);
+        
         return redirect('MaintenanceManagement')->with('success', 'New Maintenance Request Added!');
     }
 

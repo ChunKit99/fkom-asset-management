@@ -47,13 +47,15 @@ Add Maintenance List
                                     <td>
                                         <!-- View Edit Delete Button -->
                                         <div class="d-flex justify-content-center">
+
                                             <div class="btn-group" role="group" aria-label="button group">
                                                 <form action="{{ url('MaintenanceManagement') }}" method="POST">
                                                     {{csrf_field()}}
-                                                    <input name="serial_number" id="serial_number" hidden class="form-control"
+                                                    <input name="serial_number" id="serial_number" hidden
+                                                        class="form-control"
                                                         value="{{ $asset->serial_number }}"></input>
-                                                    <input name="request_time" id="request_time" hidden class="form-control"
-                                                        value=""></input>
+                                                    <input name="request_time" id="request_time" hidden
+                                                        class="form-control" value=""></input>
                                                     <input name="status" id="status" hidden class="form-control"
                                                         value=""></input>
                                                     <button type="submit" class="btn btn-primary">Add Request</button>
