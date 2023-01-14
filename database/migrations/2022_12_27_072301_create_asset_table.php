@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('assets', function (Blueprint $table) {
             $table->id();
-            $table->String('serial_number')->unique();
+            $table->String('serial_number');
             $table->String('category');
             $table->double('budget', 8, 2);
             $table->unsignedBigInteger('location_id');
