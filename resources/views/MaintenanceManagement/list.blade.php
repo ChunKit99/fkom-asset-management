@@ -16,6 +16,16 @@ Add Maintenance List
                         <i class="bi bi-plus-circle"></i> Back</a>
                 </div>
             </h4>
+            @if ($errors->has('serial_number'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
             <div class="card-body">
                 <section>
                     <div class="table-responsive text-nowrap">

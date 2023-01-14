@@ -10,6 +10,8 @@ use App\Models\Location;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Auth;
+use Illuminate\Support\Facades\Validator;
+use App\Rules\MaintenanceRecordExists;
 
 class maintenanceController extends Controller
 {
@@ -130,7 +132,20 @@ class maintenanceController extends Controller
         }else{
             $layout = 'layouts.masteruser';
         }
-        $maintenance = Maintenances::all();
+        if(Auth::check() && Auth::user()->role_as==1){
+            $maintenance = Maintenances::join('assets', 'assets.serial_number', '=', 'maintenances.serial_number')
+            ->join('users', 'users.id', '=', 'assets.user_id')
+            ->select('maintenances.*')
+            ->get();
+        }else{
+            $maintenance = Maintenances::join('assets', 'assets.serial_number', '=', 'maintenances.serial_number')
+            ->join('users', 'users.id', '=', 'assets.user_id')
+            ->select('maintenances.*')
+            ->where('users.id', '=', Auth::user()->id)
+            ->get();
+        }
+        
+        // $maintenance = Maintenances::all();
 
         return view ('MaintenanceManagement.index')->with(['maintenances'=> $maintenance, 'layout' =>$layout]);
     }
@@ -174,28 +189,44 @@ class maintenanceController extends Controller
         // $maintenance = Maintenances::join('assets', 'maintenances.serial_number', '=', 'assets.serial_number')
         // ->select('maintenances.serial_number', 'maintenances.status')
         // ->get();
-        if(Auth::check() && Auth::user()->role_as==0){
+        if(Auth::check() && Auth::user()->role_as==1){
+            $maintenance = Maintenances::join('assets', 'assets.serial_number', '=', 'maintenances.serial_number')
+            ->join('users', 'users.id', '=', 'assets.user_id')
+            ->select('maintenances.*')
+            ->get();
             $assets = assets::join('users', 'users.id','=','assets.user_id')
-        ->join('location', 'location.id','=','assets.location_id')
-        ->join('vendors', 'vendors.id','=','assets.vendor_id')
-        ->select('users.name', 'assets.id', 'assets.serial_number', 'assets.category', 'assets.budget', 'location.name as location', 'vendors.name as vendor')
-        ->where('users.id', '=', '14')
-        ->get();
+            ->join('location', 'location.id','=','assets.location_id')
+            ->join('vendors', 'vendors.id','=','assets.vendor_id')
+            ->select('users.name', 'assets.id', 'assets.serial_number', 'assets.category', 'assets.budget', 'location.name as location', 'vendors.name as vendor')
+            ->get();
         }else{
-            $layout = 'layouts.masteruser';
+            $maintenance = Maintenances::join('assets', 'assets.serial_number', '=', 'maintenances.serial_number')
+            ->join('users', 'users.id', '=', 'assets.user_id')
+            ->where('users.id', '=', Auth::user()->id)
+            ->select('maintenances.*')
+            ->get();
+            $assets = assets::join('users', 'users.id','=','assets.user_id')
+            ->join('location', 'location.id','=','assets.location_id')
+            ->join('vendors', 'vendors.id','=','assets.vendor_id')
+            ->select('users.name', 'assets.id', 'assets.serial_number', 'assets.category', 'assets.budget', 'location.name as location', 'vendors.name as vendor')
+            ->where('users.id', '=', Auth::user()->id)
+            ->get();
         }
-        $assets = assets::join('users', 'users.id','=','assets.user_id')
-        ->join('location', 'location.id','=','assets.location_id')
-        ->join('vendors', 'vendors.id','=','assets.vendor_id')
-        ->select('users.name', 'assets.id', 'assets.serial_number', 'assets.category', 'assets.budget', 'location.name as location', 'vendors.name as vendor')
-        ->where('users.id', '=', '14')
-        ->get();
-
+        
         return view ('MaintenanceManagement.list')->with(['assets'=> $assets, 'maintenances' => $maintenance]);
     }
 
     public function store(Request $request)
     {
+
+        $validator = Validator::make($request->all(), [
+            'serial_number' => [new MaintenanceRecordExists],
+        ]);
+        
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
+        }
+
         $input = $request->all();
         $input['status'] = 'Under Review';
         $input['request_time'] = Carbon::now();
