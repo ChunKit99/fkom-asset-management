@@ -7,7 +7,6 @@
                 height: 100vh;background-repeat:no-repeat; background-size:100%;">
 </div>
 
-
 <!-- Footer -->
 <footer class="bg-dark text-center text-white">
     <!-- Grid container -->
@@ -40,7 +39,7 @@
                                     <p>Location Management</p>
                                 </li>
                                 <li>
-                                    <a href="https://github.com/GHTAM" class="text-white">Github</a>
+                                    <a href="https://github.com/GHTAM" target='_blank' class="text-white" >Github</a>
                                 </li>
                             </ul>
                         </div>
@@ -62,7 +61,7 @@
                                     <p class="invisible">hide</p>
                                 </li>
                                 <li>
-                                    <a href="https://github.com/yongliangt" class="text-white">Github</a>
+                                    <a href="https://github.com/yongliangt" target='_blank' class="text-white">Github</a>
                                 </li>
                             </ul>
                         </div>
@@ -83,7 +82,7 @@
                                     <p>User Management</p>
                                 </li>
                                 <li>
-                                    <a href="https://github.com/WoeiChi" class="text-white">Github</a>
+                                    <a href="https://github.com/WoeiChi" target='_blank' class="text-white">Github</a>
                                 </li>
                             </ul>
                         </div>
@@ -104,7 +103,7 @@
                                     <p>Report</p>
                                 </li>
                                 <li>
-                                    <a href="https://github.com/KongChoon" class="text-white">Github</a>
+                                    <a href="https://github.com/KongChoon"  target='_blank' class="text-white">Github</a>
                                 </li>
                             </ul>
                         </div>
@@ -126,7 +125,7 @@
 
                                 </li>
                                 <li>
-                                    <a href="https://github.com/ChunKit99" class="text-white">Github</a>
+                                    <a href="https://github.com/ChunKit99"  target='_blank' class="text-white">Github</a>
                                 </li>
                             </ul>
                         </div>
