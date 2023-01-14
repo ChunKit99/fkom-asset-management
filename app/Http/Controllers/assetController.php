@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 use PDF;
 use Illuminate\Support\Facades\File;
 use Auth;
+use Illuminate\Support\Facades\Validator;
+use App\Rules\UniqueSerialNumber;
 
 class assetController extends Controller
 {
@@ -288,11 +290,19 @@ class assetController extends Controller
 
     public function store(Request $request)
     {
+        
         $request->validate([
             'serial_number' => 'required',
-            'budget' => 'required',
+            'budget' => 'required|numeric|between:0,99999999999.9999',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
+        $validator = Validator::make($request->all(), [
+            'serial_number' => [new UniqueSerialNumber],
+        ]);
+        
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
+        }
         $input = $request->all();
 
         if ($request->hasFile('image')) {
@@ -352,7 +362,7 @@ class assetController extends Controller
             return redirect('Asset')->with('warning', 'No record found!');
         }
         $vendors = Vendor::all();
-        $users = User::all();
+        $users = User::where('role_as', '!=', 1)->get();
         $locations = Location::all();
         // Get the image record
         $image = $asset->image_path;
