@@ -39,7 +39,7 @@
                                     <p>Location Management</p>
                                 </li>
                                 <li>
-                                    <a href="https://github.com/GHTAM" target='_blank' class="text-white" >Github</a>
+                                    <a href="https://github.com/GHTAM" target='_blank' class="text-white">Github</a>
                                 </li>
                             </ul>
                         </div>
@@ -61,7 +61,8 @@
                                     <p class="invisible">hide</p>
                                 </li>
                                 <li>
-                                    <a href="https://github.com/yongliangt" target='_blank' class="text-white">Github</a>
+                                    <a href="https://github.com/yongliangt" target='_blank'
+                                        class="text-white">Github</a>
                                 </li>
                             </ul>
                         </div>
@@ -103,7 +104,7 @@
                                     <p>Report</p>
                                 </li>
                                 <li>
-                                    <a href="https://github.com/KongChoon"  target='_blank' class="text-white">Github</a>
+                                    <a href="https://github.com/KongChoon" target='_blank' class="text-white">Github</a>
                                 </li>
                             </ul>
                         </div>
@@ -125,7 +126,7 @@
 
                                 </li>
                                 <li>
-                                    <a href="https://github.com/ChunKit99"  target='_blank' class="text-white">Github</a>
+                                    <a href="https://github.com/ChunKit99" target='_blank' class="text-white">Github</a>
                                 </li>
                             </ul>
                         </div>
