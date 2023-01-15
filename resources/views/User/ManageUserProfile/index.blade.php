@@ -1,6 +1,7 @@
 @extends('layouts.master')
 @section('title', 'Manage User Profile')
 @section('content')
+<br>
 
 <div class="container">
     <div class="row justify-content-center">
@@ -8,7 +9,6 @@
             <div class="card card text-center">
                 <div class="card-header">User Information</div>
                 <div class="card-body">
-                    <!--Add button to addbook interface-->
 
                     <style>
                     .content {

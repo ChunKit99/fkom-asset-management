@@ -1,6 +1,7 @@
 @extends('layouts.master')
 @section('title', 'Manage User Information')
 @section('content')
+<br>
 
 <div class="container">
     <div class="row justify-content-center">
