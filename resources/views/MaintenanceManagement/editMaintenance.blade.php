@@ -41,9 +41,11 @@ Edit Maintenance Record
                         <label for="serial_number" class="col-sm-2 col-form-label"><strong>Status:</strong></label>
                         <div class="col-sm-10">
                             <select name="status" id="status" class="form-select">
-                                <option value="Under Review" {{ $maintenances->status == 'under_review' ? 'selected' : '' }}>Under Review</option>
-                                <option value="Completed" {{ $maintenances->status == 'completed' ? 'selected' : '' }}>Completed</option>
-                                <option value="Cancelled" {{ $maintenances->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                            <option value="under_review" {{ $maintenances->status == 'under_review' ? 'selected' : '' }}>Under Review</option>
+                                <option value="approved" {{ $maintenances->status == 'approved' ? 'selected' : '' }}>Approved</option>
+                                <option value="rejected" {{ $maintenances->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
+                                <option value="completed" {{ $maintenances->status == 'completed' ? 'selected' : '' }}>Completed</option>
+                                <option value="cancelled" {{ $maintenances->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                             </select>
                         </div>
                     </div>

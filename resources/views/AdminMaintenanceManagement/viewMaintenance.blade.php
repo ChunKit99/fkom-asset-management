@@ -49,11 +49,11 @@ Maintenance Management
                         <div class="form-group row">
                             <label for="category" class="col-sm-2 col-form-label"><strong>Status:</strong></label>
                             <div class="col-sm-10">
-                                <input type="text" name="status" id="status" class="form-control-plaintext" value="@if($maintenances->status == 'Under Review')Under Review
-                  @elseif($maintenances->status == 'Approved')Approved
-                  @elseif($maintenances->status == 'Rejected')Rejected
-                  @elseif($maintenances->status == 'Completed')Completed
-                @elseif($maintenances->status == 'Cancelled')Cancelled
+                                <input type="text" name="status" id="status" class="form-control-plaintext" value="@if($maintenances->status == 'under_review')Under Review
+                  @elseif($maintenances->status == 'approved')Approved
+                  @elseif($maintenances->status == 'rejected')Rejected
+                  @elseif($maintenances->status == 'completed')Completed
+                @elseif($maintenances->status == 'cancelled')Cancelled
                   @else 
                   @endif" readonly>
                             </div>

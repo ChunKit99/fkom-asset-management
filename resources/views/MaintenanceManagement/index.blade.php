@@ -1,4 +1,4 @@
-@extends('layouts.masteruser')
+@extends($layout)
 @section('title')
 Maintenance Record
 @endsection
@@ -24,9 +24,10 @@ Maintenance Record
                         class="link-dark text-decoration-none">Maintenance Record</a>
                 </div>
                 <div class="btn-group" role="group" aria-label="button group">
-                    <a class="btn btn-success" title="New Maintenance"
-                        href="{{ url('/maintenanceManagement/list') }}">
+                    @if(Auth::check() && Auth::user()->role_as==0)
+                    <a class="btn btn-success" title="New Maintenance" href="{{ url('/maintenanceManagement/list') }}">
                         <i class="bi bi-plus-circle"></i> Create New Maintenance</a>
+                    @endif
                 </div>
             </h4>
             <div class="card-body">
@@ -56,15 +57,15 @@ Maintenance Record
                                     <td>{{ $maintenance->approve_time }}</td>
                                     <td>
                                         <!--Category-->
-                                        @if($maintenance->status == 'Under Review')
+                                        @if($maintenance->status == 'under_review')
                                         Under Review
-                                        @elseif($maintenance->status == 'Approved')
+                                        @elseif($maintenance->status == 'approved')
                                         Approved
-                                        @elseif($maintenance->status == 'Rejected')
+                                        @elseif($maintenance->status == 'rejected')
                                         Rejected
-                                        @elseif($maintenance->status == 'Completed')
+                                        @elseif($maintenance->status == 'completed')
                                         Completed
-                                        @elseif($maintenance->status == 'Cancelled')
+                                        @elseif($maintenance->status == 'cancelled')
                                         Cancelled
                                         @else
                                         @endif
@@ -74,10 +75,11 @@ Maintenance Record
                                         <!-- View Edit Delete Button -->
                                         <div class="d-flex justify-content-center">
                                             <div class="btn-group" role="group" aria-label="button group">
-                                                <a href="{{ url('/MaintenanceManagement/' . $maintenance->id) }}" title="View Record"
-                                                    class="btn btn-primary">View</a>
-                                                <a href="{{ url('/MaintenanceManagement/' . $maintenance->id . '/edit') }}" title="Edit Record"
-                                                    class="btn btn-warning">Edit</a>
+                                                <a href="{{ url('/MaintenanceManagement/' . $maintenance->id) }}"
+                                                    title="View Record" class="btn btn-primary">View</a>
+                                                @if(Auth::check() && Auth::user()->role_as==1)
+                                                <a href="{{ url('/MaintenanceManagement/' . $maintenance->id . '/edit') }}"
+                                                    title="Edit Record" class="btn btn-warning">Edit</a>
                                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                                                     title="Delete Record"
                                                     data-bs-target="#confirmDelete{{$loop->iteration}}">
@@ -98,10 +100,12 @@ Maintenance Record
                                                         </div>
                                                         <div class="modal-body">
                                                             <p>Are you sure to delete?</p>
-                                                            <strong>Serial Number: </strong>{{$maintenance->serial_number}}
+                                                            <strong>Serial Number:
+                                                            </strong>{{$maintenance->serial_number}}
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <form action="{{ url('/MaintenanceManagement' . '/' . $maintenance->id)}}"
+                                                            <form
+                                                                action="{{ url('/MaintenanceManagement' . '/' . $maintenance->id)}}"
                                                                 method="POST" style="width:fit-content">
                                                                 {{csrf_field()}}
                                                                 {{method_field('DELETE')}}
@@ -115,6 +119,7 @@ Maintenance Record
                                                 </div>
                                             </div>
                                             <!-- end Modal  -->
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>
