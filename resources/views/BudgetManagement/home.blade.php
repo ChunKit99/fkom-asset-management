@@ -1,10 +1,23 @@
-@extends('layouts.master')
+@extends($layout)
 @section('title')
 BudgetManagement
 @endsection
+
 @section('content')
 <div class="row">
     <div class="col-md-11 mx-auto">
+        @if ($message = Session::get('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <p>{{ $message }}</p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
+            @if ($message = Session::get('warning'))
+            <div class="alert alert-warning  alert-dismissible fade show" role="alert">
+                <p>{{ $message }}</p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
                 <div class="card">
                     <h4 class="card-header d-flex justify-content-between align-items-center">
                         <div>
@@ -12,9 +25,10 @@ BudgetManagement
                         </div>
                         <div class="btn-group" role="group" aria-label="button group">
                             <!-- View Budget Report--> 
+                            @if(Auth::check() && Auth::user()->role_as==1) 
                         <a class="btn btn-success" title="View Report" href="{{ url('/Budget/show') }}">
                             <i class="bi bi-eye"></i> View Report</a>
-                            
+                            @endif
                         </div>
                     </h4>   
                           <div class="table-responsive text-nowrap">
@@ -26,8 +40,15 @@ BudgetManagement
                                                 <th>Serial Number</th>
                                                 <th>Category</th>
                                                 <th>Budget</th>
-                                                <th>Status</th>   
-                                                <th>Action</th>               
+                                                <th>Status</th>  
+                                                <!--Admin Action-->
+                                                @if(Auth::check() && Auth::user()->role_as==1) 
+                                                <th>Action</th>  
+                                                @endif
+                                                <!--User Request-->
+                                                @if(Auth::check() && Auth::user()->role_as==0)
+                                                <th>Request</th> 
+                                                @endif
                                             </tr>
                                         </thead>
                                         <!--Table head-->
@@ -99,10 +120,30 @@ BudgetManagement
                                                         @else
                                                         @endif
                                                     </td>
-                                                    <!--Edit Button-->    
+                                                    <!--Admin Edit Button-->   
+                                                    @if(Auth::check() && Auth::user()->role_as==1) 
                                                     <td>
                                                     <a href="{{ url('/Budget/' . $asset->id . '/edit') }}" title="Edit Budget" class="btn btn-warning"><i class="bi bi-pencil-square"></i> Edit</a>
                                                     </td>
+                                                    @endif
+                                                    <!--User Request Button-->  
+                                                    @if(Auth::check() && Auth::user()->role_as==0) 
+                                                    <td>
+                                                    <div class="d-flex justify-content-center">
+                                                        <div class="btn-group" role="group" aria-label="button group">
+                                                            <form action="{{ url('Budget') }}" method="POST">
+                                                                {{csrf_field()}}
+                                                                <input name="serial_number" id="serial_number" hidden class="form-control"
+                                                                    value="{{ $asset->serial_number }}"></input>
+                                                                <input name="status" id="status" hidden class="form-control"
+                                                                    value=""></input>
+                                                                <button type="submit" class="btn btn-primary">Add Request</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                    </td>
+                                                    @endif
+
                                                 </tr>
                                             @endforeach
                                     </tbody>

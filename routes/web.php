@@ -70,7 +70,19 @@ Route::resource('/MaintenanceManagement', maintenanceController::class);
 Route::get('/maintenanceManagement/list', [maintenanceController::class, 'list']);
 Route::resource('/AdminMaintenanceManagement', adminMaintenanceController::class);
 
-Route::resource('/Budget', budgetController::class);
+//Route::resource('/Budget', budgetController::class);
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('/Budget', budgetController::class);
+
+});
+
+Route::middleware(['auth', 'isAdmin'])->group(function () {
+    Route::get('/BudgetManagement/listBudget', [budgetController::class, 'list']);
+    Route::get('/Budget/{id}/edit', [budgetController::class, 'edit'])->middleware(['auth', 'isAdmin']);
+});
+
+
 
 Route::middleware(['auth'])->group(function () {
 
