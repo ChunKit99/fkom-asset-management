@@ -16,7 +16,7 @@
         <div class="card text-white bg-warning">
             <div class="card-body">
                 <p class="card-text, text-center">
-                    <span class="counter display-3 text-white d-block">150</span>
+                    <span class="counter display-3 text-white d-block">{{$count_under_review}}</span>
                     <span class="h5 text-gray">Pending Maintenance</span>
                 </p>
             </div>
@@ -24,7 +24,7 @@
         <div class="card text-white bg-danger">
             <div class="card-body">
                 <p class="card-text, text-center">
-                    <span class="counter display-3 text-white  d-block">1560</span>
+                    <span class="counter display-3 text-white  d-block">{{$count_rejected}}</span>
                     <span class="h5 text-gray">Rejected Application</span>
                 </p>
             </div>
@@ -32,7 +32,7 @@
         <div class="card text-white bg-success">
             <div class="card-body">
                 <p class="card-text, text-center">
-                    <span class="counter display-3 text-white  d-block">1560</span>
+                    <span class="counter display-3 text-white  d-block">{{$count_approved}}</span>
                     <span class="h5 text-gray">Approved Application</span>
                 </p>
             </div>
