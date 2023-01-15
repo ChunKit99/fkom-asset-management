@@ -26,7 +26,7 @@ class maintenanceSeeder extends Seeder
                 'serial_number' => assets::inRandomOrder()->first()->serial_number,
                 // 'request_time' => Carbon::now()->format('Y-m-d H:i:s'),
                 // 'approve_time' => Carbon::now()->format('Y-m-d H:i:s'),
-                'status' => $faker -> randomElement(['Under Review', 'Approved', 'Rejected']),
+                'status' => $faker -> randomElement(['under_review', 'approved', 'rejected']),
                 'cost' => $faker -> randomFloat('2', 100, 500),
             ]);
         }
