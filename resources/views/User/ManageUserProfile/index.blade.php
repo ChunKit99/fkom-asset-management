@@ -1,6 +1,7 @@
 @extends('layouts.master')
 @section('title', 'Manage User Profile')
 @section('content')
+<br>
 
 <div class="container">
     <div class="row justify-content-center">
@@ -8,7 +9,6 @@
             <div class="card card text-center">
                 <div class="card-header">User Information</div>
                 <div class="card-body">
-                    <!--Add button to addbook interface-->
 
                     <style>
                     .content {
@@ -61,11 +61,11 @@
                                 <div class="btn-group" role="group" id="right-panel-link"
                                             href="#right-panel">
 
-                                    <a href="{{ url('/Admin/manageUserProfile/editPassword/' . $item->id) }}"
+                                    <a href="{{ url('/manageUserProfile/editPassword/' . $item->id) }}"
                                         title="Edit"><button class="btn btn-primary"><i class="bi bi-pencil-square" aria-hidden="true">
                                             </i>Account Settings</button></a>
 
-                                    <a href="{{ url('/Admin/ManageUserProfile/' . $item->id . '/edit') }}"
+                                    <a href="{{ url('/ManageUserProfile/' . $item->id . '/edit') }}"
                                         title="Edit"><button class="btn btn-warning" ><i class="bi bi-pencil-square" aria-hidden="true">
                                             </i>Edit</button></a>
                                 </div>

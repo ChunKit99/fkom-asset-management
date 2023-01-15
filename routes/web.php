@@ -40,12 +40,10 @@ Route::prefix('Admin')->middleware(['auth', 'isAdmin'])->group(function(){
     Route::get('/manageAdminProfile/editPassword/{id}', [AdminProfileController::class, 'editPassword']);
     Route::post('/manageAdminProfile/updatePassword/{id}', [AdminProfileController::class, 'updatePassword']);
 
-    // Route::resource('/AdminMaintenanceManagement', adminMaintenanceController::class);
-
 });
 
 Auth::routes();
-
+Auth::routes(['verify' => true]);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::resource('/ManageUserProfile', UserProfileController::class);
 Route::get('/manageUserProfile/editPassword/{id}', [UserProfileController::class, 'editPassword']);

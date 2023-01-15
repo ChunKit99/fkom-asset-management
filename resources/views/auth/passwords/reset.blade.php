@@ -9,7 +9,7 @@
     <main class="py-4">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-md-8">
+                <div>
                     <div class="card">
                         <div class="card-header">{{ __('Reset Password') }}</div>
 
@@ -78,7 +78,5 @@
             </div>
         </div>
     </main>
-
-
 </div>
 @endsection

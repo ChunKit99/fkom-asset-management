@@ -18,6 +18,7 @@ class UserAccController extends Controller
         $join = User::select('id','name','email','role_as')
         ->where('role_as','=','0')
         ->get();
+
         return view ('Admin.ManageUserAccount.index')->with('user',$join);
     }
 
@@ -29,6 +30,12 @@ class UserAccController extends Controller
 
     //keep data request from form then go back to index
     public function store(Request $request){
+
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+        ]);
         $input = $request->all();
         $input['password']=bcrypt($input['password'] );
         User::create($input);
@@ -42,13 +49,21 @@ class UserAccController extends Controller
     }
 
     //edit function 
-    public function edit($id){
+    public function edit($id){        
         $User = User::find($id);
+        if(!$User){
+            return redirect('Admin/ManageUserAccount')->with('warning', 'No record found!');
+        }
         return view('Admin.ManageUserAccount.editAcc')->with('user', $User);
     }
 
     //update request function b4 update confirm with id 
     public function update(Request $request, $id){
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+        ]);
         $User = User::find($id);
         $input = $request->all();
         $input['password']=bcrypt($input['password']);
@@ -61,4 +76,6 @@ class UserAccController extends Controller
         User::destroy($id);
         return redirect('Admin/ManageUserAccount')->with('flash_message', 'User Account deleted');
     }
+
+    
 }

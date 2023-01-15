@@ -1,6 +1,7 @@
 @extends('layouts.master')
 @section('title', 'Manage User Information')
 @section('content')
+<br>
 
 <div class="container">
     <div class="row justify-content-center">
@@ -47,7 +48,7 @@
                                 
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{$item -> name}}</td>
+                                    <td>{{$item -> fullname}}</td>
                                     <td>{{$item -> username}}</td>
                                     <td>{{$item -> contact}}</td>
                                     <td>{{$item -> position}}</td>

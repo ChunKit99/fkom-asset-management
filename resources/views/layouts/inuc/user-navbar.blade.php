@@ -7,7 +7,7 @@
 
  <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
      <!-- Navbar Brand-->
-     <a class="navbar-brand ps-3" href="/home">Asset Management</a>
+     <a class="navbar-brand ps-3" href="/home">FK Asset Management</a>
      <!-- Navbar-->
      <ul class="navbar-nav ms-auto me-0 me-md-3 my-2 my-md-0">
          <li class="nav-item dropdown">

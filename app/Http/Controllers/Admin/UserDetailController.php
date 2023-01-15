@@ -39,8 +39,13 @@ class UserDetailController extends Controller
 
     //keep data request from form then go back to index
     public function store(Request $request){
+
         $request->validate([
             'fullname' => 'required',
+            'contact' => 'required',
+            'position' => 'required',
+            'department' => 'required',
+            'location' => 'required',
         ]);
         $input = $request->all();
         UserDetail::create($input);
@@ -61,6 +66,13 @@ class UserDetailController extends Controller
 
     //update request function b4 update confirm with id 
     public function update(Request $request, $id){
+        $request->validate([
+            'fullname' => 'required',
+            'contact' => 'required',
+            'position' => 'required',
+            'department' => 'required',
+            'location' => 'required',
+        ]);
         $UserDetail = UserDetail::find($id);
         $input = $request->all();
         $UserDetail->update($input);

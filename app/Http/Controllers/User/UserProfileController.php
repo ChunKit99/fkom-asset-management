@@ -36,6 +36,11 @@ class UserProfileController extends Controller
 
      //update request function b4 update confirm with id 
      public function updatePassword(Request $request, $id){
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+        ]);
         $input = $request->all();
 
         $User = User::whereId($id)->update([
@@ -53,6 +58,13 @@ class UserProfileController extends Controller
 
     //update request function b4 update confirm with id 
     public function update(Request $request, $id){
+        $request->validate([
+            'fullname' => 'required',
+            'contact' => 'required',
+            'position' => 'required',
+            'department' => 'required',
+            'location' => 'required',
+        ]);
         $UserDetail = UserDetail::find($id);
         $input = $request->all();
         $UserDetail->update($input);

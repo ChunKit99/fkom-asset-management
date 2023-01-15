@@ -1,6 +1,11 @@
 @extends('layouts.app')
-
+@section('title', 'Reset Password')
 @section('content')
+
+<div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-image d-flex justify-content-center align-items-center"
+    style="background-image: url({{asset('assets/img/1.jpg')}});
+                height: 100vh;background-repeat:no-repeat; background-size:100%;">
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
