@@ -50,8 +50,9 @@ class budgetController extends Controller
     public function edit($id)
     {       
         $asset = assets::find($id);
+        $budgets = budget::find($id);
         //$budgets = budget::find($id);
-        return view('BudgetManagement.editBudget')->with('asset', $asset);
+        return view('BudgetManagement.editBudget')->with('asset', $asset)->with('budgets', $budgets);
     }
 
     public function update(Request $request, $id)
@@ -87,7 +88,7 @@ class budgetController extends Controller
     public function store(Request $request)
     {
         $input = $request->all();
-        $input['status'] = 'Request';
+        $input['status'] = 'request';
         $input['request_time'] = Carbon::now();
         Budget::create($input);
         return redirect('Budget')->with('success', 'New Budget Request Added!');
@@ -104,6 +105,7 @@ class budgetController extends Controller
         return view ('BudgetManagement.reportMaintenance')->with('assets',$assets);
     }
 
+    //export Maintenance Report CSV
     public function exportCSV1(Request $request)
     {
         $fileName = 'MaintenanceReport.csv';
@@ -147,6 +149,8 @@ class budgetController extends Controller
             return response()->stream($callback, 200, $headers);
     }
 
+
+    //export Total Budget Report CSV
     public function exportCSV2(Request $request)
     {
         $fileName = 'BudgetReport.csv';
