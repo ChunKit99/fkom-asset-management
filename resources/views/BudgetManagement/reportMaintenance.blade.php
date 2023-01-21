@@ -9,9 +9,11 @@ BudgetManagement
                 <div class="card">
                     <h4 class="card-header d-flex justify-content-between align-items-center">
                         <div>
-                        <i class="bi bi-cash-coin"></i><a href="{{ url('/Budget') }} "class="link-dark text-decoration-none"> Request Budget List</a>
+                        <i class="bi bi-cash-coin"></i><a href="{{ url('/Budget') }} "class="link-dark text-decoration-none"> View Report</a>
                         </div>
                         <div class="btn-group" role="group" aria-label="button group">
+                        <a class="btn btn-secondary" title="Download as CSV" href="{{ route('budget.exportcsv1') }}">
+                        <i class="bi bi-file-earmark-excel-fill"></i> Download CSV</a>
                         </div>
                     </h4>   
                           <div class="table-responsive text-nowrap">
@@ -22,11 +24,9 @@ BudgetManagement
                                                 <th>#</th>
                                                 <th>Serial Number</th>
                                                 <th>Category</th>
+                                                <th>History</th> 
+                                                <th>Cost</th> 
                                                 <th>Status</th> 
-                                                <th>Time</th> 
-                                                <!--Admin Action-->
-                                                <th>Action</th>  
-                                                <!--User Request-->
                                             </tr>
                                         </thead>
                                         <!--Table head-->
@@ -37,7 +37,6 @@ BudgetManagement
                                                     <td>{{ $loop->iteration }}</td>
                                                     <!--Serial Number -->
                                                     <td>{{ $asset->serial_number }}</td>
-                                                    <!--category -->
                                                     <td>
                                                         <!--Category-->
                                                         @if($asset->category == 'computer')
@@ -57,14 +56,12 @@ BudgetManagement
                                                         @else
                                                         @endif
                                                     </td>
-                                                    <!--Status-->
+                                                    <!--Time Maintenance-->
+                                                    <td>{{ $asset->approve_time }}</td>
+                                                    <!--Maintenance cost-->
+                                                    <td>{{ $asset->cost }}</td>
+                                                    <!--Status-->  
                                                     <td>{{ $asset->status }}</td>
-                                                    <!--Status-->
-                                                    <td>{{ $asset->updated_at }}</td>
-                                                    <!--Admin Edit Button-->   
-                                                    <td>
-                                                    <a href="{{ url('/Budget/' . $asset->id . '/edit') }}" title="Edit Budget" class="btn btn-warning"><i class="bi bi-pencil-square"></i> Edit</a>
-                                                    </td>
                                                 </tr>
                                             @endforeach
                                     </tbody>

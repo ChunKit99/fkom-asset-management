@@ -52,6 +52,7 @@
                         <!-- side nav component -->
                         <a class="nav-link" href="{{ url('/Budget') }}">All Budget</a>
                         <a class="nav-link" href="{{ url('/BudgetManagement/listBudget') }}">Request Budget List</a>
+                        <a class="nav-link" href="{{ url('/BudgetManagement/reportMaintenance') }}">Maintenance Report</a>
                     </nav>
                 </div>
                 <!-- Maintenance -->
