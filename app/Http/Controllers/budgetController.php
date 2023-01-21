@@ -61,6 +61,7 @@ class budgetController extends Controller
         $asset = assets::find($id);
         $input = $request->all();
         $asset->update($input);
+        
         return redirect('Budget')->with('success', 'Budget Updated!');
     }
 
