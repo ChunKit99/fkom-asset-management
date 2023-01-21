@@ -82,6 +82,9 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/BudgetManagement/listBudget', [budgetController::class, 'list']);
+    Route::get('/BudgetManagement/reportMaintenance', [budgetController::class, 'maintenanceView']);
+    Route::get('/budget/exportcsv1', [budgetController::class, 'exportCSV1'])->name('budget.exportcsv1');
+    Route::get('/budget/exportcsv2', [budgetController::class, 'exportCSV2'])->name('budget.exportcsv2');
     Route::get('/Budget/{id}/edit', [budgetController::class, 'edit'])->middleware(['auth', 'isAdmin']);
 });
 
@@ -99,6 +102,6 @@ Route::get('vendor/exportcsv', [vendorController::class, 'exportCSV'])->name('ve
 Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/LocationManagement/create', [locationController::class, 'create']);
     Route::get('/LocationManagement/{id}/edit', [locationController::class, 'edit']);
-    Route::get('/VendorManagement/create', [vendorController::class, 'create']);
-    Route::get('/VendorManagement/{id}/edit', [vendorController::class, 'edit']);
+    Route::get('/VendorManagement/create', [locationController::class, 'create']);
+    Route::get('/VendorManagement/{id}/edit', [locationController::class, 'edit']);
 });
