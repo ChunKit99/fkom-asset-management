@@ -78,6 +78,4 @@ Maintenance Management
         </div>
     </div>
 </div>
-</div>
-</div>
 @endsection

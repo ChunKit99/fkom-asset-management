@@ -57,7 +57,6 @@ Add Maintenance List
                                     <td>
                                         <!-- View Edit Delete Button -->
                                         <div class="d-flex justify-content-center">
-
                                             <div class="btn-group" role="group" aria-label="button group">
                                                 <form action="{{ url('MaintenanceManagement') }}" method="POST">
                                                     {{csrf_field()}}
