@@ -6,7 +6,6 @@ use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Auth;
 
-
 class vendorController extends Controller
 {
     public function index()

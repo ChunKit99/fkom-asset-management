@@ -98,6 +98,6 @@ Route::get('vendor/exportcsv', [vendorController::class, 'exportCSV'])->name('ve
 Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/LocationManagement/create', [locationController::class, 'create']);
     Route::get('/LocationManagement/{id}/edit', [locationController::class, 'edit']);
-    Route::get('/VendorManagement/create', [locationController::class, 'create']);
-    Route::get('/VendorManagement/{id}/edit', [locationController::class, 'edit']);
+    Route::get('/VendorManagement/create', [vendorController::class, 'create']);
+    Route::get('/VendorManagement/{id}/edit', [vendorController::class, 'edit']);
 });
