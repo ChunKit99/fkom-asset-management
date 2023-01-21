@@ -2,7 +2,7 @@
 
 namespace App\Rules;
 
-use App\Models\assets;
+use App\Models\Asset;
 use Illuminate\Contracts\Validation\Rule;
 
 class UniqueSerialNumber implements Rule
@@ -27,7 +27,7 @@ class UniqueSerialNumber implements Rule
     public function passes($attribute, $value)
     {
         $serial_number = $value;
-        $asset = assets::where('serial_number', $serial_number)->first();
+        $asset = Asset::where('serial_number', $serial_number)->first();
         return !$asset;
 }
 

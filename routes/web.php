@@ -54,14 +54,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/asset/search', [assetController::class, 'search']);
     Route::get('/asset/search2', [assetController::class, 'search2']);
     Route::get('/asset/pdf', [assetController::class, 'createPDF']);
+    Route::get('/asset/pdfhome', [assetController::class, 'userHomeCreatePDF']);
     Route::post('/Asset/sort', [assetController::class, 'sort']);
     Route::post('/Asset/filter', [assetController::class, 'filter']);
 });
 
-Route::middleware(['auth', 'isAdmin'])->group(function () {
+Route::middleware(['isAdmin', 'auth'])->group(function () {
     Route::get('/Asset/create', [assetController::class, 'create']);
-    Route::get('/Asset/{id}/edit', [assetController::class, 'edit'])->middleware(['auth', 'isAdmin']);
-    Route::delete('/Asset/{id}', [assetController::class, 'destroy'])->middleware(['auth', 'isAdmin']);
+    Route::get('/Asset/edit/{id}', [assetController::class, 'edit']);
+    Route::delete('/Asset/{id}', [assetController::class, 'destroy']);
 });
 
 Route::resource('/MaintenanceManagement', maintenanceController::class);

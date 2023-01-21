@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 
 use DB;
 
-use App\Models\assets;
+use App\Models\Asset;
 use App\Models\User;
 use App\Models\Budget;
 use Illuminate\Http\Request;
@@ -24,17 +24,17 @@ class budgetController extends Controller
             $layout = 'layouts.masteruser';
         }
 
-        $assets = assets::all();
+        $assets = Asset::all();
         $users = User::all();
 
         if(Auth::check() && Auth::user()->role_as==1){
-            $assets = assets::join('users', 'users.id', '=', 'assets.user_id')
+            $assets = Asset::join('users', 'users.id', '=', 'assets.user_id')
             ->select('assets.*', 'users.name as user_name')
             ->orderBy('assets.id', 'DESC')
             ->get();
 
         }else{
-            $assets = assets::join('users', 'users.id', '=', 'assets.user_id')
+            $assets = Asset::join('users', 'users.id', '=', 'assets.user_id')
             ->select('assets.*', 'users.name as user_name')
             ->where('assets.user_id', '=', Auth::user()->id)
             ->orderBy('assets.id', 'DESC')
@@ -48,7 +48,7 @@ class budgetController extends Controller
 
     public function edit($id)
     {       
-        $asset = assets::find($id);
+        $asset = Asset::find($id);
         //$budgets = budget::find($id);
         return view('BudgetManagement.editBudget')->with('asset', $asset);
     }
@@ -56,7 +56,7 @@ class budgetController extends Controller
     public function update(Request $request, $id)
     {
         // Retrieve the asset and the input values
-        $asset = assets::find($id);
+        $asset = Asset::find($id);
         $input = $request->all();
         $asset->update($input);
         return redirect('Budget')->with('success', 'Budget Updated!');
@@ -76,7 +76,7 @@ class budgetController extends Controller
     {
         // $user = Auth::id();
         $budgets = budget::all();
-        $assets = assets::join('budget','budget.serial_number','=','assets.serial_number')
+        $assets = Asset::join('budget','budget.serial_number','=','assets.serial_number')
         ->select('budget.status', 'assets.serial_number', 'assets.category', 'assets.id')
         ->get();
 

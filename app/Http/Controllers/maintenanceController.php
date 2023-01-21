@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\maintenanceController;
 namespace App\Http\Controllers;
 use App\Models\Maintenances;
-use App\Models\assets;
+use App\Models\Asset;
 use App\Models\User;
 use App\Models\Vendor;
 use App\Models\Location;
@@ -111,7 +111,7 @@ class maintenanceController extends Controller
 
     public function view()
     {
-        $assets = assets::all();
+        $assets = Asset::all();
         $vendors = Vendor::all();
         $users = User::all();
         $locations = Location::all();
@@ -144,7 +144,7 @@ class maintenanceController extends Controller
 
     public function add($id)
     {
-        $asset = assets::find($id);
+        $asset = Asset::find($id);
         $vendor = Vendor::find($asset->vendor_id);
         $user = User::find($asset->user_id);
         $location = Location::find($asset->location_id);
@@ -159,7 +159,7 @@ class maintenanceController extends Controller
 
     public function create($id)
     {
-        $assets = assets::find($id);
+        $assets = Asset::find($id);
 
         return view ('MaintenanceManagement.addMaintenance')->with('assets',$assets);
     }
@@ -173,7 +173,7 @@ class maintenanceController extends Controller
 
         if(Auth::check() && Auth::user()->role_as==0){
             $layout = 'layouts.masteruser';
-            $assets = assets::join('users', 'users.id','=','assets.user_id')
+            $assets = Asset::join('users', 'users.id','=','assets.user_id')
         ->join('location', 'location.id','=','assets.location_id')
         ->join('vendors', 'vendors.id','=','assets.vendor_id')
         ->select('users.name', 'assets.id', 'assets.serial_number', 'assets.category', 'assets.budget', 'location.name as location', 'vendors.name as vendor')
@@ -205,7 +205,7 @@ class maintenanceController extends Controller
     public function show($id)
     {
         $maintenance = Maintenances::find($id);
-        $assets = assets::find($maintenance->id);
+        $assets = Asset::find($maintenance->id);
         return view('MaintenanceManagement.viewMaintenance')->with(['maintenances' => $maintenance, 'assets' => $assets]);
     }
 
@@ -238,7 +238,7 @@ class maintenanceController extends Controller
     public function edit($id)
     {
         $maintenance = Maintenances::find($id);
-        $asset = assets::find($id);
+        $asset = Asset::find($id);
         $vendors = Vendor::all();
         $users = User::all();
         $locations = Location::all();

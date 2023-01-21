@@ -6,8 +6,9 @@ use App\Models\Location;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class LocationExport implements FromCollection, WithHeadings
+class LocationExport
 {
+    
     /**
     * @return \Illuminate\Support\Collection
     */
