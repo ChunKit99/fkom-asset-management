@@ -20,6 +20,7 @@ class assets extends Seeder
     public function run()
     {
         $faker = Faker::create();
+        $users = User::where('role_as', '!=', 1)->get();
         foreach(range(1,5) as $value){
             DB::table('assets') -> insert([
                 'serial_number' => $faker -> bothify('?#???###J#'),
@@ -27,7 +28,7 @@ class assets extends Seeder
                 'category' => $faker -> randomElement(['computer', 'equipment', 'laboratory', 'printers', 'networking_equipment', 'furniture', 'tools']),
                 'budget' => $faker -> randomFloat('2', 100, 500),
                 'vendor_id' => Vendor::all()->random()->id,
-                'user_id' => User::all()->random()->id,
+                'user_id' => $users->random()->id,
                 'location_id' => Location::all()->random()->id,
                 'image_path' => null,
             ]);

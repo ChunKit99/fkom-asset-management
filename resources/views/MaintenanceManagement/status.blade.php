@@ -1,6 +1,6 @@
 @extends($layout)
 @section('title')
-Maintenance Record
+Maintenance Status
 @endsection
 @section('content')
 <div class="row">
@@ -21,7 +21,7 @@ Maintenance Record
             <h4 class="card-header d-flex justify-content-between align-items-center">
                 <div>
                     <i class="fal fa-coins"></i> <a href="{{ url('/MaintenanceManagement') }} "
-                        class="link-dark text-decoration-none">Maintenance Record</a>
+                        class="link-dark text-decoration-none">Maintenance Status</a>
                 </div>
                 <div class="btn-group" role="group" aria-label="button group">
                     @if(Auth::check() && Auth::user()->role_as==0)
@@ -75,51 +75,35 @@ Maintenance Record
                                         <!-- View Edit Delete Button -->
                                         <div class="d-flex justify-content-center">
                                             <div class="btn-group" role="group" aria-label="button group">
-                                                <a href="{{ url('/MaintenanceManagement/' . $maintenance->id) }}"
-                                                    title="View Record" class="btn btn-primary">View</a>
-                                                @if(Auth::check() && Auth::user()->role_as==1)
-                                                <a href="{{ url('/MaintenanceManagement/' . $maintenance->id . '/edit') }}"
-                                                    title="Edit Record" class="btn btn-warning">Edit</a>
-                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                                    title="Delete Record"
-                                                    data-bs-target="#confirmDelete{{$loop->iteration}}">
-                                                    Delete
-                                                </button>
+                                                <form action="{{ url('maintenanceManagement/submitStatus') }}" method="POST">
+                                                    {{csrf_field()}}
+                                                    <input hidden name="maintenance_id" id="maintenance_id"
+                                                        class="form-control"
+                                                        value="{{ $maintenance->id }}"></input>
+                                                    <input hidden name="serial_number" id="serial_number"
+                                                        class="form-control"
+                                                        value="{{ $maintenance->serial_number }}"></input>
+                                                    <input hidden name="approve_time" id="approve_time" 
+                                                        class="form-control" value=""></input>
+                                                    <input hidden name="status" id="status"  class="form-control"
+                                                        value="approved"></input>
+                                                    <button type="submit" class="btn btn-primary">Approve</button>
+                                                </form>
+                                                <form action="{{ url('maintenanceManagement/submitStatus') }}" method="POST">
+                                                    {{csrf_field()}}
+                                                    <input hidden name="maintenance_id" id="maintenance_id"
+                                                        class="form-control"
+                                                        value="{{ $maintenance->id }}"></input>
+                                                    <input hidden name="serial_number" id="serial_number" 
+                                                        class="form-control"
+                                                        value="{{ $maintenance->serial_number }}"></input>
+                                                    <input hidden name="approve_time" id="approve_time" 
+                                                        class="form-control" value=""></input>
+                                                    <input hidden name="status" id="status"  class="form-control"
+                                                        value="rejected"></input>
+                                                    <button type="submit" class="btn btn-warning">Reject</button>
+                                                </form>
                                             </div>
-                                            <!-- View Edit Delete Button -->
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="confirmDelete{{$loop->iteration}}" tabindex="-1"
-                                                aria-labelledby="confirmDelete{{$loop->iteration}}" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered">
-                                                    <div class="modal-content">
-                                                        <!-- Modal Header -->
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title">Delete Record</h4>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <p>Are you sure to delete?</p>
-                                                            <strong>Serial Number:
-                                                            </strong>{{$maintenance->serial_number}}
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <form
-                                                                action="{{ url('/MaintenanceManagement' . '/' . $maintenance->id)}}"
-                                                                method="POST" style="width:fit-content">
-                                                                {{csrf_field()}}
-                                                                {{method_field('DELETE')}}
-                                                                <button type="submit" class="btn btn-danger btn-sm"
-                                                                    title="Delete Record">Delete</button>
-                                                                <button type="button" class="btn btn-secondary btn-sm"
-                                                                    data-bs-dismiss="modal">Close</button>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- end Modal  -->
-                                            @endif
                                         </div>
                                     </td>
                                 </tr>

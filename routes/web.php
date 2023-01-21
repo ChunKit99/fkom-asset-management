@@ -40,12 +40,10 @@ Route::prefix('Admin')->middleware(['auth', 'isAdmin'])->group(function(){
     Route::get('/manageAdminProfile/editPassword/{id}', [AdminProfileController::class, 'editPassword']);
     Route::post('/manageAdminProfile/updatePassword/{id}', [AdminProfileController::class, 'updatePassword']);
 
-    // Route::resource('/AdminMaintenanceManagement', adminMaintenanceController::class);
-
 });
 
 Auth::routes();
-
+Auth::routes(['verify' => true]);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::resource('/ManageUserProfile', UserProfileController::class);
 Route::get('/manageUserProfile/editPassword/{id}', [UserProfileController::class, 'editPassword']);
@@ -56,19 +54,24 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/asset/search', [assetController::class, 'search']);
     Route::get('/asset/search2', [assetController::class, 'search2']);
     Route::get('/asset/pdf', [assetController::class, 'createPDF']);
+    Route::get('/asset/pdfhome', [assetController::class, 'userHomeCreatePDF']);
     Route::post('/Asset/sort', [assetController::class, 'sort']);
     Route::post('/Asset/filter', [assetController::class, 'filter']);
 });
 
-Route::middleware(['auth', 'isAdmin'])->group(function () {
+Route::middleware(['isAdmin', 'auth'])->group(function () {
     Route::get('/Asset/create', [assetController::class, 'create']);
-    Route::get('/Asset/{id}/edit', [assetController::class, 'edit'])->middleware(['auth', 'isAdmin']);
-    Route::delete('/Asset/{id}', [assetController::class, 'destroy'])->middleware(['auth', 'isAdmin']);
+    Route::get('/Asset/edit/{id}', [assetController::class, 'edit']);
+    Route::delete('/Asset/{id}', [assetController::class, 'destroy']);
 });
 
 Route::resource('/MaintenanceManagement', maintenanceController::class);
 Route::get('/maintenanceManagement/list', [maintenanceController::class, 'list']);
-Route::resource('/AdminMaintenanceManagement', adminMaintenanceController::class);
+Route::middleware(['auth', 'isAdmin'])->group(function () {
+    Route::get('/maintenanceManagement/status', [maintenanceController::class, 'status'])->middleware(['auth', 'isAdmin']);
+    Route::post('/maintenanceManagement/submitStatus', [maintenanceController::class, 'submitStatus'])->middleware(['auth', 'isAdmin']);
+});
+// Route::resource('/AdminMaintenanceManagement', adminMaintenanceController::class);
 
 //Route::resource('/Budget', budgetController::class);
 
@@ -79,9 +82,6 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/BudgetManagement/listBudget', [budgetController::class, 'list']);
-    Route::get('/BudgetManagement/reportMaintenance', [budgetController::class, 'maintenanceView']);
-    Route::get('/budget/exportcsv1', [budgetController::class, 'exportCSV1'])->name('budget.exportcsv1');
-    Route::get('/budget/exportcsv2', [budgetController::class, 'exportCSV2'])->name('budget.exportcsv2');
     Route::get('/Budget/{id}/edit', [budgetController::class, 'edit'])->middleware(['auth', 'isAdmin']);
 });
 
@@ -99,6 +99,6 @@ Route::get('vendor/exportcsv', [vendorController::class, 'exportCSV'])->name('ve
 Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/LocationManagement/create', [locationController::class, 'create']);
     Route::get('/LocationManagement/{id}/edit', [locationController::class, 'edit']);
-    Route::get('/VendorManagement/create', [locationController::class, 'create']);
-    Route::get('/VendorManagement/{id}/edit', [locationController::class, 'edit']);
+    Route::get('/VendorManagement/create', [vendorController::class, 'create']);
+    Route::get('/VendorManagement/{id}/edit', [vendorController::class, 'edit']);
 });

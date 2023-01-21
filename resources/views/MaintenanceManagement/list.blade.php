@@ -16,6 +16,16 @@ Add Maintenance List
                         <i class="bi bi-plus-circle"></i> Back</a>
                 </div>
             </h4>
+            @if ($errors->has('serial_number'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
             <div class="card-body">
                 <section>
                     <div class="table-responsive text-nowrap">
@@ -50,10 +60,11 @@ Add Maintenance List
                                             <div class="btn-group" role="group" aria-label="button group">
                                                 <form action="{{ url('MaintenanceManagement') }}" method="POST">
                                                     {{csrf_field()}}
-                                                    <input name="serial_number" id="serial_number" hidden class="form-control"
+                                                    <input name="serial_number" id="serial_number" hidden
+                                                        class="form-control"
                                                         value="{{ $asset->serial_number }}"></input>
-                                                    <input name="request_time" id="request_time" hidden class="form-control"
-                                                        value=""></input>
+                                                    <input name="request_time" id="request_time" hidden
+                                                        class="form-control" value=""></input>
                                                     <input name="status" id="status" hidden class="form-control"
                                                         value=""></input>
                                                     <button type="submit" class="btn btn-primary">Add Request</button>

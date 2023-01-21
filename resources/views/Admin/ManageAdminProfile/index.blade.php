@@ -2,13 +2,14 @@
 @section('title', 'Manage Admin Profile')
 @section('content')
 
+<br>
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col">
             <div class="card card text-center">
                 <div class="card-header">Admin Information</div>
                 <div class="card-body">
-                    <!--Add button to addbook interface-->
 
                     <style>
                     .content {

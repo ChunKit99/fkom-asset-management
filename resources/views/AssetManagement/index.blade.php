@@ -225,7 +225,7 @@ Asset Management
                       <div class="btn-group" role="group" aria-label="button group">
                         <a href="{{ url('/Asset/' . $asset->id) }}" title="View Asset" class="btn btn-primary">View</a>
                         @if(Auth::check() && Auth::user()->role_as==1)
-                        <a href="{{ url('/Asset/' . $asset->id . '/edit') }}" title="Edit Asset" class="btn btn-warning">Edit</a>
+                        <a href="{{ url('/Asset/' . 'edit/' .$asset->id) }}" title="Edit Asset" class="btn btn-warning">Edit</a>
                         <button type="button" class="btn btn-danger" data-bs-toggle="modal" title="Delete Asset" data-bs-target="#confirmDelete{{$loop->iteration}}">
                           Delete
                         </button>
@@ -316,11 +316,14 @@ Asset Management
           </td>
           <td>${item.budget}</td>
           <td>${item.vendor_name}</td>
+          @if(Auth::check() && Auth::user()->role_as==1)
           <td>${item.user_name}</td>
+          @endif
           <td>
             <div class="d-flex justify-content-center">
               <div class="btn-group" role="group" aria-label="button group">
                 <a href="{{ url('/Asset/' . '${item.id}') }}" title="View Asset" class="btn btn-primary">View</a>
+                @if(Auth::check() && Auth::user()->role_as==1)
                 <a href="{{ url('/Asset/' . '${item.id}' . '/edit') }}" title="Edit Asset" class="btn btn-warning">Edit</a>
                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" title="Delete Asset" data-bs-target="#confirmDelete${item.id}">
                   Delete
@@ -348,6 +351,7 @@ Asset Management
                   </div>
                 </div>
               </div>
+              @endif
               `;
           });
         }

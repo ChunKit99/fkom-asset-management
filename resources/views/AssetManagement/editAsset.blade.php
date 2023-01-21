@@ -79,7 +79,7 @@ Edit Asset
                     <div class="form-group row">
                         <label for="category" class="col-sm-2 col-form-label"><strong>Budget:</strong></label>
                         <div class="col-sm-2">
-                            <a href="#" class="link-dark text-decoration-none form-control-plaintext" title="Go to Budget Management">{{$asset->budget}}</a>
+                            <a href="{{ url('Budget/') }}" class="link-dark text-decoration-none form-control-plaintext" title="Go to Budget Management">{{$asset->budget}}</a>
                         </div>
                     </div>
                 </div>

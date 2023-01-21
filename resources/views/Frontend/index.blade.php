@@ -7,178 +7,135 @@
                 height: 100vh;background-repeat:no-repeat; background-size:100%;">
 </div>
 
+<!-- Footer -->
+<footer class="bg-dark text-center text-white">
+    <!-- Grid container -->
+    <div class="container p-4">
+        <!-- Section: Text -->
+        <section class="mb-4">
+            <p>
+                FK Assest Management System is developed by:
+            </p>
+        </section>
+        <!-- Section: Text -->
 
- <!-- Footer -->
- <footer class="bg-dark text-center text-white">
-            <!-- Grid container -->
-            <div class="container p-4">
-                <!-- Section: Social media -->
-                <section class="mb-4">
-                    <!-- Facebook -->
-                    <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i
-                            class="fab fa-facebook-f"></i></a>
-
-                    <!-- Twitter -->
-                    <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i
-                            class="fab fa-twitter"></i></a>
-
-                    <!-- Google -->
-                    <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i
-                            class="fab fa-google"></i></a>
-
-                    <!-- Instagram -->
-                    <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i
-                            class="fab fa-instagram"></i></a>
-
-                    <!-- Linkedin -->
-                    <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i
-                            class="fab fa-linkedin-in"></i></a>
-
-                    <!-- Github -->
-                    <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i
-                            class="fab fa-github"></i></a>
-                </section>
-                <!-- Section: Social media -->
-
-                <!-- Section: Form -->
-                <section class="">
-                    <form action="">
-                        <!--Grid row-->
-                        <div class="row d-flex justify-content-center">
-                            <!--Grid column-->
-                            <div class="col-auto">
-                                <p class="pt-2">
-                                    <strong>Sign up for our newsletter</strong>
-                                </p>
-                            </div>
-                            <!--Grid column-->
-
-                            <!--Grid column-->
-                            <div class="col-md-5 col-12">
-                                <!-- Email input -->
-                                <div class="form-outline form-white mb-4">
-                                    <input type="email" id="form5Example21" class="form-control" />
-                                    <label class="form-label" for="form5Example21">Email address</label>
-                                </div>
-                            </div>
-                            <!--Grid column-->
-
-                            <!--Grid column-->
-                            <div class="col-auto">
-                                <!-- Submit button -->
-                                <button type="submit" class="btn btn-outline-light mb-4">
-                                    Subscribe
-                                </button>
-                            </div>
-                            <!--Grid column-->
-                        </div>
-                        <!--Grid row-->
-                    </form>
-                </section>
-                <!-- Section: Form -->
-
-                <!-- Section: Text -->
-                <section class="mb-4">
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt distinctio earum
-                        repellat quaerat voluptatibus placeat nam, commodi optio pariatur est quia magnam
-                        eum harum corrupti dicta, aliquam sequi voluptate quas.
-                    </p>
-                </section>
-                <!-- Section: Text -->
-
-                <!-- Section: Links -->
-                <section class="">
-                    <!--Grid row-->
+        <!-- Section: Links -->
+        <section class="">
+            <!--Grid row-->
+            <div class="row">
+                <!--Grid column-->
+                <div class="container">
                     <div class="row">
-                        <!--Grid column-->
-                        <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-                            <h5 class="text-uppercase">Links</h5>
+                        <div class="col">
+                            <h5 class="text-uppercase">Ong Wei Cheng</h5>
+                            <br>
 
                             <ul class="list-unstyled mb-0">
                                 <li>
-                                    <a href="#!" class="text-white">Link 1</a>
+                                    <p>CA19098</p>
                                 </li>
                                 <li>
-                                    <a href="#!" class="text-white">Link 2</a>
+                                    <p>Vendor Management</p>
+                                    <p>Location Management</p>
                                 </li>
                                 <li>
-                                    <a href="#!" class="text-white">Link 3</a>
+                                    <a href="https://github.com/GHTAM" target='_blank' class="text-white">Github</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!--Grid column-->
+
+                        <!--Grid column-->
+                        <div class="col">
+                            <h5 class="text-uppercase">Tua Yong Liang</h5>
+                            <br>
+
+
+                            <ul class="list-unstyled mb-0">
+                                <li>
+                                    <p>CA19103</p>
                                 </li>
                                 <li>
-                                    <a href="#!" class="text-white">Link 4</a>
+                                    <p>Maintenance Management</p>
+                                    <p class="invisible">hide</p>
+                                </li>
+                                <li>
+                                    <a href="https://github.com/yongliangt" target='_blank'
+                                        class="text-white">Github</a>
                                 </li>
                             </ul>
                         </div>
                         <!--Grid column-->
 
                         <!--Grid column-->
-                        <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-                            <h5 class="text-uppercase">Links</h5>
+                        <div class="col">
+                            <h5 class="text-uppercase">Liong Woei Chi</h5>
+                            <br>
+
 
                             <ul class="list-unstyled mb-0">
                                 <li>
-                                    <a href="#!" class="text-white">Link 1</a>
+                                    <p>CA19104</p>
                                 </li>
                                 <li>
-                                    <a href="#!" class="text-white">Link 2</a>
+                                    <p>Authentication</p>
+                                    <p>User Management</p>
                                 </li>
                                 <li>
-                                    <a href="#!" class="text-white">Link 3</a>
-                                </li>
-                                <li>
-                                    <a href="#!" class="text-white">Link 4</a>
+                                    <a href="https://github.com/WoeiChi" target='_blank' class="text-white">Github</a>
                                 </li>
                             </ul>
                         </div>
                         <!--Grid column-->
 
                         <!--Grid column-->
-                        <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-                            <h5 class="text-uppercase">Links</h5>
+                        <div class="col">
+                            <h5 class="text-uppercase">Kong Choon</h5>
+                            <br>
+
 
                             <ul class="list-unstyled mb-0">
                                 <li>
-                                    <a href="#!" class="text-white">Link 1</a>
+                                    <p>CA19108</p>
                                 </li>
                                 <li>
-                                    <a href="#!" class="text-white">Link 2</a>
+                                    <p>Budget Management</p>
+                                    <p>Report</p>
                                 </li>
                                 <li>
-                                    <a href="#!" class="text-white">Link 3</a>
-                                </li>
-                                <li>
-                                    <a href="#!" class="text-white">Link 4</a>
+                                    <a href="https://github.com/KongChoon" target='_blank' class="text-white">Github</a>
                                 </li>
                             </ul>
                         </div>
                         <!--Grid column-->
 
                         <!--Grid column-->
-                        <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-                            <h5 class="text-uppercase">Links</h5>
+                        <div class="col">
+                            <h5 class="text-uppercase">Liew Chun Kit</h5>
+                            <br>
+
 
                             <ul class="list-unstyled mb-0">
                                 <li>
-                                    <a href="#!" class="text-white">Link 1</a>
+                                    <p>CA19115</p>
                                 </li>
                                 <li>
-                                    <a href="#!" class="text-white">Link 2</a>
+                                    <p>Asset Management</p>
+                                    <p class="invisible">hide</p>
+
                                 </li>
                                 <li>
-                                    <a href="#!" class="text-white">Link 3</a>
-                                </li>
-                                <li>
-                                    <a href="#!" class="text-white">Link 4</a>
+                                    <a href="https://github.com/ChunKit99" target='_blank' class="text-white">Github</a>
                                 </li>
                             </ul>
                         </div>
                         <!--Grid column-->
                     </div>
                     <!--Grid row-->
-                </section>
-                <!-- Section: Links -->
-            </div>
-        </footer>
-        <!-- Footer -->
+        </section>
+        <!-- Section: Links -->
+    </div>
+</footer>
+<!-- Footer -->
 @endsection

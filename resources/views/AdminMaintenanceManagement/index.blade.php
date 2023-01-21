@@ -56,15 +56,15 @@ All Maintenance Record
                                     <td>{{ $maintenance->approve_time }}</td>
                                     <td>
                                         <!--Category-->
-                                        @if($maintenance->status == 'Under Review')
+                                        @if($maintenance->status == 'under_review')
                                         Under Review
-                                        @elseif($maintenance->status == 'Approved')
+                                        @elseif($maintenance->status == 'approved')
                                         Approved
-                                        @elseif($maintenance->status == 'Rejected')
+                                        @elseif($maintenance->status == 'rejected')
                                         Rejected
-                                        @elseif($maintenance->status == 'Completed')
+                                        @elseif($maintenance->status == 'completed')
                                         Completed
-                                        @elseif($maintenance->status == 'Cancelled')
+                                        @elseif($maintenance->status == 'cancelled')
                                         Cancelled
                                         @else
                                         @endif

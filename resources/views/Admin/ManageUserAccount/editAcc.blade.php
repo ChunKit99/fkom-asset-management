@@ -6,6 +6,18 @@
     <div class="row justify-content-center">
         <div class="card">
             <div class="card-header text-center"><b>Edit User Information</b></div>
+
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                There were some problems with your input.<br><br>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
+
             <div class="card-body">
                 <form action="{{ url('Admin/ManageUserAccount/'.$user->id) }}" method="post">
                     {!! csrf_field() !!}
@@ -24,7 +36,8 @@
                     <div class="row">
                         <div class="col">
                             <div class="col text-center">
-                                <input type="submit" value="Update" class="btn btn-success">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <a class="btn btn-info" href="{{ url('Admin/ManageUserAccount') }}"> Cancel</a>
                             </div>
                         </div>
                     </div>

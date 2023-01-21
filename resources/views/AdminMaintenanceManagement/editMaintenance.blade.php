@@ -58,7 +58,7 @@ Edit Maintenance Record
                         </div>
                     </div>
                 </div>
-                <input name="approve_time" id="approve_time" class="form-control" value=""></input>
+                <input name="approve_time" id="approve_time" hidden class="form-control" value=""></input>
                 <div class="card-body">
                     <!-- button -->
                     <div class="col-xs-12 col-sm-12 col-md-12 text-center">

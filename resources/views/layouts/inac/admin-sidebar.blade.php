@@ -52,7 +52,6 @@
                         <!-- side nav component -->
                         <a class="nav-link" href="{{ url('/Budget') }}">All Budget</a>
                         <a class="nav-link" href="{{ url('/BudgetManagement/listBudget') }}">Request Budget List</a>
-                        <a class="nav-link" href="{{ url('/BudgetManagement/reportMaintenance') }}">Maintenance Report</a>
                     </nav>
                 </div>
                 <!-- Maintenance -->
@@ -66,7 +65,8 @@
                     data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
                         <!-- side nav component -->
-                        <a class="nav-link" href="{{ url('/AdminMaintenanceManagement') }}">All Maintenance</a>
+                        <a class="nav-link" href="{{ url('/MaintenanceManagement') }}">All Maintenance</a>
+                        <a class="nav-link" href="{{ url('/maintenanceManagement/status') }}">Maintenance Status</a>
                     </nav>
                 </div>
                 <!-- location -->

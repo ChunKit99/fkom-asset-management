@@ -7,9 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Vendor;
 use App\Models\Location;
-use App\Models\Image;
 
-class assets extends Model
+class Asset extends Model
 {
     use HasFactory;
     protected $table = 'assets';

@@ -6,7 +6,7 @@ use App\Models\Vendor;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class VendorExport implements FromCollection, WithHeadings
+class VendorExport
 {
     /**
     * @return \Illuminate\Support\Collection
