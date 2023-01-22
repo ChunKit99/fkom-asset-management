@@ -9,7 +9,7 @@ BudgetManagement
                 <div class="card">
                     <h4 class="card-header d-flex justify-content-between align-items-center">
                         <div>
-                        <i class="bi bi-cash-coin"></i><a href="{{ url('/Budget') }} "class="link-dark text-decoration-none"> View Report</a>
+                        <i class="bi bi-cash-coin"></i><a href="{{ url('/Budget') }} "class="link-dark text-decoration-none"> View Maintenance Report</a>
                         </div>
                         <div class="btn-group" role="group" aria-label="button group">
                         <a class="btn btn-secondary" title="Download as CSV" href="{{ route('budget.exportcsv1') }}">
