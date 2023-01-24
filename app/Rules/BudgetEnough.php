@@ -59,6 +59,6 @@ class BudgetEnough implements Rule
      */
     public function message()
     {
-        return 'The budget is not enought for this maintenance cost.';
+        return 'The budget is not enough for this maintenance cost.';
     }
 }

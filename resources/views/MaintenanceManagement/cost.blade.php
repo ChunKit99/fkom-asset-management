@@ -5,18 +5,6 @@ Maintenance Cost
 @section('content')
 <div class="row">
     <div class="col-md-11 mx-auto">
-        @if ($message = Session::get('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <p>{{ $message }}</p>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        @endif
-        @if ($message = Session::get('warning'))
-        <div class="alert alert-warning  alert-dismissible fade show" role="alert">
-            <p>{{ $message }}</p>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        @endif
         <div class="card">
             <h4 class="card-header d-flex justify-content-between align-items-center">
                 <div>
@@ -24,6 +12,16 @@ Maintenance Cost
                         class="link-dark text-decoration-none">Maintenance Cost</a>
                 </div>
             </h4>
+            @if ($errors->has('serial_number'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
             <div class="card-body">
                 <section>
                     <div class="table-responsive text-nowrap">
@@ -38,6 +36,7 @@ Maintenance Cost
                                     <th>Approve Time</th>
                                     <th>Status</th>
                                     <th>Cost</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <!--Table head-->
@@ -65,35 +64,38 @@ Maintenance Cost
                                         @endif
                                     </td>
                                     <td>
-                                        <form action="{{ url('maintenanceManagement/submitCost') }}" method="GET">
-                                            {{csrf_field()}}
-                                            <input name="cost" id="cost" class="form-control"
-                                                value=""></input>
+                                        <div class="d-flex justify-content-center">
+                                            <div class="btn-group" role="group" aria-label="button group">
+                                                <form action="{{ url('maintenanceManagement/submitCost') }}"
+                                                    method="POST">
+                                                    {{csrf_field()}}
+                                                    <input hidden name="maintenance_id" id="maintenance_id"
+                                                        class="form-control" value="{{ $maintenance->id }}"></input>
+                                                    <input name="cost" id="cost" class="form-control" value=""></input>
                                     </td>
                                     <td>
                                         <!-- View Edit Delete Button -->
-                                        <div class="d-flex justify-content-center">
-                                            <div class="btn-group" role="group" aria-label="button group">
-                                                    <input hidden name="maintenance_id" id="maintenance_id"
-                                                        class="form-control" value="{{ $maintenance->id }}"></input>
-                                                    <input hidden name="serial_number" id="serial_number"
-                                                        class="form-control"
-                                                        value="{{ $maintenance->serial_number }}"></input>
-                                                    <button type="submit" class="btn btn-primary">Add Cost</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                            <!--Table body-->
-                        </table>
-                        <!--Table-->
+
+
+                                        <input hidden name="serial_number" id="serial_number" class="form-control"
+                                            value="{{ $maintenance->serial_number }}"></input>
+                                        <input hidden name="status" id="status" class="form-control" value="completed">
+                                        <button type="submit" class="btn btn-primary"><i class="bi bi-plus-circle"></i>
+                                            Add Cost</button>
+                                        </form>
                     </div>
-                </section>
             </div>
+            </td>
+            </tr>
+            @endforeach
+            </tbody>
+            <!--Table body-->
+            </table>
+            <!--Table-->
         </div>
+        </section>
     </div>
+</div>
+</div>
 </div>
 @endsection

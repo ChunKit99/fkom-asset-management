@@ -44,6 +44,7 @@ Maintenance Status
                                     <th>Approve Time</th>
                                     <th>Status</th>
                                     <th>Cost</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <!--Table head-->
@@ -87,7 +88,7 @@ Maintenance Status
                                                         class="form-control" value=""></input>
                                                     <input hidden name="status" id="status"  class="form-control"
                                                         value="approved"></input>
-                                                    <button type="submit" class="btn btn-primary">Approve</button>
+                                                    <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle"></i> Approve</button>
                                                 </form>
                                                 <form action="{{ url('maintenanceManagement/submitStatus') }}" method="POST">
                                                     {{csrf_field()}}
@@ -101,7 +102,7 @@ Maintenance Status
                                                         class="form-control" value=""></input>
                                                     <input hidden name="status" id="status"  class="form-control"
                                                         value="rejected"></input>
-                                                    <button type="submit" class="btn btn-warning">Reject</button>
+                                                    <button type="submit" class="btn btn-warning"><i class="bi bi-x-circle"></i> Reject</button>
                                                 </form>
                                             </div>
                                         </div>
