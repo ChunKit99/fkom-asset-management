@@ -4,17 +4,21 @@ namespace App\Rules;
 
 use App\Models\Asset;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Http\Request;
+use Psy\Readline\Hoa\Console;
 
 class BudgetEnough implements Rule
 {
+    private $request;
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct()
+    
+    public function __construct(Request $request)
     {
-        //
+        $this->request = $request;
     }
 
     /**
@@ -28,8 +32,12 @@ class BudgetEnough implements Rule
     {
         $cost = $value;
         $serial_number = $this->request->get('serial_number');
-        $asset = Asset::find($serial_number);
-        $budget = $asset->budget;
+        $budget = Asset::where('serial_number', $serial_number)->value('budget');
+        //not found serial number(should not happend)
+        if($budget == null) {
+            return false;
+        }
+        //not enough
         if($budget>=$cost)
             return true;
         else
