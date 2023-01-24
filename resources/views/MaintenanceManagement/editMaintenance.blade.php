@@ -40,7 +40,9 @@ Edit Maintenance Record
                     <div class="form-group row">
                         <label for="serial_number" class="col-sm-2 col-form-label"><strong>Status:</strong></label>
                         <div class="col-sm-10">
-                            <select name="status" id="status" class="form-select">
+                            <!-- <input type="text" name="status" id="status" class="form-control"
+                                value="{{$maintenances->status}}" readonly> -->
+                            <select name="status" id="status" disabled class="form-select">
                             <option value="under_review" {{ $maintenances->status == 'under_review' ? 'selected' : '' }}>Under Review</option>
                                 <option value="approved" {{ $maintenances->status == 'approved' ? 'selected' : '' }}>Approved</option>
                                 <option value="rejected" {{ $maintenances->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
@@ -54,7 +56,7 @@ Edit Maintenance Record
                         <label for="category" class="col-sm-2 col-form-label"><strong>Cost:</strong></label>
                         <div class="col-sm-10">
                             <input type="text" name="cost" id="cost" class="form-control"
-                                value="{{$maintenances->cost}}" readonly>
+                                value="{{$maintenances->cost}}">
                         </div>
                     </div>
                 </div>

@@ -65,11 +65,20 @@ Route::middleware(['isAdmin', 'auth'])->group(function () {
     Route::delete('/Asset/{id}', [assetController::class, 'destroy']);
 });
 
-Route::resource('/MaintenanceManagement', maintenanceController::class);
-Route::get('/maintenanceManagement/list', [maintenanceController::class, 'list']);
+Route::middleware(['auth'])->group(function () {
+    Route::resource('/MaintenanceManagement', maintenanceController::class);
+    Route::get('/maintenanceManagement/list', [maintenanceController::class, 'list']);
+    Route::get('/maintenanceManagement/search', [maintenanceController::class, 'search']);
+    Route::post('/MaintenanceManagement/sort', [maintenanceController::class, 'sort']);
+    Route::post('/MaintenanceManagement/filter', [maintenanceController::class, 'filter']);
+    // Route::get('/maintenanceManagement/pdf', [maintenanceController::class, 'createPDF']);
+});
+
 Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/maintenanceManagement/status', [maintenanceController::class, 'status'])->middleware(['auth', 'isAdmin']);
     Route::post('/maintenanceManagement/submitStatus', [maintenanceController::class, 'submitStatus'])->middleware(['auth', 'isAdmin']);
+    Route::get('/maintenanceManagement/cost', [maintenanceController::class, 'cost'])->middleware(['auth', 'isAdmin']);
+    Route::post('/maintenanceManagement/submitCost', [maintenanceController::class, 'submitCost'])->middleware(['auth', 'isAdmin']);
 });
 // Route::resource('/AdminMaintenanceManagement', adminMaintenanceController::class);
 

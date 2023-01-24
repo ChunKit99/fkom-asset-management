@@ -68,6 +68,7 @@
                         <!-- side nav component -->
                         <a class="nav-link" href="{{ url('/MaintenanceManagement') }}">All Maintenance</a>
                         <a class="nav-link" href="{{ url('/maintenanceManagement/status') }}">Maintenance Status</a>
+                        <a class="nav-link" href="{{ url('/maintenanceManagement/cost') }}">Maintenance Cost</a>
                     </nav>
                 </div>
                 <!-- location -->

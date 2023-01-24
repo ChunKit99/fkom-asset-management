@@ -13,7 +13,7 @@ Add Maintenance List
                 </div>
                 <div class="btn-group" role="group" aria-label="button group">
                     <a class="btn btn-success" title="New Maintenance" href="{{ url('/MaintenanceManagement/') }}">
-                        <i class="bi bi-plus-circle"></i> Back</a>
+                        <i class="bi bi-arrow-90deg-up"></i> Back</a>
                 </div>
             </h4>
             @if ($errors->has('serial_number'))
@@ -67,7 +67,7 @@ Add Maintenance List
                                                         class="form-control" value=""></input>
                                                     <input name="status" id="status" hidden class="form-control"
                                                         value=""></input>
-                                                    <button type="submit" class="btn btn-primary">Add Request</button>
+                                                    <button type="submit" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Add Request</button>
                                                 </form>
                                             </div>
                                         </div>
