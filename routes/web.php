@@ -54,19 +54,24 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/asset/search', [assetController::class, 'search']);
     Route::get('/asset/search2', [assetController::class, 'search2']);
     Route::get('/asset/pdf', [assetController::class, 'createPDF']);
+    Route::get('/asset/pdfhome', [assetController::class, 'userHomeCreatePDF']);
     Route::post('/Asset/sort', [assetController::class, 'sort']);
     Route::post('/Asset/filter', [assetController::class, 'filter']);
 });
 
-Route::middleware(['auth', 'isAdmin'])->group(function () {
+Route::middleware(['isAdmin', 'auth'])->group(function () {
     Route::get('/Asset/create', [assetController::class, 'create']);
-    Route::get('/Asset/{id}/edit', [assetController::class, 'edit'])->middleware(['auth', 'isAdmin']);
-    Route::delete('/Asset/{id}', [assetController::class, 'destroy'])->middleware(['auth', 'isAdmin']);
+    Route::get('/Asset/edit/{id}', [assetController::class, 'edit']);
+    Route::delete('/Asset/{id}', [assetController::class, 'destroy']);
 });
 
 Route::resource('/MaintenanceManagement', maintenanceController::class);
 Route::get('/maintenanceManagement/list', [maintenanceController::class, 'list']);
-Route::resource('/AdminMaintenanceManagement', adminMaintenanceController::class);
+Route::middleware(['auth', 'isAdmin'])->group(function () {
+    Route::get('/maintenanceManagement/status', [maintenanceController::class, 'status'])->middleware(['auth', 'isAdmin']);
+    Route::post('/maintenanceManagement/submitStatus', [maintenanceController::class, 'submitStatus'])->middleware(['auth', 'isAdmin']);
+});
+// Route::resource('/AdminMaintenanceManagement', adminMaintenanceController::class);
 
 //Route::resource('/Budget', budgetController::class);
 
@@ -77,6 +82,9 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/BudgetManagement/listBudget', [budgetController::class, 'list']);
+    Route::get('/BudgetManagement/reportMaintenance', [budgetController::class, 'maintenanceView']);
+    Route::get('/budget/exportcsv1', [budgetController::class, 'exportCSV1'])->name('budget.exportcsv1');
+    Route::get('/budget/exportcsv2', [budgetController::class, 'exportCSV2'])->name('budget.exportcsv2');
     Route::get('/Budget/{id}/edit', [budgetController::class, 'edit'])->middleware(['auth', 'isAdmin']);
 });
 

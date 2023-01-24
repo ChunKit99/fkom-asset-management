@@ -28,6 +28,8 @@ BudgetManagement
                             @if(Auth::check() && Auth::user()->role_as==1) 
                         <a class="btn btn-success" title="View Report" href="{{ url('/Budget/show') }}">
                             <i class="bi bi-eye"></i> View Report</a>
+                            <a class="btn btn-secondary" title="Download as CSV" href="{{ route('budget.exportcsv2') }}">
+                            <i class="bi bi-file-earmark-excel-fill"></i> Download CSV</a>
                             @endif
                         </div>
                     </h4>   
@@ -84,39 +86,39 @@ BudgetManagement
                                                     <td>
                                                         <!--Computer-->
                                                         @if($asset->category == 'computer' && $asset->budget > 500)
-                                                        <span class="badge bg-danger">Bad</span>
+                                                        <span class="badge bg-danger">Rejected</span>
                                                         @elseif($asset->category == 'computer' && $asset->budget <= 500)
-                                                        <span class="badge bg-success">Good</span>
+                                                        <span class="badge bg-success">Approved</span>
                                                         <!--Equipment-->
                                                         @elseif($asset->category == 'equipment' && $asset->budget > 600)
-                                                        <span class="badge bg-danger">Bad</span>
+                                                        <span class="badge bg-danger">Rejected</span>
                                                         @elseif($asset->category == 'equipment' && $asset->budget <= 600)
-                                                        <span class="badge bg-success">Good</span>
+                                                        <span class="badge bg-success">Approved</span>
                                                         <!--Laboratory-->
                                                         @elseif($asset->category == 'laboratory' && $asset->budget > 300)
-                                                        <span class="badge bg-danger">Bad</span>
+                                                        <span class="badge bg-danger">Rejected</span>
                                                         @elseif($asset->category == 'laboratory' && $asset->budget <= 300)
-                                                        <span class="badge bg-success">Good</span>
+                                                        <span class="badge bg-success">Approved</span>
                                                         <!--Printer-->
                                                         @elseif($asset->category == 'printers' && $asset->budget > 200)
-                                                        <span class="badge bg-danger">Bad</span>
+                                                        <span class="badge bg-danger">Rejected</span>
                                                         @elseif($asset->category == 'printers' && $asset->budget <= 200)
-                                                        <span class="badge bg-success">Good</span>     
+                                                        <span class="badge bg-success">Approved</span>     
                                                         <!--Network Equipment-->
                                                         @elseif($asset->category == 'networking_equipment' && $asset->budget > 500)
-                                                        <span class="badge bg-danger">Bad</span>
+                                                        <span class="badge bg-danger">Rejected</span>
                                                         @elseif($asset->category == 'networking_equipment' && $asset->budget <= 500)
-                                                        <span class="badge bg-success">Good</span>   
+                                                        <span class="badge bg-success">Approved</span>   
                                                         <!--Furniture-->
                                                         @elseif($asset->category == 'furniture' && $asset->budget > 400)
-                                                        <span class="badge bg-danger">Bad</span>
+                                                        <span class="badge bg-danger">Rejected</span>
                                                         @elseif($asset->category == 'furniture' && $asset->budget <= 400)
-                                                        <span class="badge bg-success">Good</span>    
+                                                        <span class="badge bg-success">Approved</span>    
                                                         <!--Tool-->
                                                         @elseif($asset->category == 'tools' && $asset->budget > 100)
-                                                        <span class="badge bg-danger">Bad</span>
+                                                        <span class="badge bg-danger">Rejected</span>
                                                         @elseif($asset->category == 'tools' && $asset->budget <= 100)
-                                                        <span class="badge bg-success">Good</span>          
+                                                        <span class="badge bg-success">Approved</span>          
                                                         @else
                                                         @endif
                                                     </td>

@@ -2,7 +2,7 @@
 
 namespace App\Rules;
 
-use App\Models\assets;
+use App\Models\Asset;
 use Illuminate\Contracts\Validation\Rule;
 
 class BudgetEnough implements Rule
@@ -28,7 +28,7 @@ class BudgetEnough implements Rule
     {
         $cost = $value;
         $serial_number = $this->request->get('serial_number');
-        $asset = assets::find($serial_number);
+        $asset = Asset::find($serial_number);
         $budget = $asset->budget;
         if($budget>=$cost)
             return true;

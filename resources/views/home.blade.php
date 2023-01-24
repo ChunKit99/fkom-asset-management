@@ -78,7 +78,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">Asset Management Report </h5>
                                 <p class="card-text">Generate report of asset involved.</p>
-                                <a class="btn btn-info"  href="{{ URL::to('/asset/pdf') }}">
+                                <a class="btn btn-info"  href="{{ URL::to('/asset/pdfhome') }}">
                                     Click here</a>
 
                             </div>

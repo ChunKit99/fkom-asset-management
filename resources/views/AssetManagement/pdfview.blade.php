@@ -31,7 +31,9 @@
           <th>Category</th>
           <th>Budget</th>
           <th>Vendor</th>
+          @if(Auth::check() && Auth::user()->role_as==1)
           <th>Responsible</th>
+          @endif
         </tr>
       </thead>
       <!--Table head-->
@@ -64,7 +66,9 @@
           </td>
           <td>{{ $asset->budget }}</td>
           <td>{{ $asset->vendor_name }}</td>
+          @if(Auth::check() && Auth::user()->role_as==1)
           <td>{{ $asset->user_name }}</td>
+          @endif
         </tr>
         @endforeach
       </tbody>
