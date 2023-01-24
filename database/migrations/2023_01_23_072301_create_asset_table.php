@@ -18,12 +18,9 @@ return new class extends Migration
             $table->String('serial_number')->unique;
             $table->String('category');
             $table->double('budget', 8, 2);
-            $table->unsignedBigInteger('location_id');
-            $table->foreign('location_id')->references('id')->on('location')->onDelete('cascade');
-            $table->unsignedBigInteger('vendor_id');
-            $table->foreign('vendor_id')->references('id')->on('vendors')->onDelete('cascade');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('location_id')->constrained('location')->onDelete('cascade');
+            $table->foreignId('vendor_id')->constrained('vendors')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->String('image_path')->nullable();
             $table->timestamps();
         });
@@ -36,8 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('assets');
-        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 };
