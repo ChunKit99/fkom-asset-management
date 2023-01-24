@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
             $table->string('fullname');
-            $table->string('name');
+            $table->string('name')->references('name')->on('users')->onDelete('cascade');
             $table->string('contact');
             $table->string('position');
             $table->string('department');
