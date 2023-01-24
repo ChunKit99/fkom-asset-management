@@ -1,6 +1,6 @@
 @extends($layout)
 @section('title')
-Maintenance Record
+Maintenance Cost
 @endsection
 @section('content')
 <div class="row">
@@ -21,13 +21,7 @@ Maintenance Record
             <h4 class="card-header d-flex justify-content-between align-items-center">
                 <div>
                     <i class="fal fa-coins"></i> <a href="{{ url('/MaintenanceManagement') }} "
-                        class="link-dark text-decoration-none">Maintenance Record</a>
-                </div>
-                <div class="btn-group" role="group" aria-label="button group">
-                    @if(Auth::check() && Auth::user()->role_as==0)
-                    <a class="btn btn-success" title="New Maintenance" href="{{ url('/maintenanceManagement/list') }}">
-                        <i class="bi bi-plus-circle"></i> Create New Maintenance</a>
-                    @endif
+                        class="link-dark text-decoration-none">Maintenance Cost</a>
                 </div>
             </h4>
             <div class="card-body">
@@ -70,14 +64,23 @@ Maintenance Record
                                         @else
                                         @endif
                                     </td>
-                                    <td>{{ $maintenance->cost }}</td>
+                                    <td>
+                                        <form action="{{ url('maintenanceManagement/submitCost') }}" method="GET">
+                                            {{csrf_field()}}
+                                            <input name="cost" id="cost" class="form-control"
+                                                value=""></input>
+                                    </td>
                                     <td>
                                         <!-- View Edit Delete Button -->
                                         <div class="d-flex justify-content-center">
                                             <div class="btn-group" role="group" aria-label="button group">
-                                                <a href="{{ url('/MaintenanceManagement/' . $maintenance->id) }}"
-                                                    title="View Record" class="btn btn-primary">View</a>
-                                                
+                                                    <input hidden name="maintenance_id" id="maintenance_id"
+                                                        class="form-control" value="{{ $maintenance->id }}"></input>
+                                                    <input hidden name="serial_number" id="serial_number"
+                                                        class="form-control"
+                                                        value="{{ $maintenance->serial_number }}"></input>
+                                                    <button type="submit" class="btn btn-primary">Add Cost</button>
+                                                </form>
                                             </div>
                                         </div>
                                     </td>

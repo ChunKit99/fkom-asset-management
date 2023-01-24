@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Rules\MaintenanceRecordExists;
+use App\Rules\BudgetEnough;
 
 class maintenanceController extends Controller
 {
@@ -220,6 +221,7 @@ class maintenanceController extends Controller
             'approve_time' => Carbon::now(),
             'status' => $input['status'],
         ]);
+
         $maintenance = Maintenances::all();
 
         return view('MaintenanceManagement.status')->with('success', 'New Maintenance Request Added!')->with(['maintenances'=> $maintenance, 'layout' =>$layout]);
@@ -229,10 +231,46 @@ class maintenanceController extends Controller
     {
         $layout = 'layouts.master';
         
-        $maintenance = Maintenances::all();
+        $maintenance = Maintenances::all()
+        ->where('status','=','under_review');
         // return redirect('MaintenanceManagement.status')->with(['maintenances'=> $maintenance, 'layout' =>$layout])->with('success', 'New Maintenance Request Added!');
 
         return view ('MaintenanceManagement.status')->with(['maintenances'=> $maintenance, 'layout' =>$layout]);
+    }
+
+    public function cost()
+    {
+        $layout = 'layouts.master';
+        
+        $maintenance = Maintenances::all()
+        ->where('status','=','approved');
+        // return redirect('MaintenanceManagement.status')->with(['maintenances'=> $maintenance, 'layout' =>$layout])->with('success', 'New Maintenance Request Added!');
+
+        return view ('MaintenanceManagement.cost')->with(['maintenances'=> $maintenance, 'layout' =>$layout]);
+    }
+
+    public function submitCost(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'cost' => [new BudgetEnough($request)],
+        ]);
+        
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
+        }
+        
+        $layout = 'layouts.master';
+        
+        $input = $request->all();
+        $maintenanceUpdate = Maintenances::find($input['maintenance_id']);
+        
+        $maintenanceUpdate->update([
+            'cost' => $input['cost'],
+        ]);
+
+        $maintenance = Maintenances::all();
+
+        return view('MaintenanceManagement.cost')->with('success', 'Cost Added!')->with(['maintenances'=> $maintenance, 'layout' =>$layout]);
     }
 
     public function edit($id)
@@ -250,7 +288,7 @@ class maintenanceController extends Controller
         $maintenance = Maintenances::find($id);
         $input = $request->all();
         $maintenance->update([
-            'status' => $input['status'],
+            'cost' => $input['cost'],
         ]);
 
         return redirect('MaintenanceManagement')->with('success', 'Maintenance Info Updated!');

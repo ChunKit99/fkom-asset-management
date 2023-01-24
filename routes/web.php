@@ -70,6 +70,8 @@ Route::get('/maintenanceManagement/list', [maintenanceController::class, 'list']
 Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/maintenanceManagement/status', [maintenanceController::class, 'status'])->middleware(['auth', 'isAdmin']);
     Route::post('/maintenanceManagement/submitStatus', [maintenanceController::class, 'submitStatus'])->middleware(['auth', 'isAdmin']);
+    Route::get('/maintenanceManagement/cost', [maintenanceController::class, 'cost'])->middleware(['auth', 'isAdmin']);
+    Route::get('/maintenanceManagement/submitCost', [maintenanceController::class, 'submitCost'])->middleware(['auth', 'isAdmin']);
 });
 // Route::resource('/AdminMaintenanceManagement', adminMaintenanceController::class);
 
