@@ -27,8 +27,8 @@ class MaintenanceRecordExists implements Rule
     public function passes($attribute, $value)
     {
         $record = Maintenances::where('serial_number', $value)
-            ->where('status', '=', 'under_review', 'or', 'status', '=', 'approved')
-            ->first();
+        ->where('status', '!=', 'completed')
+        ->first();
 
         return !$record;
     }

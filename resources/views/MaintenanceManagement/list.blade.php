@@ -16,7 +16,7 @@ Add Maintenance List
                         <i class="bi bi-arrow-90deg-up"></i> Back</a>
                 </div>
             </h4>
-            @if ($errors->has('serial_number'))
+            @if ($errors->any())
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <ul>
                     @foreach ($errors->all() as $error)
