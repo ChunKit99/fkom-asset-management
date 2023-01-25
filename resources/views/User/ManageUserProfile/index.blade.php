@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.masteruser')
 @section('title', 'Manage User Profile')
 @section('content')
 <br>
