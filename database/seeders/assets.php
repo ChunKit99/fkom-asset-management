@@ -21,7 +21,7 @@ class assets extends Seeder
     {
         $faker = Faker::create();
         $users = User::where('role_as', '!=', 1)->get();
-        foreach(range(1,5) as $value){
+        foreach(range(1,15) as $value){
             DB::table('assets') -> insert([
                 'serial_number' => $faker -> bothify('?#???###J#'),
                 //J2nsz429L8

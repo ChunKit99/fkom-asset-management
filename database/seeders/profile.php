@@ -7,7 +7,6 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Str;
 use Faker\Factory as Faker;
-use App\Models\UserDetail;
 use App\Models\User;
 
 class profile extends Seeder
@@ -19,19 +18,16 @@ class profile extends Seeder
      */
     public function run()
     {
-        $join = User::select('users')->select('id','name')
-        ->where('users.name','=','profiles.username')
-        ->get();
 
         $faker = Faker::create();
         foreach(range(1,2) as $value){
             DB::table('profiles') -> insert([
                 'fullname' => $faker -> name,
-                'name' => $join,
+                'name' => User::find($value)->name,
                 'contact' => $faker->phoneNumber,
-                'position' => $faker -> randomElement(['general staff', 'laboratory staff', 'lecturer', 'IT staff']),
-                'department' => $faker -> randomElement(['academic', 'Lecturer','IT']),
-                'location' => $faker -> randomElement(['middle wing', 'left wing', 'right wing']),
+                'position' => $faker -> randomElement(['Technician', 'Manager']),
+                'department' => $faker -> randomElement(['Techincal Department']),
+                'location' => $faker -> bothify('Bilik Pensyarah #'),
             ]);
         }  
     }
